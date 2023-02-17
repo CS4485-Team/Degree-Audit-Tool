@@ -1,3 +1,5 @@
+// TEMPLATE
+
 import { Component } from '@angular/core';
 
 @Component({
