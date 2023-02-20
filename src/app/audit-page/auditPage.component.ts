@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'audit-page',
     templateUrl: './auditPage.component.html',
-    styleUrls: []
+    styleUrls: ['./auditPage.component.css']
 })
 
 export class AuditComponent {
