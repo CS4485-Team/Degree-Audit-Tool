@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import auditReportConfigs from 'auditreportConfig.json';
 
 @Component({
     selector: 'audit-page',
     templateUrl: './auditPage.component.html',
-    styleUrls: []
+    styleUrls: ['./auditPage.component.css']
 })
 
 export class AuditComponent {
-    title = 'AuditPage';
+    degreePlans: string[] = auditReportConfigs.degreePlans;
 }

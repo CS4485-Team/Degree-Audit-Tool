@@ -1,4 +1,11 @@
-<div>
-    <h1>Audit Page</h1>
-    <a routerLink="/home-page">Back Button</a>
+<div class="container">
+    <div class="toolbar">
+        <label for="cars">Degree Plan</label>
+        <select name="degree-plan" id="degree-plan">
+            <optgroup label="Computer Science">
+                <option value="plan" *ngFor="let plan of degreePlans">{{plan}}</option>
+            </optgroup>
+        </select>
+    </div>
+    <audit-editor></audit-editor>
 </div>
