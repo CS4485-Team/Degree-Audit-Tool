@@ -10,8 +10,10 @@ ul {
     overflow: hidden;
     background-color: #333333;
 }
-
-
+li a:hover{
+    background-color:wheat;
+    color: black;
+}
 li {
     float: left;
 }
