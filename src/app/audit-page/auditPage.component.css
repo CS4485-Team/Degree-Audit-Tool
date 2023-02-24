@@ -2,4 +2,15 @@
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-evenly;
+    padding: 5px;
+}
+
+.toolbar {
+    height: fit-content;
+    width: 25%;
+}
+
+.audit-editor {
+    height: fit-content;
+    width: 75%;
 }
