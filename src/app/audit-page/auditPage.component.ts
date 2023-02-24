@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import auditReportConfigs from 'auditreportConfig.json';
 
+
 @Component({
     selector: 'audit-page',
     templateUrl: './auditPage.component.html',
@@ -9,4 +10,9 @@ import auditReportConfigs from 'auditreportConfig.json';
 
 export class AuditComponent {
     degreePlans: string[] = auditReportConfigs.degreePlans;
+    selectedDegreePlan: string = '';
+    
+    onSelected(value: string): void {
+        this.selectedDegreePlan = value;
+    }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import auditReportConfigs from 'auditreportConfig.json';
 import Handsontable from 'handsontable';
 
@@ -14,21 +14,22 @@ import Handsontable from 'handsontable';
         instruct the custom renderer how to style the row (i.e., highlight, bold-text, etc.),
         while the data is the actual data loaded into that row.
 */
-const loadPrepopulationData = () : any[] => {
+const loadPrepopulationData = (selectedDegreePlan: string) : any[] => {
     let data: any[] = [];
     data.push({'type': 'title', 'data': ['DEGREE PLAN', '', '', '', '']});
     data.push({'type': 'title', 'data': ['UNIVERSITY OF TEXAS AT DALLAS', '', '', '', '']});
     data.push({'type': 'title', 'data': ['MASTER OF COMPUTER SCIENCE', '', '', '', '']});
     data.push({'type': 'input', 'data': ['', '', '', '', '']});
-    data.push({'type': 'title', 'data': ['Intelligent Systems', '', '', '', '']});
+    data.push({'type': 'title', 'data': [selectedDegreePlan, '', '', '', '']});
     data.push({'type': 'none', 'data': ['', '', 'FT:', 'Y', 'N']});
     data.push({'type': 'none', 'data': ['Name of Student:', '', '', '', '']});
     data.push({'type': 'input', 'data': ['Student I.D. Number:', '', '', '', '']});
     data.push({'type': 'input', 'data': ['Semester Admitted to Program:', '', '', 'Graduation:', '']});
     data.push({'type': 'title', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
     data.push({'type': 'title', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
+
     for (let i = 0; i < auditReportConfigs.courseCount.numCoreCourses; ++i) {
-        data.push(['', '', '', '', '']);
+        data.push([auditReportConfigs.coreCourseList, '', '', '', '']);
     };
 
     data.push({'type': 'title', 'data': ['One of the following Courses']});
@@ -104,7 +105,7 @@ const title = (instance: any, td: any, row: any, col: any, prop: any, value: any
 @Component({
     selector: 'audit-editor',
     template: `
-    <hot-table class="hot-table"
+    <hot-table class="hot-table" id="degree-plan-table"
         [settings]="settings"
         [data]="preloadData"
         [colHeaders]="false"
@@ -116,8 +117,9 @@ const title = (instance: any, td: any, row: any, col: any, prop: any, value: any
 })
 
 export class AuditEditorComponent {
+    @Input('selectedDegreePlan') selectedDegreePlan: string = '';
     // data to pre-populate audit reports
-    preloadDataDicts: any[] = loadPrepopulationData();
+    preloadDataDicts: any[] = loadPrepopulationData(this.selectedDegreePlan);
     preloadDataAndSettings: any[] = seperateDataFromSettings(this.preloadDataDicts);
     preloadData = this.preloadDataAndSettings[0];
     borders: any[] = generateBorders(this.preloadDataAndSettings[1]);
@@ -151,4 +153,11 @@ export class AuditEditorComponent {
             
         ],
     };
+
+    ngOnChanges() {
+        this.preloadDataDicts = loadPrepopulationData(this.selectedDegreePlan);
+        this.preloadDataAndSettings = seperateDataFromSettings(this.preloadDataDicts);
+        this.preloadData = this.preloadDataAndSettings[0];
+        this.borders = generateBorders(this.preloadDataAndSettings[1]);
+    }
 }

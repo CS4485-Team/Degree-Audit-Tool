@@ -7,12 +7,57 @@
         "numOtherRequirements": 2,
         "numAdmissionPrereqs": 7
     },
-    "courseList": {
-        "coreCourses": []
+    "coreCourseList": {
+        "Cyber Security": [
+            {"name": "Information Security", "number": "CS 6324"},
+            {"name": "Design and Analysis of Computer Algorithms", "number": "CS 6363"},
+            {"name": "Advanced Operating Systems", "number": "CS 6378"}
+        ],
+        "Data Science": [
+            {"name": "Statistical Methods for Data Science", "number": "CS 6313"},
+            {"name": "Big Data Management and Analytics", "number": "CS 6350"},
+            {"name": "Design and Analysis of Computer Algorithms", "number": "CS 6363"},
+            {"name": "Machine Learning", "number": "CS 6375"}
+        ],
+        "Intelligent Systems": [
+            {"name": "Natural Language Processing", "number": "CS 6320"},
+            {"name": "Design and Analysis of Computer Algorithms", "number": "CS 6363"},
+            {"name": "Artifical Intelligence", "number": "CS 6364"},
+            {"name": "Machine Learning", "number": "CS 6375"}
+        ],
+        "Interactive Computing": [
+            {"name": "Human Computer Interaction", "number": "CS 6326"},
+            {"name": "Design and Analysis of Computer Algorithms", "number": "CS 6363"}
+        ],
+        "Networks and Telecommunications": [
+            {"name": "Perf. of Computer Systems and Networks", "number": "CS 6352"},
+            {"name": "Design and Analysis of Computer Algorithms", "number": "CS 6363"},
+            {"name": "Advanced Operating Systems", "number": "CS 6378"},
+            {"name": "Algorithmic Aspects of Telecom Networks", "number": "CS 6385"},
+            {"name": "Advanced Computer Networks", "number": "CS 6390"}
+        ],
+        "Systems": [
+            {"name": "Computer Architecture", "number": "CS 6304"},
+            {"name": "Design and Analysis of Computer Algorithms", "number": "CS 6363"},
+            {"name": "Advanced Operating Systems", "number": "CS 6378"},
+            {"name": "Real Time Systems", "number": "CS 6396"}
+        ],
+        "Software Engineering": [
+            {"name": "Object Oriented Software Engineering", "number": "SE 6329"},
+            {"name": "Advanced Requirements Enginrg", "number": "SE 6361"},
+            {"name": "Advanced Software Architecture and Design", "number": "SE 6362"},
+            {"name": "Software Testing, Validation, Verificaiton", "number": "SE 6367"},
+            {"name": "Advanceed Software Engineering Project", "number": "SE 6387"}
+        ],
+        "Traditional": [
+            {"name": "Design and Analysis of Computer Algorithms", "number": "CS 6363"},
+            {"name": "Advanced Operating Systems", "number": "CS 6378"},
+            {"name": "Advanced Computer Networks", "number": "CS 6390"}
+        ]
     },
     "degreePlans": ["Cyber Security", "Data Science",
         "Intelligent Systems", "Interactive Computing",
-        "Network and Telecommunications", "Systems", 
-        "Traditional Computer Science"
+        "Network and Telecommunications", "Systems", "Software Engineering", 
+        "Traditional"
         ]
 }

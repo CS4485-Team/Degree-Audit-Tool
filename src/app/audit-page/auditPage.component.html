@@ -1,11 +1,9 @@
 <div class="container">
     <div class="toolbar">
-        <label for="cars">Degree Plan</label>
-        <select name="degree-plan" id="degree-plan">
-            <optgroup label="Computer Science">
-                <option value="plan" *ngFor="let plan of degreePlans">{{plan}}</option>
-            </optgroup>
+        <label for="degree-plan">Degree Plan</label>
+        <select #degreeTracks (change)="onSelected(degreeTracks.value)">
+            <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
         </select>
     </div>
-    <audit-editor class="audit-editor"></audit-editor>
+    <audit-editor class="audit-editor" [selectedDegreePlan]="selectedDegreePlan"></audit-editor>
 </div>

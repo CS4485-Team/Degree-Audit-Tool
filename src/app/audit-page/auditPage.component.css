@@ -8,6 +8,7 @@
 .toolbar {
     height: fit-content;
     width: 25%;
+    padding: 5%;
 }
 
 .audit-editor {
