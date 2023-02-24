@@ -1,0 +1,6 @@
+.degree-plan {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    width: 500px;
+}
