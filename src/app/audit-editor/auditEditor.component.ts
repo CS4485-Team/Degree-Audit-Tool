@@ -21,15 +21,24 @@ const loadPrepopulationData = (selectedDegreePlan: string) : any[] => {
     data.push({'type': 'title', 'data': ['MASTER OF COMPUTER SCIENCE', '', '', '', '']});
     data.push({'type': 'input', 'data': ['', '', '', '', '']});
     data.push({'type': 'title', 'data': [selectedDegreePlan, '', '', '', '']});
-    data.push({'type': 'none', 'data': ['', '', 'FT:', 'Y', 'N']});
+    data.push({'type': 'none', 'data': ['FT:', 'Y', 'N']});
     data.push({'type': 'none', 'data': ['Name of Student:', '', '', '', '']});
     data.push({'type': 'input', 'data': ['Student I.D. Number:', '', '', '', '']});
     data.push({'type': 'input', 'data': ['Semester Admitted to Program:', '', '', 'Graduation:', '']});
     data.push({'type': 'title', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
     data.push({'type': 'title', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
 
+    const courseList: string = JSON.stringify(auditReportConfigs);
+    const map = new Map(Object.entries(JSON.parse(courseList)));
+    let courses: any = map.get('coreCourseList');
+    courses = courses[selectedDegreePlan];
+
+    // push all core courses for this degree plan
     for (let i = 0; i < auditReportConfigs.courseCount.numCoreCourses; ++i) {
-        data.push([auditReportConfigs.coreCourseList, '', '', '', '']);
+        if (i < courses.length)
+            data.push({'type': 'input', 'data': [courses[i].name, '', '', '', '']});
+        else
+            data.push({'type': 'input', 'data': ['', '', '', '', '']});
     };
 
     data.push({'type': 'title', 'data': ['One of the following Courses']});
@@ -117,7 +126,7 @@ const title = (instance: any, td: any, row: any, col: any, prop: any, value: any
 })
 
 export class AuditEditorComponent {
-    @Input('selectedDegreePlan') selectedDegreePlan: string = '';
+    @Input() selectedDegreePlan: string = 'Cyber Security';
     // data to pre-populate audit reports
     preloadDataDicts: any[] = loadPrepopulationData(this.selectedDegreePlan);
     preloadDataAndSettings: any[] = seperateDataFromSettings(this.preloadDataDicts);
@@ -149,9 +158,7 @@ export class AuditEditorComponent {
             { row: 19, col: 0, rowspan: 1, colspan: 5 },
             { row: 25, col: 0, rowspan: 1, colspan: 5 },
         ],
-        customBorders: [
-            
-        ],
+        customBorders: this.borders
     };
 
     ngOnChanges() {

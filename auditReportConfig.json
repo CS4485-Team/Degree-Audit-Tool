@@ -57,7 +57,7 @@
     },
     "degreePlans": ["Cyber Security", "Data Science",
         "Intelligent Systems", "Interactive Computing",
-        "Network and Telecommunications", "Systems", "Software Engineering", 
+        "Networks and Telecommunications", "Systems", "Software Engineering", 
         "Traditional"
         ]
 }
