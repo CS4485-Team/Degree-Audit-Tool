@@ -15,6 +15,12 @@ public class PDFBuilder {
     public static final int WIDTH_PERCENTAGE = 90;
     public static final BaseColor BEIGE = new BaseColor(253, 200, 155);
     public static final BaseColor CYAN = new BaseColor(200, 255, 255);
+    public static final BaseColor YELLOW = new BaseColor(255, 255, 0);
+    public static final BaseColor CANARY = new BaseColor(255, 255, 128);
+    public static final BaseColor BLUE = new BaseColor(150, 175, 255);
+    public static final BaseColor VIOLET = new BaseColor(255, 144, 255);
+    public static final BaseColor GREEN = new BaseColor(0, 255, 0);
+    public static final BaseColor ORANGE = new BaseColor(255, 200, 0);
     public static final String DEST = "src/table.pdf";
     public static final Font FONT_TWELVE = FontFactory.getFont(FontFactory.COURIER, 12f, Font.BOLD);
     public static final Font FONT_ELEVEN = FontFactory.getFont(FontFactory.COURIER, 11f, Font.BOLD);
@@ -37,6 +43,16 @@ public class PDFBuilder {
         	pdf = new IntelSysPDF();
         } else if (next.equals("3")) {
         	pdf = new SysTrackPDF();
+        } else if (next.equals("4")) {
+        	pdf = new SoftEngPDF();
+        } else if (next.equals("5")) {
+        	pdf = new CyberSecPDF();
+        } else if (next.equals("6")) {
+        	pdf = new NetTelePDF();
+        } else if (next.equals("7")) {
+        	pdf = new TradCSPDF();
+        } else if (next.equals("8")) {
+        	pdf = new InterCompPDF();
         }
         
         pdf.createPdf(DEST);
