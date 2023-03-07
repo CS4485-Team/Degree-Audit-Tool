@@ -21,7 +21,7 @@ public class PDFBuilder {
     public static final BaseColor VIOLET = new BaseColor(255, 144, 255);
     public static final BaseColor GREEN = new BaseColor(0, 255, 0);
     public static final BaseColor ORANGE = new BaseColor(255, 200, 0);
-    public static final String DEST = "src/table3.pdf";
+    public static final String DEST = "./src/table3.pdf";
     public static final Font FONT_TWELVE = FontFactory.getFont(FontFactory.COURIER, 12f, Font.BOLD);
     public static final Font FONT_ELEVEN = FontFactory.getFont(FontFactory.COURIER, 11f, Font.BOLD);
     public static final Font FONT_TEN = FontFactory.getFont(FontFactory.COURIER, 10f, Font.BOLD);
@@ -47,7 +47,8 @@ public class PDFBuilder {
         	pdf = new SysTrackPDF(strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS),
         			strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS));
         } else if (next.equals("4")) {
-        	pdf = new SoftEngPDF();
+        	pdf = new SoftEngPDF(strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS),
+                    strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS));
         } else if (next.equals("5")) {
         	pdf = new CyberSecPDF();
         } else if (next.equals("6")) {
