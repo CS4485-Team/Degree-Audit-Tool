@@ -28,6 +28,9 @@ const loadPrepopulationData = (selectedDegreePlan: string) : any[] => {
     data.push({'type': 'title', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
     data.push({'type': 'title', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
 
+    // have to load auditReportConfigs as a json string and then convert it into a map.
+    // otherwise, typescript throws an error when attempting to access the JSON object with
+    //  the key [selectedDegreePlan]
     const courseList: string = JSON.stringify(auditReportConfigs);
     const map = new Map(Object.entries(JSON.parse(courseList)));
     let courses: any = map.get('coreCourseList');

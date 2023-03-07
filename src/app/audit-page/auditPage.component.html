@@ -1,6 +1,6 @@
 <div class="container">
     <div class="toolbar">
-        <label for="degree-plan">Degree Plan</label>
+        <label for="degreeTracks">Degree Plan</label>
         <select #degreeTracks (change)="onSelected(degreeTracks.value)">
             <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
         </select>

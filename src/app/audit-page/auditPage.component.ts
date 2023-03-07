@@ -11,8 +11,14 @@ import auditReportConfigs from 'auditreportConfig.json';
 export class AuditComponent {
     degreePlans: string[] = auditReportConfigs.degreePlans;
     selectedDegreePlan: string = '';
+    studentName: string = '';
     
     onSelected(value: string): void {
         this.selectedDegreePlan = value;
+    }
+
+    studentNameUpdated(value: string): void {
+        this.studentName = value;
+        console.log(this.studentName);
     }
 }

@@ -6,9 +6,12 @@ import { AppComponent } from './app.component';
 import { HotTableModule } from '@handsontable/angular';
 import { registerAllModules } from 'handsontable/registry';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer'; 
+
 import { AuditComponent } from './audit-page/auditPage.component';
 import { HomePageComponent } from './home-page/homePage.component';
 import { AuditEditorComponent } from './audit-editor/auditEditor.component';
+import { PDFViewerComponent } from './pdf-viewer/pdfViewer.component';
 
 registerAllModules();
 
@@ -17,12 +20,14 @@ registerAllModules();
     AppComponent,
     AuditComponent,
     HomePageComponent,
-    AuditEditorComponent
+    AuditEditorComponent,
+    PDFViewerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HotTableModule
+    HotTableModule,
+    PdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
