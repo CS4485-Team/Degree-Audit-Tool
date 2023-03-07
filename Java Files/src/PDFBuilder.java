@@ -21,7 +21,7 @@ public class PDFBuilder {
     public static final BaseColor VIOLET = new BaseColor(255, 144, 255);
     public static final BaseColor GREEN = new BaseColor(0, 255, 0);
     public static final BaseColor ORANGE = new BaseColor(255, 200, 0);
-    public static final String DEST = "src/table.pdf";
+    public static final String DEST = "src/table3.pdf";
     public static final Font FONT_TWELVE = FontFactory.getFont(FontFactory.COURIER, 12f, Font.BOLD);
     public static final Font FONT_ELEVEN = FontFactory.getFont(FontFactory.COURIER, 11f, Font.BOLD);
     public static final Font FONT_TEN = FontFactory.getFont(FontFactory.COURIER, 10f, Font.BOLD);
@@ -38,11 +38,14 @@ public class PDFBuilder {
         System.out.println("1 for datasci, 2 for intelsys");
         String next = input.next();
         if (next.equals("1")) {
-        	pdf = new DataSciPDF();
+        	pdf = new DataSciPDF(strFiller(" ", DataSciPDF.ROWS), strFiller(" ", DataSciPDF.ROWS),
+        			strFiller(" ", DataSciPDF.ROWS), strFiller(" ", DataSciPDF.ROWS), strFiller(" ", DataSciPDF.ROWS));
         } else if (next.equals("2")) {
-        	pdf = new IntelSysPDF();
+        	pdf = new IntelSysPDF(strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS),
+        			strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS));
         } else if (next.equals("3")) {
-        	pdf = new SysTrackPDF();
+        	pdf = new SysTrackPDF(strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS),
+        			strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS));
         } else if (next.equals("4")) {
         	pdf = new SoftEngPDF();
         } else if (next.equals("5")) {
@@ -112,4 +115,31 @@ public class PDFBuilder {
         return table;
  
     }
+    
+    public static Font[] sizeFiller(Font toFill, int length) {
+    	
+    	Font[] array = new Font[length];
+    	
+    	for (int i = 0; i < length; i++) {
+    		Font font = new Font(toFill);
+    		
+    		array[i] = font;
+    	}
+    	
+    	return array;
+    }
+    
+    public static String[] strFiller(String toFill, int length) {
+    	
+    	String[] array = new String[length];
+    	
+    	for (int i = 0; i < length; i++) {
+    		String str = new String(toFill);
+    		
+    		array[i] = str;
+    	}
+    	
+    	return array;
+    }
+    
 }
