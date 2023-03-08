@@ -56,12 +56,12 @@ public class CyberSecPDF extends DefaultPDF {
 		this.titles[14] = "4. " + this.titles[14];
 		this.titles[15] = "5. " + this.titles[15];
 		this.titles[16] = "6. " + this.titles[16];
-		this.titles[20] = "Computer Science I";							this.courseNums[21] = "   CS5303";
-		this.titles[21] = "Computer Science II";						this.courseNums[22] = "   CS5330";
-		this.titles[22] = "Discrete Structures";						this.courseNums[23] = "   CS5333";
-		this.titles[23] = "Algorithm Analysis & Data Structures";		this.courseNums[24] = "   CS5343";
-		this.titles[24] = "Operating Systems Concepts";					this.courseNums[25] = "   CS5348";
-		this.titles[25] = "Computer Networks";							this.courseNums[26] = "   CS5390";
+		this.titles[20] = "Computer Science I";							this.courseNums[20] = "   CS5303";
+		this.titles[21] = "Computer Science II";						this.courseNums[21] = "   CS5330";
+		this.titles[22] = "Discrete Structures";						this.courseNums[22] = "   CS5333";
+		this.titles[23] = "Algorithm Analysis & Data Structures";		this.courseNums[23] = "   CS5343";
+		this.titles[24] = "Operating Systems Concepts";					this.courseNums[24] = "   CS5348";
+		this.titles[25] = "Computer Networks";							this.courseNums[25] = "   CS5390";
 		
 		
 		
