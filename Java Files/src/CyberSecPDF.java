@@ -31,7 +31,7 @@ public class CyberSecPDF extends DefaultPDF {
 	public CyberSecPDF(String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
-			throw new IndexOutOfBoundsException("Illegal Array Length for DataSciPDF (Must be 28)");
+			throw new IndexOutOfBoundsException("Illegal Array Length for CyberSecPDF (Must be 27)");
 		}
 		
 		
