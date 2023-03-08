@@ -53,7 +53,8 @@ public class PDFBuilder {
         	pdf = new CyberSecPDF(strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS),
                     strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS));
         } else if (next.equals("6")) {
-        	pdf = new NetTelePDF();
+        	pdf = new NetTelePDF(strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS),
+                    strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS));
         } else if (next.equals("7")) {
         	pdf = new TradCSPDF();
         } else if (next.equals("8")) {
