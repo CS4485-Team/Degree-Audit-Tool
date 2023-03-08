@@ -50,7 +50,8 @@ public class PDFBuilder {
         	pdf = new SoftEngPDF(strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS),
                     strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS));
         } else if (next.equals("5")) {
-        	pdf = new CyberSecPDF();
+        	pdf = new CyberSecPDF(strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS),
+                    strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS));
         } else if (next.equals("6")) {
         	pdf = new NetTelePDF();
         } else if (next.equals("7")) {
