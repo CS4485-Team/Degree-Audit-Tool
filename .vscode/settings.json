@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\David\\Downloads\\pdfbox-app-2.0.27.jar",
+        "c:\\Users\\David\\Downloads\\pdfbox-2.0.27.jar",
+        "c:\\Users\\David\\Downloads\\tika-app-2.7.0.jar"
+    ]
+}

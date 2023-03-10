@@ -3,6 +3,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "Launch pdfWriter",
+      "request": "launch",
+      "mainClass": "pdfWriter",
+      "projectName": "Degree-Audit-Tool_2e07246d"
+    },
+    {
+      "type": "java",
+      "name": "Launch pdf",
+      "request": "launch",
+      "mainClass": "pdf",
+      "projectName": "Degree-Audit-Tool_2e07246d"
+    },
+    {
+      "type": "java",
+      "name": "Launch pdfReader",
+      "request": "launch",
+      "mainClass": "pdfReader",
+      "projectName": "Degree-Audit-Tool_2e07246d"
+    },
+    {
       "name": "ng serve",
       "type": "pwa-chrome",
       "request": "launch",
