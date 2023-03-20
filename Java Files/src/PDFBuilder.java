@@ -31,6 +31,15 @@ public class PDFBuilder {
     public static final String EMPTY = "           ";
  
     public static void main(String[] args) throws IOException, DocumentException {
+    	try {
+    		String path = args[0];
+    		
+    		CSVParser.getArray(path);
+    	} catch (Exception e) {
+    		System.out.println("No/Invalid args provided");
+    	}
+    	
+    	
     	Scanner input = new Scanner(System.in);
         File file = new File(DEST);
         file.getParentFile().mkdirs();
