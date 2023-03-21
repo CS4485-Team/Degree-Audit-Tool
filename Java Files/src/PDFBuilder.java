@@ -31,6 +31,15 @@ public class PDFBuilder {
     public static final String EMPTY = "           ";
  
     public static void main(String[] args) throws IOException, DocumentException {
+    	try {
+    		String path = args[0];
+    		
+    		CSVParser.getArray(path);
+    	} catch (Exception e) {
+    		System.out.println("No/Invalid args provided");
+    	}
+    	
+    	
     	Scanner input = new Scanner(System.in);
         File file = new File(DEST);
         file.getParentFile().mkdirs();
@@ -50,13 +59,17 @@ public class PDFBuilder {
         	pdf = new SoftEngPDF(strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS),
                     strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS));
         } else if (next.equals("5")) {
-        	pdf = new CyberSecPDF();
+        	pdf = new CyberSecPDF(strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS),
+                    strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS));
         } else if (next.equals("6")) {
-        	pdf = new NetTelePDF();
+        	pdf = new NetTelePDF(strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS),
+                    strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS));
         } else if (next.equals("7")) {
-        	pdf = new TradCSPDF();
+        	pdf = new TradCSPDF(strFiller(" ", TradCSPDF.ROWS), strFiller(" ", TradCSPDF.ROWS),
+                    strFiller(" ", TradCSPDF.ROWS), strFiller(" ", TradCSPDF.ROWS), strFiller(" ", TradCSPDF.ROWS));
         } else if (next.equals("8")) {
-        	pdf = new InterCompPDF();
+        	pdf = new InterCompPDF(strFiller(" ", InterCompPDF.ROWS), strFiller(" ", InterCompPDF.ROWS),
+                    strFiller(" ", InterCompPDF.ROWS), strFiller(" ", InterCompPDF.ROWS), strFiller(" ", InterCompPDF.ROWS));
         }
         
         pdf.createPdf(DEST);
