@@ -59,7 +59,7 @@ public class SoftEngPDF extends DefaultPDF {
 		this.titles[18] = "Discrete Structures";				this.courseNums[18] = "   CS5333";
 		this.titles[19] = "Algorithm Analysis & Data Structures";		this.courseNums[19] = "   CS5343";
 		this.titles[20] = "Operating Systems Concepts";				this.courseNums[20] = "   CS5348";
-		this.titles[21] = "Probability and Statistics in CS";			this.courseNums[21] = "   CS3341";
+		this.titles[21] = "Software Engineering";			        this.courseNums[21] = "   CS5354";
 		
 		
 		
