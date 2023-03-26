@@ -8,10 +8,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HotTableModule } from '@handsontable/angular';
 import { registerAllModules } from 'handsontable/registry';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer'; 
+
 import { AuditComponent } from './audit-page/auditPage.component';
 import { HomePageComponent } from './home-page/homePage.component';
 import { AuditEditorComponent } from './audit-editor/auditEditor.component';
 import { CoursePickerComponent } from './course-picker/coursePicker.component';
+import { PDFViewerComponent } from './pdf-viewer/pdfViewer.component';
 
 registerAllModules();
 
@@ -21,14 +24,16 @@ registerAllModules();
     AuditComponent,
     HomePageComponent,
     AuditEditorComponent,
-    CoursePickerComponent
+    CoursePickerComponent,
+    PDFViewerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HotTableModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    PdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
