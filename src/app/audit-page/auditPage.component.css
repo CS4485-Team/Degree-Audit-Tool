@@ -1,17 +1,51 @@
 .container {
+    width: 100%;
+    height: fit-content;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-evenly;
     padding: 5px;
 }
 
 .toolbar {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 25%;
+    flex-grow: 1;
     height: fit-content;
-    width: 25%;
-    padding: 5%;
+    padding-right: 10%;
+    justify-content: flex-start;
+    row-gap: 5em;
 }
 
 .audit-editor {
+    flex-basis: 75%;
+    flex-grow: 2; 
     height: fit-content;
-    width: 75%;
+    padding-left: 10%;
+}
+
+.degreePlan-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.degreePlan-input select {
+    height: fit-content;
+    width: fit-content;
+}
+
+.name-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.name-input td {
+    width: 20em;
+    height: 1em;
+    border: 1px solid black;
 }

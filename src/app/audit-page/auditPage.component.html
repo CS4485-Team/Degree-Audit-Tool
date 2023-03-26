@@ -1,6 +1,37 @@
+<!-- <div class="container">
+    <audit-editor class="audit-editor" [selectedDegreePlan]="selectedDegreePlan"></audit-editor>
+
+    <div class="toolbar">
+
+        <div>
+            <label>Degree Plan: </label>
+            <select #degreeTracks (change)="onSelected(degreeTracks.value)">
+                <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Student Name: </label>
+            <input type="text" [(ngModel)]="studentName"/>
+        </div>
+
+        <div>
+            <label>Student ID Number: </label>
+            <input type="text" [(ngModel)]="studentId"/>
+        </div>
+
+        <div class="coursePicker">
+            <course-picker></course-picker>
+        </div>
+
+    </div>
+</div> -->
+
+<button id="btn1"><a routerLink="/home-page">Back</a></button>
+<button id="btn2"><a routerLink="/audit">Submit</a></button>
 <div class="container">
     <div class="toolbar">
-        <label for="degree-plan">Degree Plan</label>
+        <label for="degree-plan" id="label_id">Degree Plan</label>
         <select #degreeTracks (change)="onSelected(degreeTracks.value)">
             <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
         </select>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import auditReportConfigs from 'auditreportConfig.json';
 import Handsontable from 'handsontable';
 
@@ -14,44 +14,47 @@ import Handsontable from 'handsontable';
         instruct the custom renderer how to style the row (i.e., highlight, bold-text, etc.),
         while the data is the actual data loaded into that row.
 */
-const loadPrepopulationData = (selectedDegreePlan: string) : any[] => {
+const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, studentId: string) : any[] => {
     let data: any[] = [];
-    data.push({'type': 'title', 'data': ['DEGREE PLAN', '', '', '', '']});
-    data.push({'type': 'title', 'data': ['UNIVERSITY OF TEXAS AT DALLAS', '', '', '', '']});
-    data.push({'type': 'title', 'data': ['MASTER OF COMPUTER SCIENCE', '', '', '', '']});
-    data.push({'type': 'input', 'data': ['', '', '', '', '']});
-    data.push({'type': 'title', 'data': [selectedDegreePlan, '', '', '', '']});
-    data.push({'type': 'none', 'data': ['FT:', 'Y', 'N']});
-    data.push({'type': 'none', 'data': ['Name of Student:', '', '', '', '']});
-    data.push({'type': 'input', 'data': ['Student I.D. Number:', '', '', '', '']});
+    data.push({'type': 'mainHeader', 'data': ['DEGREE PLAN', '', '', '', '']});
+    data.push({'type': 'mainHeader', 'data': ['UNIVERSITY OF TEXAS AT DALLAS', '', '', '', '']});
+    data.push({'type': 'mainHeader', 'data': ['MASTER OF COMPUTER SCIENCE', '', '', '', '']});
+    data.push({'type': 'mainHeader', 'data': ['', '', '', '', '']});
+    data.push({'type': 'mainHeader', 'data': [selectedDegreePlan, '', '', '', '']});
+    data.push({'type': 'binaryInput', 'data': ['FT:', '', '', '', '']});
+    data.push({'type': 'binaryInput', 'data': ['Thesis:', '', '', '', '']});
+    data.push({'type': 'input', 'data': [`Name: ${studentName}`, '', '', '', '']});
+    data.push({'type': 'input', 'data': [`ID: ${studentId}`, '', '', '', '']});
     data.push({'type': 'input', 'data': ['Semester Admitted to Program:', '', '', 'Graduation:', '']});
-    data.push({'type': 'title', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
-    data.push({'type': 'title', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
-
+    data.push({'type': 'input', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
+    
+    // convert JSON config file into a map so that its elements are accessible
     const courseList: string = JSON.stringify(auditReportConfigs);
-    const map = new Map(Object.entries(JSON.parse(courseList)));
-    let courses: any = map.get('coreCourseList');
-    courses = courses[selectedDegreePlan];
+    const configs = new Map(Object.entries(JSON.parse(courseList)));
+    
 
     // push all core courses for this degree plan
-    for (let i = 0; i < auditReportConfigs.courseCount.numCoreCourses; ++i) {
-        if (i < courses.length)
-            data.push({'type': 'input', 'data': [courses[i].name, '', '', '', '']});
-        else
-            data.push({'type': 'input', 'data': ['', '', '', '', '']});
+    data.push({'type': 'header', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
+    let courses: any = configs.get('coreCourseList');
+    courses = courses[selectedDegreePlan];
+    for (let i = 0; i < courses.length; ++i) {
+        data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, '', '', '']});
     };
 
-    data.push({'type': 'title', 'data': ['One of the following Courses']});
-    for (let i = 0; i < auditReportConfigs.courseCount.numAdditionalCoreCourses; ++i) {
-        data.push({'type': 'input', 'data': ['', '', '', '', '']});
+    // push all additional core course work for this degree plan
+    let additionalCourses: any = configs.get('additionalCoreCourseList');
+    additionalCourses = additionalCourses[selectedDegreePlan];
+    data.push({'type': 'header', 'data': ['One of the following Courses']});
+    for (let i = 0; i < additionalCourses.length; ++i) {
+        data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, '', '', '']});
     };
 
-    data.push({'type': 'title', 'data': ['FIVE APPROVED 6000 LEVEL ELECTIVES     (15 * Credit Hours)     3.0 Grade Point Average']});
+    data.push({'type': 'header', 'data': ['FIVE APPROVED 6000 LEVEL ELECTIVES     (15 * Credit Hours)     3.0 Grade Point Average']});
     for (let i = 0; i < auditReportConfigs.courseCount.numElectiveCourses; ++i) {
         data.push({'type': 'input', 'data': ['', '', '', '', '']});
     };
 
-    data.push({'type': 'title', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
+    data.push({'type': 'header', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
     for (let i = 0; i < auditReportConfigs.courseCount.numAdditionalElectiveCourses; ++i) {
         data.push({'type': 'input', 'data': ['', '', '', '', '']});
     };
@@ -59,56 +62,86 @@ const loadPrepopulationData = (selectedDegreePlan: string) : any[] => {
     return data;
 }
 
-const seperateDataFromSettings = (dataWithSettings: any[]) : [any[], any[]] => {
+// need to seperate the data section of each row for loading the table
+const seperateDataFromSettings = (dataWithSettings: any[]) : any[] => {
     let data: any[] = [];
-    let settings: any[] = [];
 
     for (let i = 0; i < dataWithSettings.length; ++i) {
         data.push(dataWithSettings[i].data);
-        settings.push(dataWithSettings[i].type);
     }
 
-    return [data, settings];
+    return data;
 }
 
-const generateBorders = (settings: any[]) : any[] => {
+const generateCells = (dataWithSettings: any[]) : any[] => {
+    let cells: any[] = [];
+
+    for (let i = 0; i < dataWithSettings.length; ++i) {
+        if (dataWithSettings[i].type == 'header') {
+            cells.push({ row: i, col: 0, className: 'htCenter', renderer: header });
+        }
+        else if (dataWithSettings[i].type == 'mainHeader') {
+            cells.push({ row: i, col: 0, className: 'htCenter', renderer: mainHeader });
+        }
+        else if (dataWithSettings[i].type == 'binaryInput') {
+            cells.push({ row: i, col: 1, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'Y ' }});
+            cells.push({ row: i, col: 2, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'N ' }});
+        }
+        else {
+            for (let j = 0; j < dataWithSettings[i].data.length; ++j) {
+                cells.push({ row: i, col: j, renderer: input });
+            }
+        }
+    }
+
+    return cells;
+}
+
+const generateMergeCells = (dataWithSettings: any[]) : any[] => {
+    let mergeCells: any[] = [];
+
+    for (let i = 0; i < dataWithSettings.length; ++i) {
+        if (dataWithSettings[i].type == 'header' || dataWithSettings[i].type == 'mainHeader') {
+            mergeCells.push({ row: i, col: 0, rowspan: 1, colspan: 5 });
+        }
+    }
+
+    return mergeCells;
+}
+
+/*
+    generates the custom borders for the table
+*/
+const generateBorders = (dataWithSettings: any[]) : any[] => {
     let borders: any[] = [
         // black outline for document
         {
-            range: { from: {row: 0, col: 0}, to: {row: settings.length - 1, col: 4} },
+            range: { from: {row: 0, col: 0}, to: {row: dataWithSettings.length - 1, col: dataWithSettings[0].data.length - 1} },
             top: {width: 2, color: 'black'},
             bottom: {width: 2, color: 'black'},
             left: {width: 2, color: 'black'},
             right: {width: 2, color: 'black'}
-            
         },
-        { row: 0, col: 0, 
-            top: {width: 1, color: 'black'}, 
-            bottom: {width: 1, color: 'white'},
-        },
-        { row: 1, col: 0, 
-            bottom: {width: 1, color: 'white'},
-        },
-        { row: 2, col: 0, 
-            bottom: {width: 1, color: 'white'},
-        },
-        { row: 8, col: 0, 
-            bottom: {width: 2, color: 'black'},
-        },
-    ]
+    ];
 
     return borders;
 }
 
-const sectionHeader = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
+const mainHeader = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
+    Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
+    td.style.fontWeight = 'bold';
+    td.style.borderBottom = '#000'
+}
+
+const header = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
     Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
     td.style.background = '#fabf8f';
     td.style.fontWeight = 'bold';
 }
 
-const title = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
+const input = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
     Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
-    td.style.fontWeight = 'bold';
+    td.style.border = '1px solid black'
 }
 
 @Component({
@@ -126,45 +159,30 @@ const title = (instance: any, td: any, row: any, col: any, prop: any, value: any
 })
 
 export class AuditEditorComponent {
+    // input taken from the auditPage. Must preset to some value, otherwise the table will not be able
+    // to render first time
     @Input() selectedDegreePlan: string = 'Cyber Security';
+    @Input() studentName: string = '';
+    @Input() studentId: string = '';
+
     // data to pre-populate audit reports
-    preloadDataDicts: any[] = loadPrepopulationData(this.selectedDegreePlan);
-    preloadDataAndSettings: any[] = seperateDataFromSettings(this.preloadDataDicts);
-    preloadData = this.preloadDataAndSettings[0];
-    borders: any[] = generateBorders(this.preloadDataAndSettings[1]);
+    preloadDataWithSettings: any[] = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId);
+    preloadData: any[] = seperateDataFromSettings(this.preloadDataWithSettings);
     
+    // these settings are what actually allow the table to generate. Do not adjust these directly. Instead,
+    // notice that some settings have function calls. Adjust how the data is generated in the functions
     settings: Handsontable.GridSettings = {
-        width: '75%',
+        width: '100%',
         height: 'auto',
         stretchH: 'all',
-        cell: [
-            { row: 0, col: 0, className: 'htCenter', renderer: title },
-            { row: 1, col: 0, className: 'htCenter', renderer: title },
-            { row: 2, col: 0, className: 'htCenter', renderer: title },
-            { row: 4, col: 0, className: 'htCenter', renderer: title },
-            { row: 10, col: 0, className: 'htCenter', renderer: sectionHeader },
-            { row: 16, col: 0, className: 'htCenter', renderer: sectionHeader },
-            { row: 19, col: 0, className: 'htCenter', renderer: sectionHeader },
-            { row: 25, col: 0, className: 'htCenter', renderer: sectionHeader },
-        ],
-        mergeCells: [
-            { row: 0, col: 0, rowspan: 1, colspan: 5 },
-            { row: 1, col: 0, rowspan: 1, colspan: 5 },
-            { row: 2, col: 0, rowspan: 1, colspan: 5 },
-            { row: 3, col: 0, rowspan: 1, colspan: 5 },
-            { row: 4, col: 0, rowspan: 1, colspan: 5 },
-            { row: 10, col: 0, rowspan: 1, colspan: 5 },
-            { row: 16, col: 0, rowspan: 1, colspan: 5 },
-            { row: 19, col: 0, rowspan: 1, colspan: 5 },
-            { row: 25, col: 0, rowspan: 1, colspan: 5 },
-        ],
-        customBorders: this.borders
+        cell: generateCells(this.preloadDataWithSettings),
+        mergeCells: generateMergeCells(this.preloadDataWithSettings),
+        customBorders: generateBorders(this.preloadDataWithSettings)
     };
 
-    ngOnChanges() {
-        this.preloadDataDicts = loadPrepopulationData(this.selectedDegreePlan);
-        this.preloadDataAndSettings = seperateDataFromSettings(this.preloadDataDicts);
-        this.preloadData = this.preloadDataAndSettings[0];
-        this.borders = generateBorders(this.preloadDataAndSettings[1]);
+    ngOnChanges(changes: SimpleChanges) {
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId);
+        this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
+        this.settings.cell = generateCells(this.preloadDataWithSettings);
     }
 }
