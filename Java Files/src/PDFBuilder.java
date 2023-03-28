@@ -30,13 +30,22 @@ public class PDFBuilder {
     public static final Font FONT_SIXPTEIGHT = FontFactory.getFont(FontFactory.COURIER, 6.8f, Font.BOLD);
     public static final String EMPTY = "           ";
  
+    private static String[] titles, courseNums, semesters, tsfOrWaivers, grades;
+
     public static void main(String[] args) throws IOException, DocumentException {
     	try {
-    		String path = args[0];
+    		String path = "src/data.csv";
     		
-    		CSVParser.getArray(path);
+    		String[][] data = CSVParser.getArray(path);
+
+            titles = data[0];
+            courseNums = data[1];
+            semesters = data[2];
+            tsfOrWaivers = data[3];
+            grades = data[4];
+
     	} catch (Exception e) {
-    		System.out.println("No/Invalid args provided");
+    		e.printStackTrace();
     	}
     	
     	
@@ -47,9 +56,8 @@ public class PDFBuilder {
         System.out.println("1 for datasci, 2 for intelsys");
         String next = input.next();
         if (next.equals("1")) {
-        	pdf = new DataSciPDF(strFiller(" ", DataSciPDF.ROWS), strFiller(" ", DataSciPDF.ROWS),
-        			strFiller(" ", DataSciPDF.ROWS), strFiller(" ", DataSciPDF.ROWS), strFiller(" ", DataSciPDF.ROWS));
-        } else if (next.equals("2")) {
+        	pdf = new DataSciPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
+         } else if (next.equals("2")) {
         	pdf = new IntelSysPDF(strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS),
         			strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS));
         } else if (next.equals("3")) {
