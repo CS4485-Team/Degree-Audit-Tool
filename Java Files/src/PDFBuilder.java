@@ -34,7 +34,8 @@ public class PDFBuilder {
 
     public static void main(String[] args) throws IOException, DocumentException {
     	try {
-    		String path = "src/data.csv";
+            String cwd = System.getProperty("user.dir");
+    		String path = cwd + "/Java Files/src/data.csv";
     		
     		String[][] data = CSVParser.getArray(path);
 
