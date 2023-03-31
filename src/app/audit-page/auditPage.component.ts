@@ -11,15 +11,21 @@ import auditReportConfigs from 'auditreportConfig.json';
 
 export class AuditComponent {
     degreePlans: string[] = auditReportConfigs.degreePlans;
+    majors: string[] = auditReportConfigs.majors;
     selectedDegreePlan: string = 'Cyber Security';
+    selectedMajor: string = "Computer Science";
     studentName: string = '';
     studentId: string = '';
     degreePlanData: any[] = []; // same data as in degree plan component
 
     constructor(private router: Router) {}
     
-    onSelected(value: string): void {
+    onSelectedDegreePlan(value: string) {
         this.selectedDegreePlan = value;
+    }
+
+    onSelectedMajor(value: string) {
+        this.selectedMajor = value;
     }
 
     setData(data: any[]) {
@@ -47,6 +53,9 @@ export class AuditComponent {
 
         // save the file
         let blob: Blob = new Blob(data, {type: 'text/csv'});
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.click(); 
     }
 
     updateDegreePlanData(newData: any[]) {

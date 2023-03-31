@@ -97,5 +97,6 @@
         "Intelligent Systems", "Interactive Computing",
         "Networks and Telecommunications", "Systems", "Software Engineering", 
         "Traditional Computer Science"
-        ]
+        ],
+    "majors": ["Computer Science", "Software Engineering"]
 }

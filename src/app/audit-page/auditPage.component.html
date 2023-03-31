@@ -1,11 +1,9 @@
-<!-- <div class="container">
-    <audit-editor class="audit-editor" [selectedDegreePlan]="selectedDegreePlan"></audit-editor>
+<div class="container">
 
     <div class="toolbar">
-
         <div>
-            <label>Degree Plan: </label>
-            <select #degreeTracks (change)="onSelected(degreeTracks.value)">
+            <label for="degree-plan" id="label_id">Degree Plan</label>
+            <select #degreeTracks (change)="onSelectedDegreePlan(degreeTracks.value)">
                 <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
             </select>
         </div>
@@ -20,32 +18,16 @@
             <input type="text" [(ngModel)]="studentId"/>
         </div>
 
-        <div class="coursePicker">
-            <course-picker></course-picker>
-        </div>
-
-    </div>
-</div> -->
-
-<div class="container">
-    <div class="toolbar">
-        <label for="degree-plan" id="label_id">Degree Plan</label>
-        <select #degreeTracks (change)="onSelected(degreeTracks.value)">
-            <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
-        </select>
-        <div>
-            <label>Student Name: </label>
-            <input type="text" [(ngModel)]="studentName"/>
-        </div>
-
-        <div>
-            <label>Student ID Number: </label>
-            <input type="text" [(ngModel)]="studentId"/>
-        </div>
+        <!-- <div>
+            <label>Major</label>
+            <select #majors (change)="onSelectedMajor(majors.value)">
+                <option *ngFor="let major of majors" value={{major}}>{{major}}</option>
+            </select>
+        </div> -->
     </div>
 
     <audit-editor (preloadDataChange)="updateDegreePlanData($event)" class="audit-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></audit-editor>
-
-    <button id="btn1" (click)="confirmBack()">Back</button>
-    <button id="btn2" (click)="saveDegreePlan()"><a routerLink="/audit">Submit</a></button>
 </div>
+
+<button id="btn1" (click)="confirmBack()">Back</button>
+<button id="btn2" (click)="saveDegreePlan()"><a routerLink="/audit">Submit</a></button>

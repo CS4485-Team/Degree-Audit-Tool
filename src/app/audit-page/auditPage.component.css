@@ -1,4 +1,5 @@
 .container {
+    background: linear-gradient(14deg,white,grey);
     width: 100%;
     height: fit-content;
     display: flex;
@@ -25,6 +26,7 @@
     padding-left: 10%;
 }
 
+/*
 .degreePlan-input {
     display: flex;
     flex-direction: row;
@@ -48,4 +50,56 @@
     width: 20em;
     height: 1em;
     border: 1px solid black;
+} */
+
+/* .container {
+    background: linear-gradient(14deg,white,grey);
+    display: -webkit-box;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    width:-webkit-fill-available;;  
+    position: absolute;
+    height: 105.5vh
+} */
+
+/* .toolbar {
+    height: fit-content;
+    float: right;
+    display: grid;
+    padding-right: 5px;
+} */
+
+/* .audit-editor {
+    height: fit-content;
+    width: 100%;
+    display: contents;
+    position: relative;
+} */
+/* div#ht_0031b18c167b438a.handsontable{
+    height: auto;
+    overflow: hidden;
+    
+}
+div.wtHolder{
+    position: relative;
+    height: auto;
+    width: 595px;
+    display: contents;
+    background: linear-gradient(14deg,white,grey);
+}
+div.wtHider{
+    display: contents;
+    background: linear-gradient(14deg,white,grey);
+} */
+
+#btn1 {
+    float: left;
+    margin-left: 15px;
+    font-size: large;
+}
+
+#btn2 {
+    float: right;
+    margin-right: 50px;
+    font-size: large;
 }
