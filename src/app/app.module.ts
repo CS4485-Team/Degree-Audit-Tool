@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { HotTableModule } from '@handsontable/angular';
 import { registerAllModules } from 'handsontable/registry';
@@ -32,7 +31,6 @@ registerAllModules();
     AppRoutingModule,
     HotTableModule,
     FormsModule,
-    MatCheckboxModule,
     PdfViewerModule
   ],
   providers: [],

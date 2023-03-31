@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import auditReportConfigs from 'auditreportConfig.json';
 import Handsontable from 'handsontable';
 
@@ -27,11 +27,9 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
     data.push({'type': 'input', 'data': [`ID: ${studentId}`, '', '', '', '']});
     data.push({'type': 'input', 'data': ['Semester Admitted to Program:', '', '', 'Graduation:', '']});
     data.push({'type': 'input', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
-    
-    // convert JSON config file into a map so that its elements are accessible
+
     const courseList: string = JSON.stringify(auditReportConfigs);
-    const configs = new Map(Object.entries(JSON.parse(courseList)));
-    
+    const configs: any = new Map(Object.entries(JSON.parse(courseList)));
 
     // push all core courses for this degree plan
     data.push({'type': 'header', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
@@ -161,28 +159,36 @@ const input = (instance: any, td: any, row: any, col: any, prop: any, value: any
 export class AuditEditorComponent {
     // input taken from the auditPage. Must preset to some value, otherwise the table will not be able
     // to render first time
-    @Input() selectedDegreePlan: string = 'Cyber Security';
+    @Input() selectedDegreePlan: string = '';
     @Input() studentName: string = '';
     @Input() studentId: string = '';
 
     // data to pre-populate audit reports
-    preloadDataWithSettings: any[] = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId);
-    preloadData: any[] = seperateDataFromSettings(this.preloadDataWithSettings);
-    
-    // these settings are what actually allow the table to generate. Do not adjust these directly. Instead,
-    // notice that some settings have function calls. Adjust how the data is generated in the functions
-    settings: Handsontable.GridSettings = {
-        width: '100%',
-        height: 'auto',
-        stretchH: 'all',
-        cell: generateCells(this.preloadDataWithSettings),
-        mergeCells: generateMergeCells(this.preloadDataWithSettings),
-        customBorders: generateBorders(this.preloadDataWithSettings)
-    };
+    preloadDataWithSettings: any[];
+    preloadData: any[];
+    @Output() preloadDataChange = new EventEmitter<any[]>();
+    settings: Handsontable.GridSettings;
+
+    ngOnInit() {
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId);
+        this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
+
+        // these settings are what actually allow the table to generate. Do not adjust these directly. Instead,
+        // notice that some settings have function calls. Adjust how the data is generated in these functions
+        this.settings = {
+            width: '100%',
+            height: 'auto',
+            stretchH: 'all',
+            cell: generateCells(this.preloadDataWithSettings),
+            mergeCells: generateMergeCells(this.preloadDataWithSettings),
+            customBorders: generateBorders(this.preloadDataWithSettings)
+        };
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId);
         this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
         this.settings.cell = generateCells(this.preloadDataWithSettings);
+        this.preloadDataChange.emit(this.preloadData);
     }
 }

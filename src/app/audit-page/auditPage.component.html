@@ -27,14 +27,25 @@
     </div>
 </div> -->
 
-<button id="btn1"><a routerLink="/home-page">Back</a></button>
-<button id="btn2"><a routerLink="/audit">Submit</a></button>
 <div class="container">
     <div class="toolbar">
         <label for="degree-plan" id="label_id">Degree Plan</label>
         <select #degreeTracks (change)="onSelected(degreeTracks.value)">
             <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
         </select>
+        <div>
+            <label>Student Name: </label>
+            <input type="text" [(ngModel)]="studentName"/>
+        </div>
+
+        <div>
+            <label>Student ID Number: </label>
+            <input type="text" [(ngModel)]="studentId"/>
+        </div>
     </div>
-    <audit-editor class="audit-editor" [selectedDegreePlan]="selectedDegreePlan"></audit-editor>
+
+    <audit-editor (preloadDataChange)="updateDegreePlanData($event)" class="audit-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></audit-editor>
+
+    <button id="btn1" (click)="confirmBack()">Back</button>
+    <button id="btn2" (click)="saveDegreePlan()"><a routerLink="/audit">Submit</a></button>
 </div>
