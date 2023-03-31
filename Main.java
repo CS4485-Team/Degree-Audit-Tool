@@ -7,9 +7,11 @@ public class Main {
         File inputFile = new File(inputFilePath);
         transcriptParser transcript = new transcriptParser(inputFile);
         StudentParser curr = transcript.getStudent();
-        curr.fillFromTranscript();
+
         curr.printStudentInformation();
-        curr.getSimpleName();
+
+        Plan track = new Plan("Computer Science");
+        curr.setCurrentTrack(track);
 
     }
 }

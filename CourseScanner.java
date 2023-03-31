@@ -2,10 +2,10 @@
 import java.util.Objects;
 
 public class CourseScanner {
-    private String courseNumber;
-    private String courseName;
-    private String description;
-    private String hours;
+    protected String courseNumber;
+    protected String courseName;
+    protected String description;
+    protected String hours;
     protected CourseType type;
 
     public enum CourseType {

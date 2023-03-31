@@ -13,6 +13,7 @@ public class StudentParser {
     private String major;
     private String track;
     private String gradDate;
+    private Plan currentTack;
     private boolean fastTrack;
     private boolean thesis;
 
@@ -31,6 +32,7 @@ public class StudentParser {
 
         courseList = new ArrayList<>();
         transcriptList = new ArrayList<>();
+
     }
 
     public StudentParser(String name, String ID, String startDate, String major) {
@@ -62,6 +64,93 @@ public class StudentParser {
                         .add(trans.getSemester());
             }
         }
+    }
+
+    public void setCourseType(String number, CourseScanner.CourseType type) {
+        for (int i = 0; i < courseList.size(); i++)
+            if (courseList.get(i).getCourseNumber().equals(number))
+                courseList.get(i).setType(type);
+    }
+
+    private void evaluateDegreePlan() {
+        setInitialCourseTypes();
+        setOptionalCore();
+        setElectives();
+    }
+
+    private void setInitialCourseTypes() {
+        for (CourseScanner course : getCourseList()) {
+            if (currentTack.isCore(course))
+                setCourseType(course.courseNumber, CourseScanner.CourseType.CORE);
+            else if (currentTack.isOpt(course))
+                setCourseType(course.courseNumber, CourseScanner.CourseType.OPTIONAL);
+            else if (currentTack.isPre(course))
+                setCourseType(course.courseNumber, CourseScanner.CourseType.PREREQ);
+            else if (currentTack.isTrack(course))
+                setCourseType(course.courseNumber, CourseScanner.CourseType.TRACK);
+            else
+                setCourseType(course.courseNumber, CourseScanner.CourseType.OTHER);
+        }
+    }
+
+    private void setElectives() {
+        List<StudentCourse> otherList = getCourseType(CourseScanner.CourseType.OTHER);
+        double numElectHours = 15.0;
+
+        for (int i = 0; i < otherList.size(); i++) {
+            StudentCourse currentCourse = otherList.get(i);
+            try {
+                int currentNum = Integer.parseInt(currentCourse.getCourseNumber().split(" ")[1]);
+                if (currentNum >= 6000 && numElectHours > 0) {
+                    setCourseType(currentCourse.getCourseNumber(), CourseScanner.CourseType.ELECTIVE);
+                    numElectHours -= currentCourse.getAttempted();
+                } else if (5000 <= currentNum && currentNum < 6000) {
+                    setCourseType(currentCourse.getCourseNumber(), CourseScanner.CourseType.ADDITIONAL);
+                }
+            } catch (NumberFormatException e) {
+                setCourseType(currentCourse.getCourseNumber(), CourseScanner.CourseType.ADDITIONAL);
+            }
+        }
+    }
+
+    public StudentCourse getMaxCourseGPA(List<StudentCourse> listOfCourses) {
+        double maxGPA = 0;
+        StudentCourse maxCourse = new StudentCourse();
+
+        for (int i = 0; i < listOfCourses.size(); i++) {
+            StudentCourse currentCourse = listOfCourses.get(i);
+
+            double currentGPA = calcGPA(currentCourse.getEarned(), currentCourse.getAttempted());
+            if (currentGPA > maxGPA) {
+                maxGPA = currentGPA;
+                maxCourse = currentCourse;
+            }
+        }
+        return maxCourse;
+    }
+
+    private double calcGPA(double gpaPoints, double gpaHours) {
+        double GPA = gpaPoints / gpaHours;
+
+        double scale = Math.pow(10, 3);
+        return Math.round(GPA * scale) / scale;
+    }
+
+    private void setOptionalCore() {
+        List<StudentCourse> coreOptList = getCourseType(CourseScanner.CourseType.OPTIONAL);
+        int numOpt = currentTack.getNumOptional();
+
+        while (numOpt > 0 && coreOptList.size() != 0) {
+            StudentCourse maxCourse = getMaxCourseGPA(coreOptList);
+            setCourseType(maxCourse.getCourseNumber(), CourseScanner.CourseType.CORE);
+            coreOptList.remove(maxCourse);
+            numOpt--;
+        }
+
+        coreOptList.forEach(StudentCourse -> {
+            setCourseType(StudentCourse.getCourseNumber(), CourseScanner.CourseType.OTHER);
+
+        });
     }
 
     private void fillCourse(HashMap<String, List<String>> filledCourses, StudentCourse trans) {
@@ -195,6 +284,11 @@ public class StudentParser {
 
     public void setFastTrack(boolean fastTrack) {
         this.fastTrack = fastTrack;
+    }
+
+    public void setCurrentTrack(Plan currentTrack) {
+        this.currentTack = currentTrack;
+        evaluateDegreePlan();
     }
 
 }

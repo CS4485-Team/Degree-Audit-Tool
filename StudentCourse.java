@@ -9,9 +9,14 @@ public class StudentCourse extends CourseScanner {
     private double earned = 0;
     private double points = 0;
     private String transfer = "";
+    private boolean isTransfer = false;
     private boolean isWaived = false;
     private boolean fromTranscript = false;
     private String semester = "";
+
+    public StudentCourse() {
+
+    }
 
     public StudentCourse(StudentCourse another) {
         super((CourseScanner) another);
@@ -21,6 +26,7 @@ public class StudentCourse extends CourseScanner {
         this.earned = another.earned;
         this.points = another.earned;
         this.transfer = another.transfer;
+        this.isTransfer = another.isTransfer;
         this.isWaived = another.isWaived;
         this.fromTranscript = another.fromTranscript;
     }
@@ -87,6 +93,13 @@ public class StudentCourse extends CourseScanner {
         points = Double.parseDouble(tokens[tokens.length - 1]);
     }
 
+    public String toString() {
+        String semesterOutput = (isTransfer) ? "X" + semester : semester + "X";
+
+        return courseNumber + " " + courseName + " " + semesterOutput + " " + letterGrade;
+    
+
+    }
     public boolean equals(Object obj) {
         if (obj instanceof CourseScanner) {
             if (obj instanceof StudentCourse) {
@@ -152,4 +165,5 @@ public class StudentCourse extends CourseScanner {
     public void setSemester(String semester) {
         this.semester = semester;
     }
+    public void setTransfer(boolean transfer){isTransfer = transfer;}
 }
