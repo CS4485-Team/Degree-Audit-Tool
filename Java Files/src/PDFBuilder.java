@@ -36,7 +36,7 @@ public class PDFBuilder {
     public static void main(String[] args) throws IOException, DocumentException {
     	try {
             String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/IntelSysSample.csv";
+    		String path = cwd + "/Java Files/src/SysTrackSample.csv";
     		
     		String[][] data = CSVParser.getArray(path);
 
@@ -62,8 +62,7 @@ public class PDFBuilder {
          } else if (next.equals("2")) {
         	pdf = new IntelSysPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("3")) {
-        	pdf = new SysTrackPDF(strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS),
-        			strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS));
+        	pdf = new SysTrackPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("4")) {
         	pdf = new SoftEngPDF(strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS),
                     strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS), strFiller(" ", SoftEngPDF.ROWS));

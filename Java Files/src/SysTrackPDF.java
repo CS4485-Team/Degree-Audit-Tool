@@ -43,7 +43,7 @@ public class SysTrackPDF extends DefaultPDF {
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Computer Architecture"; 						this.courseNums[0] = "   CS6313";
+		this.titles[0] = "Computer Architecture"; 						this.courseNums[0] = "   CS6304";
 		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "   CS6363";
 		this.titles[2] = "Advanced Operating Systems";					this.courseNums[2] = "   CS6378";
 		this.titles[3] = "Real-time Systems";    						this.courseNums[3] = "   CS6396";
