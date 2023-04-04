@@ -44,7 +44,7 @@ public class SoftEngPDF extends DefaultPDF {
 		this.titles[0] = "Object Oriented Software Engineering"; 		this.courseNums[0] = "   SE6329";
 		this.titles[1] = "Advanced Requirements Engineering";    		this.courseNums[1] = "   SE6361";
 		this.titles[2] = "Adv. Software Architecture and Design";               this.courseNums[2] = "   SE6362";
-		this.titles[3] = "Sw. Testing, Validation, Verification";		this.courseNums[3] = "   SE6367";
+		this.titles[3] = "Sw. Testing/Validation/Verification";		        this.courseNums[3] = "   SE6367";
 		this.titles[4] = "Adv. Software Engineering Project";		        this.courseNums[4] = "   SE6387";
 		this.titles[6] = "1. " + this.titles[6];
 		this.titles[7] = "2. " + this.titles[7];
