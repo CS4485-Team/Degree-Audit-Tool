@@ -1,5 +1,7 @@
 {
     "courseCount": {
+        "numCoreCourses": 6,
+        "numAdditionalCoreCourses": 3,
         "numElectiveCourses": 5,
         "numAdditionalElectiveCourses": 3,
         "numOtherRequirements": 2,

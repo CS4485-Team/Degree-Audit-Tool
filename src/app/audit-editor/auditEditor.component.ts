@@ -35,27 +35,45 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
     data.push({'type': 'header', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
     let courses: any = configs.get('coreCourseList');
     courses = courses[selectedDegreePlan];
-    for (let i = 0; i < courses.length; ++i) {
-        data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, '', '', '']});
-    };
+    for (let i = 0; i < auditReportConfigs.courseCount.numCoreCourses; ++i) {
+        if (i < courses.length)
+            data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, '', '', '']});
+        else
+            data.push({'type': 'input', 'data': ['','','','','']})
+    }
 
     // push all additional core course work for this degree plan
     let additionalCourses: any = configs.get('additionalCoreCourseList');
     additionalCourses = additionalCourses[selectedDegreePlan];
     data.push({'type': 'header', 'data': ['One of the following Courses']});
-    for (let i = 0; i < additionalCourses.length; ++i) {
-        data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, '', '', '']});
-    };
+    for (let i = 0; i < auditReportConfigs.courseCount.numAdditionalCoreCourses; ++i) {
+        if (i < additionalCourses.length)
+            data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, '', '', '']});
+        else
+            data.push({'type': 'input', 'data': ['','','','','']})
+    }
 
     data.push({'type': 'header', 'data': ['FIVE APPROVED 6000 LEVEL ELECTIVES     (15 * Credit Hours)     3.0 Grade Point Average']});
     for (let i = 0; i < auditReportConfigs.courseCount.numElectiveCourses; ++i) {
         data.push({'type': 'input', 'data': ['', '', '', '', '']});
-    };
+    }
 
     data.push({'type': 'header', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
     for (let i = 0; i < auditReportConfigs.courseCount.numAdditionalElectiveCourses; ++i) {
         data.push({'type': 'input', 'data': ['', '', '', '', '']});
-    };
+    }
+
+    // push other requirements
+    data.push({'type': 'header', 'data': ['Other Requirements']})
+    for (let i = 0; i < auditReportConfigs.courseCount.numOtherRequirements; ++i) {
+        data.push({'type': 'input', 'data': ['','','','','']});
+    }
+
+    // push admission prereqs
+    data.push({'type': 'header', 'data': ['Admission Prerequisites']})
+    for (let i = 0; i < auditReportConfigs.courseCount.numAdmissionPrereqs; ++i) {
+        data.push({'type': 'input', 'data': ['','','','','']})
+    }
 
     return data;
 }
