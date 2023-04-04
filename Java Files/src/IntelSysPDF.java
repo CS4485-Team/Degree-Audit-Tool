@@ -42,9 +42,9 @@ public class IntelSysPDF extends DefaultPDF {
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Natural Language Processing";   		 		this.courseNums[0] = "   CS6313";
+		this.titles[0] = "Natural Language Processing";   		 		this.courseNums[0] = "   CS6320";
 		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "   CS6363";
-		this.titles[2] = "Artificial Intelligence";    					this.courseNums[2] = "   CS6350";
+		this.titles[2] = "Artificial Intelligence";    					this.courseNums[2] = "   CS6364";
 		this.titles[3] = "Machine Learning";							this.courseNums[3] = "   CS6375";
 		this.titles[5] = "Database Design";								this.courseNums[5] = "   CS6360";
 		this.titles[6] = "Advanced Operating Systems";					this.courseNums[6] = "   CS6378";
@@ -92,7 +92,7 @@ public class IntelSysPDF extends DefaultPDF {
                 "Course Num ", "  UTD Sem  ", " Transfer  ", "   Grade   ");
         document.add(headers);
  
-        PdfPTable reqCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.BEIGE, "CORE COURSES            (15 Credit Hours)            3.19 GPA Required");
+        PdfPTable reqCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.HOTPINK, "CORE COURSES            (15 Credit Hours)            3.19 GPA Required");
         document.add(reqCoursesHeader);
  
          
@@ -105,7 +105,7 @@ public class IntelSysPDF extends DefaultPDF {
  
         // ============================================CORE
         // COURSES=========================================================================================
-        PdfPTable coreCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.BEIGE, "                  One of the following 5 Core Courses                   ");
+        PdfPTable coreCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.HOTPINK, "                  One of the following 2 Core Courses                   ");
         document.add(coreCoursesHeader);
  
   
@@ -116,7 +116,7 @@ public class IntelSysPDF extends DefaultPDF {
         }
  
         // ============================================ELECTIVE COURSES=========================================================================================
-        PdfPTable elecCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_TEN, PDFBuilder.BEIGE, "5 APPROVED 6000 COURSES         (15* Credit Hours)         3.0 GPA Required");
+        PdfPTable elecCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_TEN, PDFBuilder.HOTPINK, "5 APPROVED 6000 COURSES         (15* Credit Hours)         3.0 GPA Required");
         document.add(elecCoursesHeader);
   
  
@@ -126,7 +126,7 @@ public class IntelSysPDF extends DefaultPDF {
             document.add(temp);
         }
         
-        PdfPTable elecCoursesHeader2 = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.BEIGE, "                Additional Electives (3 Credit Hours Min.)                 ");
+        PdfPTable elecCoursesHeader2 = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.HOTPINK, "                Additional Electives (3 Credit Hours Min.)                 ");
         document.add(elecCoursesHeader2);
   
         for (int i = 13; i < 16; i++) {
@@ -137,7 +137,7 @@ public class IntelSysPDF extends DefaultPDF {
         
         // OTHER NON CS REQ'D COURSES
         
-        PdfPTable otherReqCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.BEIGE, "                            Other Requirements                             ");
+        PdfPTable otherReqCoursesHeader = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_ELEVEN, PDFBuilder.HOTPINK, "                            Other Requirements                             ");
         document.add(otherReqCoursesHeader);
   
         for (int i = 16; i < 18; i++) {
@@ -150,7 +150,7 @@ public class IntelSysPDF extends DefaultPDF {
  
         // ===================================================PREREQS=============================================================================
  
-        PdfPTable prereqHeaders = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_NINE, PDFBuilder.BEIGE, "Admission Prerequisites               Course Num    UTD Sem      Waiver       Grade   ");
+        PdfPTable prereqHeaders = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_NINE, PDFBuilder.HOTPINK, "Admission Prerequisites               Course Num    UTD Sem      Waiver       Grade   ");
         document.add(prereqHeaders);
          
         for (int i = 18; i < 24; i++) {

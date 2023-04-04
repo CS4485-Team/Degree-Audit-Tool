@@ -21,6 +21,7 @@ public class PDFBuilder {
     public static final BaseColor VIOLET = new BaseColor(255, 144, 255);
     public static final BaseColor GREEN = new BaseColor(0, 255, 0);
     public static final BaseColor ORANGE = new BaseColor(255, 200, 0);
+    public static final BaseColor HOTPINK = new BaseColor(255, 90, 190);
     public static final String DEST = "./src/table3.pdf";
     public static final Font FONT_TWELVE = FontFactory.getFont(FontFactory.COURIER, 12f, Font.BOLD);
     public static final Font FONT_ELEVEN = FontFactory.getFont(FontFactory.COURIER, 11f, Font.BOLD);
@@ -35,7 +36,7 @@ public class PDFBuilder {
     public static void main(String[] args) throws IOException, DocumentException {
     	try {
             String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/data.csv";
+    		String path = cwd + "/Java Files/src/IntelSysSample.csv";
     		
     		String[][] data = CSVParser.getArray(path);
 
@@ -59,8 +60,7 @@ public class PDFBuilder {
         if (next.equals("1")) {
         	pdf = new DataSciPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
          } else if (next.equals("2")) {
-        	pdf = new IntelSysPDF(strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS),
-        			strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS), strFiller(" ", IntelSysPDF.ROWS));
+        	pdf = new IntelSysPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("3")) {
         	pdf = new SysTrackPDF(strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS),
         			strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS), strFiller(" ", SysTrackPDF.ROWS));
@@ -139,6 +139,7 @@ public class PDFBuilder {
  
     }
     
+    // Helper function to specify an array containing the same font
     public static Font[] sizeFiller(Font toFill, int length) {
     	
     	Font[] array = new Font[length];
