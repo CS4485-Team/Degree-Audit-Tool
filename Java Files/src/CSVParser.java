@@ -1,4 +1,4 @@
-import java.util.Scanner;
+
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -34,6 +34,9 @@ public class CSVParser {
 			for (int j = 0; j < 5; j++) {
 				System.out.println(i-1 + "][" + j);
 				temp[j] = temp[j].trim();
+				if (temp[j].equals("blank")) {
+					temp[j] = " ";
+				}
 				toReturn[j][i - 1] = temp[j];
 				System.out.println(toReturn[j][i-1]);
 			}
