@@ -161,7 +161,7 @@ const input = (instance: any, td: any, row: any, col: any, prop: any, value: any
 }
 
 @Component({
-    selector: 'audit-editor',
+    selector: 'degreePlan-editor',
     template: `
     <hot-table class="hot-table" id="degree-plan-table"
         [settings]="settings"
@@ -171,10 +171,10 @@ const input = (instance: any, td: any, row: any, col: any, prop: any, value: any
         licenseKey="non-commercial-and-evaluation">
     </hot-table>
     `,
-    styleUrls: ['./auditEditor.component.css']
+    styleUrls: ['./degreePlanEditor.component.css']
 })
 
-export class AuditEditorComponent {
+export class DegreePlanEditorComponent {
     // input taken from the auditPage. Must preset to some value, otherwise the table will not be able
     // to render first time
     @Input() selectedDegreePlan: string = '';

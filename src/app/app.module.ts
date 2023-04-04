@@ -9,10 +9,9 @@ import { registerAllModules } from 'handsontable/registry';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer'; 
 
-import { AuditComponent } from './audit-page/auditPage.component';
+import { DegreePlanPageComponent } from './degreePlan-page/degreePlanPage.component';
 import { HomePageComponent } from './home-page/homePage.component';
-import { AuditEditorComponent } from './audit-editor/auditEditor.component';
-import { CoursePickerComponent } from './course-picker/coursePicker.component';
+import { DegreePlanEditorComponent } from './degreePlan-editor/degreePlanEditor.component';
 import { PDFViewerComponent } from './pdf-viewer/pdfViewer.component';
 
 registerAllModules();
@@ -20,10 +19,9 @@ registerAllModules();
 @NgModule({
   declarations: [
     AppComponent,
-    AuditComponent,
+    DegreePlanPageComponent,
     HomePageComponent,
-    AuditEditorComponent,
-    CoursePickerComponent,
+    DegreePlanEditorComponent,
     PDFViewerComponent
   ],
   imports: [

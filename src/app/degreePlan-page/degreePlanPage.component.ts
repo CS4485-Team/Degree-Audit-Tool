@@ -4,12 +4,12 @@ import auditReportConfigs from 'auditreportConfig.json';
 
 
 @Component({
-    selector: 'audit-page',
-    templateUrl: './auditPage.component.html',
-    styleUrls: ['./auditPage.component.css']
+    selector: 'degreePlan-page',
+    templateUrl: './degreePlanPage.component.html',
+    styleUrls: ['./degreePlanPage.component.css']
 })
 
-export class AuditComponent {
+export class DegreePlanPageComponent {
     degreePlans: string[] = auditReportConfigs.degreePlans;
     majors: string[] = auditReportConfigs.majors;
     selectedDegreePlan: string = 'Cyber Security';
