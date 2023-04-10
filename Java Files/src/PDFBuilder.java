@@ -36,7 +36,7 @@ public class PDFBuilder {
     public static void main(String[] args) throws IOException, DocumentException {
     	try {
             String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/SoftEngSample.csv";
+    		String path = cwd + "/src/SoftEngSample.csv";
     		
     		String[][] data = CSVParser.getArray(path);
 
