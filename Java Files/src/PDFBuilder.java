@@ -22,8 +22,11 @@ public class PDFBuilder {
     public static final BaseColor GREEN = new BaseColor(0, 255, 0);
     public static final BaseColor ORANGE = new BaseColor(255, 200, 0);
     public static final BaseColor HOTPINK = new BaseColor(255, 90, 190);
+    public static final BaseColor WHITE = new BaseColor(255, 255, 255);
+    public static final String AUDDEST = "./src/table4.pdf";
     public static final String DEST = "./src/table3.pdf";
     public static final Font FONT_TWELVE = FontFactory.getFont(FontFactory.COURIER, 12f, Font.BOLD);
+    public static final Font FONT_FIFTEEN = FontFactory.getFont(FontFactory.COURIER, 15f, Font.BOLD);
     public static final Font FONT_ELEVEN = FontFactory.getFont(FontFactory.COURIER, 11f, Font.BOLD);
     public static final Font FONT_TEN = FontFactory.getFont(FontFactory.COURIER, 10f, Font.BOLD);
     public static final Font FONT_NINE = FontFactory.getFont(FontFactory.COURIER, 9f, Font.BOLD);
