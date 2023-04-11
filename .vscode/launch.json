@@ -4,6 +4,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AuditPDFBuilder",
+      "request": "launch",
+      "mainClass": "AuditPDFBuilder",
+      "projectName": "Degree-Audit-Tool_7118a0e1"
+    },
+    {
+      "type": "java",
       "name": "PDFBuilder",
       "request": "launch",
       "mainClass": "PDFBuilder",
