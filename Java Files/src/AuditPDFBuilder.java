@@ -11,6 +11,7 @@ public class AuditPDFBuilder {
 		String[][] temp = new String[8][8];
 		createAudRep("./src/audtable.pdf", temp, 0, 0, 0);
 	}
+
 	public static void createAudRep(String dest, String[][] classes, int coreEndIndex, int elecEndIndex, int preEndIndex) {
 		try {
 	        Document document = new Document();
@@ -31,6 +32,7 @@ public class AuditPDFBuilder {
 	        String line7 = 				   "CORE ELECTIVES: ";
 	        String line8 = 				   "ELECTIVE COURSES: ";
 	        String line9 = 				   "LEVELING COURSES AND PRE-REQ'S FROM ADMISSION LETTER:";
+			String line10 =                "OUTSTANDING REQUIREMENTS: ";
 	        
 
 			for (int i = 0; i <= coreEndIndex - 1; i++) {
@@ -43,8 +45,24 @@ public class AuditPDFBuilder {
 	        }
 	        line8 += classes[0][elecEndIndex] + "\n";
 			
+			line9 += "\n\n";
+			for (int i = elecEndIndex + 1; i <= preEndIndex; i++) {
+				line9 += classes[0][i] + ": ";
+				if (!classes[3][i].equals("")) {
+					if (classes[4][i].equals("")) {
+						line9 += "Not yet completed.\n";
+					} else {
+						line9 += "Completed: " + classes[2][i] + ": " + classes[3][i] + "\n";
+					}
+				} else {
+					line9 += "Waived\n";
+				}
+			}
 	        
-	        String toInsert = "\n\n" + line1 + line2 + line3 + "\n" + line4 + line5 + line6 + "\n" + line7 + line8 + "\n" + line9;
+			line10 += "\n\n";
+
+
+	        String toInsert = "\n\n" + line1 + line2 + line3 + "\n" + line4 + line5 + line6 + "\n" + line7 + line8 + "\n" + line9 + "\n\n" + line10;
 	        
 	        PdfPCell cell = new PdfPCell(new Phrase(10f, title, PDFBuilder.FONT_FIFTEEN)); 
 	        
@@ -68,5 +86,47 @@ public class AuditPDFBuilder {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public float restGpaCalc(String[][] classes, int startIndex, int endIndex) {
+		int counter = 0;
+		float cumAvg = 0;
+		for (int i = startIndex; i <= endIndex; i++) {
+			String tempGrade = classes[3][i];
+			if (tempGrade.trim().equals("")) {
+				counter++;
+				if (tempGrade.trim().equals("A+")) {
+					cumAvg += 4;
+				} else if (tempGrade.trim().equals("A")) {
+					cumAvg += 4;
+				} else if (tempGrade.trim().equals("A-")) {
+					cumAvg += 3.67;
+				} else if (tempGrade.trim().equals("B+")) {
+					cumAvg += 3.33;
+				} else if (tempGrade.trim().equals("B")) {
+					cumAvg += 3;
+				} else if (tempGrade.trim().equals("B-")) {
+					cumAvg += 2.67;
+				} else if (tempGrade.trim().equals("C+")) {
+					cumAvg += 2.33;
+				} else if (tempGrade.trim().equals("C")) {
+					cumAvg += 2;
+				} else if (tempGrade.trim().equals("C-")) {
+					cumAvg += 1.67;
+				} else if (tempGrade.trim().equals("D+")) {
+					cumAvg += 1.33;
+				} else if (tempGrade.trim().equals("D")) {
+					cumAvg += 1;
+				} else if (tempGrade.trim().equals("D-")) {
+					cumAvg += 0.67;
+				} else if (tempGrade.trim().equals("F")) {
+					cumAvg += 0;
+				} else {
+					counter--;
+				}
+			}
+		}
+
+		return 0;
 	}
 }
