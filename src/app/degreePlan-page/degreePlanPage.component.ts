@@ -13,7 +13,7 @@ export class DegreePlanPageComponent {
     degreePlans: string[] = auditReportConfigs.degreePlans;
     majors: string[] = auditReportConfigs.majors;
     selectedDegreePlan: string = 'Cyber Security';
-    selectedMajor: string = "Computer Science";
+    selectedMajor: string = 'Computer Science';
     studentName: string = '';
     studentId: string = '';
     degreePlanData: any[] = []; // same data as in degree plan component
@@ -32,30 +32,63 @@ export class DegreePlanPageComponent {
         this.degreePlanData = data;
     }
 
-    saveDegreePlan() {
+    saveDegreePlan(): any[] {
         const courseList: string = JSON.stringify(auditReportConfigs);
         const configs: any = new Map(Object.entries(JSON.parse(courseList)));
 
         // reformat the data for csv output
         const headers: string[] = ['Course Title', 'Course Num', 'UTD Semester', 'Transfer/Waiver', 'Grade'];
         const data: any[] = [];
+        console.log(this.degreePlanData);
 
-        // push data
-        let courses: any = configs.get('coreCourseList');
-        courses = courses[this.selectedDegreePlan];
-
+        // push headers
         data.push(headers);
         data.push('\n');
-        for (let i = 0; i < courses.length; ++i) {
-            data.push([courses[i].name, courses[i].number, 'S23', 'Y', 'A']);
+
+        // push data
+        let start: number = 12; // offset used to skip the header portion of the degree plan
+                                  //  (student name, id, UTD title, etc.)
+        for (let i = start; i < start + auditReportConfigs.courseCount.numCoreCourses; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            data.push(filteredData);
             data.push('\n');
         }
 
-        // save the file
-        let blob: Blob = new Blob(data, {type: 'text/csv'});
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.click(); 
+        start += auditReportConfigs.courseCount.numCoreCourses + 1;
+        for (let i = start; i < start + auditReportConfigs.courseCount.numAdditionalCoreCourses; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+
+        start += auditReportConfigs.courseCount.numAdditionalCoreCourses + 1;
+        for (let i = start; i < start + auditReportConfigs.courseCount.numElectiveCourses; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+
+        console.log(data);
+
+        return data;
     }
 
     updateDegreePlanData(newData: any[]) {
@@ -64,8 +97,18 @@ export class DegreePlanPageComponent {
 
     // confirm the user wants to navigate away from this page before they lose changes
     confirmBack() {
-        if (confirm("You will lose changes if you go back. Are you sure you would like to continue?")) {
+        if (confirm('You will lose changes if you go back. Are you sure you would like to continue?')) {
             this.router.navigate(['/home-page']);
         }
+    }
+
+    // check whether the user left any fields blank. If not, proceed to the next section of the
+    //  application. Else, alert the user that some fields were not fully entered properly
+    confirmSave() {
+        var data: any[] = this.saveDegreePlan();
+        let blob: Blob = new Blob(data, {type: 'text/csv'});
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.click(); 
     }
 }

@@ -2,32 +2,43 @@
 
     <div class="toolbar">
         <div>
-            <label for="degree-plan" id="label_id">Degree Plan</label>
+            <label for="degree-plan" id="label_id">Degree Plan </label>
             <select #degreeTracks (change)="onSelectedDegreePlan(degreeTracks.value)">
                 <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
             </select>
         </div>
 
         <div>
-            <label>Student Name: </label>
+            <label>Student Name </label>
             <input type="text" [(ngModel)]="studentName"/>
         </div>
 
         <div>
-            <label>Student ID Number: </label>
+            <label>Student ID Number </label>
             <input type="text" [(ngModel)]="studentId"/>
         </div>
 
-        <!-- <div>
-            <label>Major</label>
-            <select #majors (change)="onSelectedMajor(majors.value)">
-                <option *ngFor="let major of majors" value={{major}}>{{major}}</option>
-            </select>
-        </div> -->
+        <div class="radio_inputs">
+            <div>
+                <p>Student is Fast Track </p>
+                <input type="radio" id="yes_ft" name="is_ft" value="y"/>
+                <label for="yes_ft">Yes</label><br>
+                <input type="radio" id="no_ft" name="is_ft" value="n"/>
+                <label for="no_ft">No</label>
+            </div>
+            <br>
+            <div>
+                <p>Student is Pursuing Thesis </p>
+                <input type="radio" id="yes_thesis" name="is_thesis" value="y"/>
+                <label for="yes_ft">Yes</label><br>
+                <input type="radio" id="no_thesis" name="is_thesis" value="n"/>
+                <label for="no_ft">No</label>
+            </div>
+        </div>
+
+        <button id="btn1" (click)="confirmBack()">Back</button>
+        <button id="btn2" (click)="confirmSave()">Submit</button>
     </div>
 
-    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="audit-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></degreePlan-editor>
+    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></degreePlan-editor>
 </div>
-
-<button id="btn1" (click)="confirmBack()">Back</button>
-<button id="btn2" (click)="saveDegreePlan()"><a routerLink="/audit">Submit</a></button>

@@ -14,8 +14,12 @@ import Handsontable from 'handsontable';
         instruct the custom renderer how to style the row (i.e., highlight, bold-text, etc.),
         while the data is the actual data loaded into that row.
 */
-const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, studentId: string) : any[] => {
+const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, studentId: string, overwriteData: any[]) : any[] => {
     let data: any[] = [];
+    if (overwriteData.length != 0) {
+        overwriteData[7];
+    }
+
     data.push({'type': 'mainHeader', 'data': ['DEGREE PLAN', '', '', '', '']});
     data.push({'type': 'mainHeader', 'data': ['UNIVERSITY OF TEXAS AT DALLAS', '', '', '', '']});
     data.push({'type': 'mainHeader', 'data': ['MASTER OF COMPUTER SCIENCE', '', '', '', '']});
@@ -188,7 +192,7 @@ export class DegreePlanEditorComponent {
     settings: Handsontable.GridSettings;
 
     ngOnInit() {
-        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId);
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, []);
         this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
 
         // these settings are what actually allow the table to generate. Do not adjust these directly. Instead,
@@ -204,9 +208,8 @@ export class DegreePlanEditorComponent {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId);
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, this.preloadData);
         this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
-        this.settings.cell = generateCells(this.preloadDataWithSettings);
         this.preloadDataChange.emit(this.preloadData);
     }
 }
