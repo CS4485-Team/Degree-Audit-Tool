@@ -12,13 +12,9 @@ public class AuditPDFBuilder {
 	//	createAudRep("./src/audtable.pdf", temp, 0, 0, 0,0,0,0);
 	//}
 
-	public static void createAudRep(String dest, String[][] classes, int coreStartIndex, int coreEndIndex, int elecStartIndex, int elecEndIndex, int preStartIndex, int preEndIndex) {
+	public static void createAudRep(String dest, String[][] classes, int coreStartIndex, 
+			int coreEndIndex, int elecStartIndex, int elecEndIndex, int preStartIndex, int preEndIndex) {
 		try {
-
-			double coreGPA = 2.40;//restGpaCalc(classes, coreStartIndex, coreEndIndex);
-			//float elecGPA = restGpaCalc(classes, coreEndIndex + 1, elecEndIndex);
-			//float overallGPA = restGpaCalc(classes, 0, elecEndIndex);
-
 
 	        Document document = new Document();
 	        PdfWriter.getInstance(document, new FileOutputStream(dest));
@@ -32,9 +28,9 @@ public class AuditPDFBuilder {
 	        String line1 = String.format("\nNAME: %-25s          ID: %-25d", "Test N. Ame", 2021490138);
 	        String line2 = String.format("\nPLAN: %-25s          MAJOR: %-22s", "Master", "Computer Science");
 	        String line3 = String.format("\n                                         TRACK: %-22s", "Data Science");
-	        String line4 = String.format("\nCORE GPA: %-57.3f", 3.755);
-	        String line5 = String.format("\nELECTIVE GPA: %-53.3f", 3.755);
-	        String line6 = String.format("\nCOMBINED GPA: %-53.3f", 3.755);
+	        String line4;// Generated below 
+	        String line5;// Generated below 
+	        String line6;// Generated below 
 	        String line7 = 				   "CORE ELECTIVES: ";
 	        String line8 = 				   "ELECTIVE COURSES: ";
 	        String line9 = 				   "LEVELING COURSES AND PRE-REQ'S FROM ADMISSION LETTER:";
@@ -66,33 +62,34 @@ public class AuditPDFBuilder {
 			}
 	        
 			line10 += "\n\nIn order to maintain a 3.19 core GPA:\n";
-			int hasGradeCounter = 0;
-			int noGradeCounter = 0;
-			for (int i = coreStartIndex - 1; i <= coreEndIndex - 1; i++) {
-				if (!classes[4][i].trim().equals("")) hasGradeCounter++;
-				else noGradeCounter++;
-			}
+			
+			String[] tempClasses1 = genArray(classes, 1, coreStartIndex, coreEndIndex);
+			String[] tempGrades1 = genArray(classes, 4, coreStartIndex, coreEndIndex);
+			
+			line10 += GPAMsgGen.msgGen(tempClasses1, tempGrades1, GPAMsgGen.MIN_CORE_GPA);
+			
+			// Generating 4-6 now
+			line4 = String.format("\nCORE GPA: %-57.3f", GPAMsgGen.gpaGen(tempClasses1, tempGrades1));
+			
+			line10 += "\n\nIn order to maintain a 3.00 elective GPA:\n";
+			
+			String[] tempClasses2 = genArray(classes, 1, elecStartIndex, elecEndIndex);
+			String[] tempGrades2 = genArray(classes, 4, elecStartIndex, elecEndIndex);
+			
+			line10 += GPAMsgGen.msgGen(tempClasses2, tempGrades2, GPAMsgGen.MIN_ELEC_GPA);
+			
+			line5 = String.format("\nELECTIVE GPA: %-53.3f", GPAMsgGen.gpaGen(tempClasses2, tempGrades2));
+			
+			line10 += "\n\nIn order to maintain a 3.00 overall GPA:\n";
+			
+			String[] tempClassesComb = combArray(tempClasses1, tempClasses2);
+			String[] tempGradesComb = combArray(tempGrades1, tempGrades2);
+			
+			line10 += GPAMsgGen.msgGen(tempClassesComb, tempGradesComb, GPAMsgGen.MIN_CUML_GPA);
+			
+			line6 = String.format("\nCOMBINED GPA: %-53.3f", GPAMsgGen.gpaGen(tempClassesComb, tempGradesComb));
 
-
-			if (noGradeCounter != 0) {
-				line10 += "\n\nIn order to maintain a 3.19 core GPA:\n";
-				double graded = hasGradeCounter * coreGPA;
-				double minAvg = (3.19 * ((double)(hasGradeCounter + noGradeCounter) - graded)) / noGradeCounter;
-				System.out.println(hasGradeCounter);
-				if (minAvg < 2) {
-					line10 += "The student must pass: ";
-				} else {
-					line10 += "The student must maintain an average GPA of " + minAvg + " in: ";
-				}
-				for (int i = coreStartIndex - 1; i <= coreEndIndex - 1; i++) {
-				//	System.out.println("TESTING: " + classes[1][i] + ", " + classes[4][i]);
-					if (classes[4][i].trim().equals(""))
-						line10 += classes[1][i] + ", ";
-				} 
-				line10 += "\n";
-			} 
-
-	        String toInsert = "\n\n" + line1 + line2 + line3 + "\n" + line4 + line5 + line6 + "\n\n" + line7 + line8 + "\n" + line9 + "\n\n" + line10;
+	        String toInsert = "\n\n" + line1 + line2 + line3 + "\n" + line4 + line5 + line6 + "\n\n" + line7 + line8 + "\n" + line9 + "\n\n" + line10; 
 	        
 	        PdfPCell cell = new PdfPCell(new Phrase(10f, title, PDFBuilder.FONT_FIFTEEN)); 
 	        
@@ -117,48 +114,28 @@ public class AuditPDFBuilder {
 			e.printStackTrace();
 		}
 	}
-
-	public static float restGpaCalc(String[][] classes, int startIndex, int endIndex) {
-		int counter = 0;
-		float cumAvg = 0;
-		for (int i = startIndex; i <= endIndex; i++) {
-			String tempGrade = classes[4][i];
-			if (!tempGrade.trim().equals("")) {
-				counter++;
-				if (tempGrade.trim().equals("A+")) {
-					cumAvg += 4;
-				} else if (tempGrade.trim().equals("A")) {
-					cumAvg += 4;
-				} else if (tempGrade.trim().equals("A-")) {
-					cumAvg += 3.67;
-				} else if (tempGrade.trim().equals("B+")) {
-					cumAvg += 3.33;
-				} else if (tempGrade.trim().equals("B")) {
-					cumAvg += 3;
-				} else if (tempGrade.trim().equals("B-")) {
-					cumAvg += 2.67;
-				} else if (tempGrade.trim().equals("C+")) {
-					cumAvg += 2.33;
-				} else if (tempGrade.trim().equals("C")) {
-					cumAvg += 2;
-				} else if (tempGrade.trim().equals("C-")) {
-					cumAvg += 1.67;
-				} else if (tempGrade.trim().equals("D+")) {
-					cumAvg += 1.33;
-				} else if (tempGrade.trim().equals("D")) {
-					cumAvg += 1;
-				} else if (tempGrade.trim().equals("D-")) {
-					cumAvg += 0.67;
-				} else if (tempGrade.trim().equals("F")) {
-					cumAvg += 0;
-				} else {
-					counter--;
-				}
-			}
+	
+	private static String[] genArray(String[][] fullArray, int ind, int startInd, int endInd) {
+		String[] toReturn = new String[endInd - startInd + 1];
+		System.out.println(endInd - startInd + 1);
+		for (int i = startInd; i <= endInd; i++) {
+			toReturn[i - startInd] = fullArray[ind][i-1];
+			System.out.println(toReturn[i - startInd]);
 		}
-
-		cumAvg = cumAvg / ((float)counter);
-
-		return cumAvg;
+		
+		return toReturn;
 	}
+	
+	private static String[] combArray(String[] arr1, String[] arr2) {
+		String[] combined = new String[arr1.length + arr2.length];
+		for (int i = 0; i < arr1.length; i++) {
+			combined[i] = arr1[i];
+		}
+		for (int i = 0; i < arr2.length; i++) {
+			combined[i + arr1.length] = arr2[i];
+		}
+		
+		return combined;
+	}
+	
 }
