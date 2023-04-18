@@ -1,8 +1,13 @@
 import javafx.util.Pair;
-
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 public class StudentParser {
 
@@ -192,7 +197,25 @@ public class StudentParser {
         courseList.removeAll(emptyCourses);
     }
 
-    public void printStudentInformation() {
+    public void printStudentInformation()
+            throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+
+        FileWriter writer = new FileWriter("C://Users/David/Desktop/Test.csv/");
+        StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
+        beanToCsv.write(courseList);
+        beanToCsv.write(transcriptList);
+        CSVWriter csvWriter = new CSVWriter(writer);
+        String[] header = { "Name", "ID", "startDate", "major" };
+        csvWriter.writeNext(header);
+        String[] entries;
+        entries = new String[4];
+        entries[0] = name;
+        entries[1] = ID;
+        entries[2] = startDate;
+        entries[3] = major;
+
+        csvWriter.writeNext(entries);
+        writer.close();
         System.out.println(name);
         System.out.println(courseList);
         System.out.println(transcriptList);
