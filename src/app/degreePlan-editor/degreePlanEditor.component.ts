@@ -14,11 +14,8 @@ import Handsontable from 'handsontable';
         instruct the custom renderer how to style the row (i.e., highlight, bold-text, etc.),
         while the data is the actual data loaded into that row.
 */
-const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, studentId: string, overwriteData: any[]) : any[] => {
+const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, studentId: string, admitSem: string, gradSem: string, electives: any[]) : any[] => {
     let data: any[] = [];
-    if (overwriteData.length != 0) {
-        overwriteData[7];
-    }
 
     data.push({'type': 'mainHeader', 'data': ['DEGREE PLAN', '', '', '', '']});
     data.push({'type': 'mainHeader', 'data': ['UNIVERSITY OF TEXAS AT DALLAS', '', '', '', '']});
@@ -29,7 +26,7 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
     data.push({'type': 'binaryInput', 'data': ['Thesis:', '', '', '', '']});
     data.push({'type': 'input', 'data': [`Name: ${studentName}`, '', '', '', '']});
     data.push({'type': 'input', 'data': [`ID: ${studentId}`, '', '', '', '']});
-    data.push({'type': 'input', 'data': ['Semester Admitted to Program:', '', '', 'Graduation:', '']});
+    data.push({'type': 'input', 'data': [`Semester Admitted to Program: ${admitSem}`, '', '', `Graduation: ${gradSem}`, '']});
     data.push({'type': 'input', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
 
     const courseList: string = JSON.stringify(auditReportConfigs);
@@ -58,8 +55,14 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
     }
 
     data.push({'type': 'header', 'data': ['FIVE APPROVED 6000 LEVEL ELECTIVES     (15 * Credit Hours)     3.0 Grade Point Average']});
-    for (let i = 0; i < auditReportConfigs.courseCount.numElectiveCourses; ++i) {
-        data.push({'type': 'input', 'data': ['', '', '', '', '']});
+    for (let i = 0; i < electives.length; ++i) {
+        data.push({'type': 'input', 'data': [electives[i].name, electives[i].number, '', '', '']})
+    }
+
+    if (auditReportConfigs.courseCount.numElectiveCourses - electives.length > 0) {
+        for (let i = 0; i < auditReportConfigs.courseCount.numElectiveCourses - electives.length; ++i) {
+            data.push({'type': 'input', 'data': ['', '', '', '', '']});
+        }
     }
 
     data.push({'type': 'header', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
@@ -184,6 +187,9 @@ export class DegreePlanEditorComponent {
     @Input() selectedDegreePlan: string = '';
     @Input() studentName: string = '';
     @Input() studentId: string = '';
+    @Input() admitSem: string = '';
+    @Input() gradSem: string = '';
+    @Input() electives: any[] = [];
 
     // data to pre-populate audit reports
     preloadDataWithSettings: any[];
@@ -192,7 +198,8 @@ export class DegreePlanEditorComponent {
     settings: Handsontable.GridSettings;
 
     ngOnInit() {
-        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, []);
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, 
+            this.admitSem, this.gradSem, this.electives);
         this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
 
         // these settings are what actually allow the table to generate. Do not adjust these directly. Instead,
@@ -208,7 +215,8 @@ export class DegreePlanEditorComponent {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, this.preloadData);
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, 
+            this.admitSem, this.gradSem, this.electives);
         this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
         this.preloadDataChange.emit(this.preloadData);
     }

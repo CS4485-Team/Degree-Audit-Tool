@@ -8,6 +8,7 @@
             </select>
         </div>
 
+        <h3>Student Info</h3>
         <div>
             <label>Student Name </label>
             <input type="text" [(ngModel)]="studentName"/>
@@ -16,6 +17,16 @@
         <div>
             <label>Student ID Number </label>
             <input type="text" [(ngModel)]="studentId"/>
+        </div>
+
+        <div>
+            <label>Semester Admitted: </label>
+            <input type="text" [(ngModel)]="admitSem"/>
+        </div>
+
+        <div>
+            <label>Anticipated Graduation: </label>
+            <input type="text" [(ngModel)]="gradSem"/>
         </div>
 
         <div class="radio_inputs">
@@ -36,9 +47,18 @@
             </div>
         </div>
 
+        <h3>Electives</h3>
+        <div class="elective_selector">
+            <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
+                <option *ngFor="let elective of electives" value={{elective.name}}>{{elective.name}} {{elective.number}}</option>
+            </select>
+            <p *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective.name)">{{selectedElective.name}}</p>
+        </div>
+
         <button id="btn1" (click)="confirmBack()">Back</button>
         <button id="btn2" (click)="confirmSave()">Submit</button>
     </div>
 
-    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></degreePlan-editor>
+    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"
+        [electives]="selectedElectives" [admitSem]="admitSem" [gradSem]="gradSem"></degreePlan-editor>
 </div>

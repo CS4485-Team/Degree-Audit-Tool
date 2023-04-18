@@ -12,10 +12,14 @@ import auditReportConfigs from 'auditreportConfig.json';
 export class DegreePlanPageComponent {
     degreePlans: string[] = auditReportConfigs.degreePlans;
     majors: string[] = auditReportConfigs.majors;
+    electives: any[] = auditReportConfigs.electives;
+    selectedElectives: any[] = [];
     selectedDegreePlan: string = 'Cyber Security';
     selectedMajor: string = 'Computer Science';
     studentName: string = '';
     studentId: string = '';
+    admitSem: string = '';
+    gradSem: string = '';
     degreePlanData: any[] = []; // same data as in degree plan component
 
     constructor(private router: Router) {}
@@ -26,6 +30,18 @@ export class DegreePlanPageComponent {
 
     onSelectedMajor(value: string) {
         this.selectedMajor = value;
+    }
+
+    onSelectedElective(value: string) {
+        this.selectedElectives.push(value);
+    }
+
+    removeElective(value: string) {
+        for (let i = 0; i < this.selectedElectives.length; ++i) {
+            if (this.selectedElectives[i].name == value) {
+                this.selectedElectives.splice(i, 1);
+            }
+        }
     }
 
     setData(data: any[]) {
