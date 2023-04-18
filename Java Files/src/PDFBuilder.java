@@ -39,11 +39,11 @@ public class PDFBuilder {
     public static void main(String[] args) throws IOException, DocumentException {
     	try {
             String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/src/SoftEngSample.csv";
+    		String path = cwd + "/Java Files/src/CyberSecSample.csv";
     		
     		String[][] data = CSVParser.getArray(path);
 
-            AuditPDFBuilder.createAudRep("./src/broken.pdf", data, 1, 5, 7, 14, 16, 21);
+            //AuditPDFBuilder.createAudRep("./src/broken.pdf", data, 1, 5, 7, 14, 16, 21);
 
             titles = data[0];
             courseNums = data[1];
