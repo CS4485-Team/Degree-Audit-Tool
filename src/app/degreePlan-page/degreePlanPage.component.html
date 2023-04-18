@@ -1,44 +1,87 @@
 <div class="container">
 
     <div class="toolbar">
-        <div>
+        <div id="selector">
             <label for="degree-plan" id="label_id">Degree Plan </label>
             <select #degreeTracks (change)="onSelectedDegreePlan(degreeTracks.value)">
                 <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
             </select>
         </div>
 
-        <div>
+        <div id="name-box">
             <label>Student Name </label>
-            <input type="text" [(ngModel)]="studentName"/>
+            <input type="text" [(ngModel)]="studentName" />
         </div>
 
-        <div>
+        <div id="id-box">
             <label>Student ID Number </label>
-            <input type="text" [(ngModel)]="studentId"/>
+            <input type="number" [(ngModel)]="studentId" />
+            <p>(*** numbers only ***)</p>
         </div>
 
+    <!-- Radio Forms-->
+    <!--FORM 1-->    
         <div class="radio_inputs">
-            <div>
-                <p>Student is Fast Track </p>
-                <input type="radio" id="yes_ft" name="is_ft" value="y"/>
-                <label for="yes_ft">Yes</label><br>
-                <input type="radio" id="no_ft" name="is_ft" value="n"/>
-                <label for="no_ft">No</label>
-            </div>
-            <br>
-            <div>
-                <p>Student is Pursuing Thesis </p>
-                <input type="radio" id="yes_thesis" name="is_thesis" value="y"/>
-                <label for="yes_ft">Yes</label><br>
-                <input type="radio" id="no_thesis" name="is_thesis" value="n"/>
-                <label for="no_ft">No</label>
-            </div>
+            <p id="Fast-Track">Student is Fast Track</p>
+            <ul id="list1">
+                <li>
+                    <input type="radio" 
+                           id="yes_ft"
+                           name="selector1"
+                           value="Y" />
+                    <label for="yes_ft">Yes</label>
+
+                    <div class="check"></div>
+                </li>
+
+                <li>
+                    <input type="radio" 
+                           id="no_ft"
+                           name="selector1" 
+                           value="N" />
+                    <label for="no_ft">No</label>
+
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+            </ul>
         </div>
 
-        <button id="btn1" (click)="confirmBack()">Back</button>
-        <button id="btn2" (click)="confirmSave()">Submit</button>
-    </div>
+        <br>
 
-    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></degreePlan-editor>
+        <!--FORM 2-->
+        <div class="radio_inputs2">
+            <p id="Fast-Track">Student is Pursuing Thesis</p>
+            <ul id="list2">
+                <li>
+                    <input type="radio" 
+                           id="yes_thesis" 
+                           name="selector2" 
+                           value="Y" />
+                    <label for="yes_thesis">Yes</label>
+
+                    <div class="check"></div>
+                </li>
+
+                <li>
+                    <input type="radio" 
+                           id="no_thesis" 
+                           name="selector2"
+                           value="N" />
+                    <label for="no_thesis">No</label>
+
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    <button id="btn1" (click)="confirmBack()">Back</button>
+    <button id="btn2" (click)="confirmSave()">Submit</button>
+</div>
+
+<degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor"
+    [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></degreePlan-editor>
 </div>
