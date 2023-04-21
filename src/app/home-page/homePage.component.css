@@ -418,3 +418,12 @@ h1 {
     text-align: center;
     margin-left: -50px;
 }
+
+img {
+	height: 10em;
+	width: 10em;
+	margin-left: 125px;
+    margin-bottom: 2.5em;
+    border-radius: 50%;
+    border: 5px solid green;
+}
