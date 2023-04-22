@@ -3,6 +3,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "AuditPDFBuilder",
+      "request": "launch",
+      "mainClass": "AuditPDFBuilder",
+      "projectName": "Degree-Audit-Tool_7118a0e1"
+    },
+    {
+      "type": "java",
+      "name": "PDFBuilder",
+      "request": "launch",
+      "mainClass": "PDFBuilder",
+      "projectName": "Degree-Audit-Tool_7118a0e1"
+    },
+    {
       "name": "ng serve",
       "type": "pwa-chrome",
       "request": "launch",
