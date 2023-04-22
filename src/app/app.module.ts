@@ -22,7 +22,7 @@ registerAllModules();
     DegreePlanPageComponent,
     HomePageComponent,
     DegreePlanEditorComponent,
-    PDFViewerComponent
+    PDFViewerComponent,
   ],
   imports: [
     BrowserModule,

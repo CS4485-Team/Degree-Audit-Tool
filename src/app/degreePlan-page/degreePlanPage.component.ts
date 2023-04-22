@@ -34,6 +34,7 @@ export class DegreePlanPageComponent {
 
     onSelectedElective(value: string) {
         this.selectedElectives.push(value);
+        console.log(this.selectedElectives);
     }
 
     removeElective(value: string) {
