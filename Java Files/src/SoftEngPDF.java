@@ -41,11 +41,11 @@ public class SoftEngPDF extends DefaultPDF {
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Object Oriented Software Engineering"; 		this.courseNums[0] = "   SE6329";
-		this.titles[1] = "Advanced Requirements Engineering";    		this.courseNums[1] = "   SE6361";
-		this.titles[2] = "Adv. Software Architecture and Design";               this.courseNums[2] = "   SE6362";
-		this.titles[3] = "Sw. Testing/Validation/Verification";		        this.courseNums[3] = "   SE6367";
-		this.titles[4] = "Adv. Software Engineering Project";		        this.courseNums[4] = "   SE6387";
+		this.titles[0] = "Object Oriented Software Engineering"; 		this.courseNums[0] = "SE6329";
+		this.titles[1] = "Advanced Requirements Engineering";    		this.courseNums[1] = "SE6361";
+		this.titles[2] = "Adv. Software Architecture and Design";               this.courseNums[2] = "SE6362";
+		this.titles[3] = "Sw. Testing/Validation/Verification";		        this.courseNums[3] = "SE6367";
+		this.titles[4] = "Adv. Software Engineering Project";		        this.courseNums[4] = "SE6387";
 		this.titles[6] = "1. " + this.titles[6];
 		this.titles[7] = "2. " + this.titles[7];
 		this.titles[8] = "3. " + this.titles[8];
@@ -54,12 +54,12 @@ public class SoftEngPDF extends DefaultPDF {
 		this.titles[11] = "6. " + this.titles[11];
 		this.titles[12] = "7. " + this.titles[12];
 		this.titles[13] = "8. " + this.titles[13];
-		this.titles[16] = "Computer Science I";					this.courseNums[16] = "   CS5303";
-		this.titles[17] = "Computer Science II";				this.courseNums[17] = "   CS5330";
-		this.titles[18] = "Discrete Structures";				this.courseNums[18] = "   CS5333";
-		this.titles[19] = "Algorithm Analysis & Data Structures";		this.courseNums[19] = "   CS5343";
-		this.titles[20] = "Operating Systems Concepts";				this.courseNums[20] = "   CS5348";
-		this.titles[21] = "Software Engineering";			        this.courseNums[21] = "   CS5354";
+		this.titles[16] = "Computer Science I";					this.courseNums[16] = "CS5303";
+		this.titles[17] = "Computer Science II";				this.courseNums[17] = "CS5330";
+		this.titles[18] = "Discrete Structures";				this.courseNums[18] = "CS5333";
+		this.titles[19] = "Algorithm Analysis & Data Structures";		this.courseNums[19] = "CS5343";
+		this.titles[20] = "Operating Systems Concepts";				this.courseNums[20] = "CS5348";
+		this.titles[21] = "Software Engineering";			        this.courseNums[21] = "CS5354";
 		
 		
 		

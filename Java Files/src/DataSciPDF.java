@@ -41,15 +41,15 @@ public class DataSciPDF extends DefaultPDF {
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Statistical Methods for Data Science"; 		this.courseNums[0] = "   CS6313";
-		this.titles[1] = "Big Data Management and Analytics";    		this.courseNums[1] = "   CS6350";
-		this.titles[2] = "Design and Analysis of Computer Algorithms";  this.courseNums[2] = "   CS6363";
-		this.titles[3] = "Machine Learning";							this.courseNums[3] = "   CS6375";
-		this.titles[5] = "Social Media Analytics";						this.courseNums[5] = "   CS6301";
-		this.titles[6] = "Natural Language Processing";					this.courseNums[6] = "   CS6320";
-		this.titles[7] = "Video Analytics";								this.courseNums[7] = "   CS6327";
-		this.titles[8] = "Statistics for Machine Learning";				this.courseNums[8] = "   CS6347";
-		this.titles[9] = "Database Design";								this.courseNums[9] = "   CS6360";
+		this.titles[0] = "Statistical Methods for Data Science"; 		this.courseNums[0] = "CS6313";
+		this.titles[1] = "Big Data Management and Analytics";    		this.courseNums[1] = "CS6350";
+		this.titles[2] = "Design and Analysis of Computer Algorithms";  this.courseNums[2] = "CS6363";
+		this.titles[3] = "Machine Learning";							this.courseNums[3] = "CS6375";
+		this.titles[5] = "Social Media Analytics";						this.courseNums[5] = "CS6301";
+		this.titles[6] = "Natural Language Processing";					this.courseNums[6] = "CS6320";
+		this.titles[7] = "Video Analytics";								this.courseNums[7] = "CS6327";
+		this.titles[8] = "Statistics for Machine Learning";				this.courseNums[8] = "CS6347";
+		this.titles[9] = "Database Design";								this.courseNums[9] = "CS6360";
 		this.titles[11] = "1. " + this.titles[11];
 		this.titles[12] = "2. " + this.titles[12];
 		this.titles[13] = "3. " + this.titles[13];
@@ -58,12 +58,12 @@ public class DataSciPDF extends DefaultPDF {
 		this.titles[16] = "6. " + this.titles[16];
 		this.titles[17] = "7. " + this.titles[17];
 		this.titles[18] = "8. " + this.titles[18];
-		this.titles[21] = "Computer Science I";							this.courseNums[21] = "   CS5303";
-		this.titles[22] = "Computer Science II";						this.courseNums[22] = "   CS5330";
-		this.titles[23] = "Discrete Structures";						this.courseNums[23] = "   CS5333";
-		this.titles[24] = "Algorithm Analysis & Data Structures";		this.courseNums[24] = "   CS5343";
-		this.titles[25] = "Operating Systems Concepts";					this.courseNums[25] = "   CS5348";
-		this.titles[26] = "Probability and Statistics in CS";			this.courseNums[26] = "   CS3341";
+		this.titles[21] = "Computer Science I";							this.courseNums[21] = "CS5303";
+		this.titles[22] = "Computer Science II";						this.courseNums[22] = "CS5330";
+		this.titles[23] = "Discrete Structures";						this.courseNums[23] = "CS5333";
+		this.titles[24] = "Algorithm Analysis & Data Structures";		this.courseNums[24] = "CS5343";
+		this.titles[25] = "Operating Systems Concepts";					this.courseNums[25] = "CS5348";
+		this.titles[26] = "Probability and Statistics in CS";			this.courseNums[26] = "CS3341";
 		
 		
 		

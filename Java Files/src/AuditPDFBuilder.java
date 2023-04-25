@@ -1,5 +1,7 @@
 import java.io.FileOutputStream;
 
+import java.util.ArrayList;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -12,7 +14,7 @@ public class AuditPDFBuilder {
 	//	createAudRep("./src/audtable.pdf", temp, 0, 0, 0,0,0,0);
 	//}
 
-	public static void createAudRep(String dest, String[][] classes, int coreStartIndex, 
+	public static void createAudRep(String dest, String[][] classes, int coreStartIndex, int coreChoiceStartIndex, int coreChoiceEndIndex,
 			int coreEndIndex, int elecStartIndex, int elecEndIndex, int preStartIndex, int preEndIndex) {
 		try {
 
@@ -31,32 +33,43 @@ public class AuditPDFBuilder {
 	        String line4;// Generated below 
 	        String line5;// Generated below 
 	        String line6;// Generated below 
-	        String line7 = 				   "CORE ELECTIVES: ";
+	        String line7 = 				   "CORE COURSES: ";
 	        String line8 = 				   "ELECTIVE COURSES: ";
 	        String line9 = 				   "LEVELING COURSES AND PRE-REQ'S FROM ADMISSION LETTER:";
 			String line10 =                "OUTSTANDING REQUIREMENTS: ";
 	        
 
 			for (int i = 0; i <= coreEndIndex - 1; i++) {
-				line7 += classes[1][i] + ", ";
+				if (!classes[1][i].trim().equals(""))
+					line7 += classes[1][i] + ", ";
 			}
-	        line7 += classes[1][coreEndIndex] + "\n";
+
+			if (!classes[1][coreEndIndex].trim().equals("")) 
+	        	line7 += classes[1][coreEndIndex];
+			
+			line7 +=  "\n";
 	        
 	        for (int i = elecStartIndex; i <= elecEndIndex - 1; i++) {
-	        	line8 += classes[1][i] + ", ";
+				if (!classes[1][i].trim().equals(""))
+	        		line8 += classes[1][i] + ", ";
 	        }
-	        line8 += classes[1][elecEndIndex] + "\n";
+
+			if (!classes[1][elecEndIndex].trim().equals(""))
+	        	line8 += classes[1][elecEndIndex];
+
+			line8 += "\n";
 			
 			line9 += "\n\n";
 			for (int i = preStartIndex; i <= preEndIndex; i++) {
-				line9 += classes[1][i] + ": ";
-				if (classes[3][i].trim().equals("")) {
+				if (!classes[1][i].trim().equals(""))
+					line9 += classes[1][i] + ": ";
+				if (classes[3][i].trim().equals("") && !classes[0][i].trim().equals("")) {
 					if (classes[4][i].trim().equals("")) {
 						line9 += "Not yet completed.\n";
 					} else {
 						line9 += "Completed: " + classes[2][i] + ": " + classes[4][i] + "\n";
 					}
-				} else {
+				} else if (!classes[0][i].trim().equals("")){
 					line9 += "Waived\n";
 				}
 			}
@@ -65,6 +78,21 @@ public class AuditPDFBuilder {
 			
 			String[] tempClasses1 = genArray(classes, 1, coreStartIndex, coreEndIndex);
 			String[] tempGrades1 = genArray(classes, 4, coreStartIndex, coreEndIndex);
+			
+			if (coreChoiceStartIndex != 0) {
+				ArrayList<Integer> indices = genArrayWithGradeOnly(classes, coreChoiceStartIndex, coreChoiceEndIndex);
+
+				String[] tempCoreChoiceClasses = new String[indices.size()];
+				String[] tempCoreChoiceGrades = new String[indices.size()];
+
+				for (int i = 0; i < indices.size(); i++) {
+					tempCoreChoiceClasses[i] = classes[1][indices.get(i)];
+					tempCoreChoiceGrades[i] = classes[4][indices.get(i)];
+				}
+
+				tempClasses1 = combArray(tempClasses1, tempCoreChoiceClasses);
+				tempGrades1 = combArray(tempGrades1, tempCoreChoiceGrades);
+			}
 			
 			line10 += GPAMsgGen.msgGen(tempClasses1, tempGrades1, GPAMsgGen.MIN_CORE_GPA);
 			
@@ -115,6 +143,7 @@ public class AuditPDFBuilder {
 		}
 	}
 	
+	// Generates an array out of a small section of the big data array
 	private static String[] genArray(String[][] fullArray, int ind, int startInd, int endInd) {
 		String[] toReturn = new String[endInd - startInd + 1];
 		System.out.println(endInd - startInd + 1);
@@ -125,7 +154,21 @@ public class AuditPDFBuilder {
 		
 		return toReturn;
 	}
-	
+
+	private static ArrayList<Integer> genArrayWithGradeOnly(String[][] fullArray, int startInd, int endInd) {
+		ArrayList<Integer> indices = new ArrayList<Integer>();
+		for (int i = startInd; i <= endInd; i++) {
+			if (!fullArray[1][i].trim().equals("") && !fullArray[4][i].trim().equals("")) {
+				indices.add(i);
+			} else {
+				continue;
+			}
+		}
+		
+		return indices;
+	}
+
+	// Combines 2 Arrays
 	private static String[] combArray(String[] arr1, String[] arr2) {
 		String[] combined = new String[arr1.length + arr2.length];
 		for (int i = 0; i < arr1.length; i++) {

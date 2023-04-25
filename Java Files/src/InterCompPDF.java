@@ -43,13 +43,13 @@ public class InterCompPDF extends DefaultPDF {
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Human Computer Interaction";					this.courseNums[0] = "   CS6326";
-		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "   CS6363";
-		this.titles[3] = "Computer ANimation and Gaming";				this.courseNums[3] = "   CS6323";
-		this.titles[4] = "Modeling and Simulation";						this.courseNums[4] = "   CS6328";
-		this.titles[5] = "Multimedia Systems";							this.courseNums[5] = "   CS6331";
-		this.titles[6] = "Virtual Reality";								this.courseNums[6] = "   CS6334";
-		this.titles[7] = "Computer Graphics";							this.courseNums[7] = "   CS6366";
+		this.titles[0] = "Human Computer Interaction";					this.courseNums[0] = "CS6326";
+		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "CS6363";
+		this.titles[3] = "Computer ANimation and Gaming";				this.courseNums[3] = "CS6323";
+		this.titles[4] = "Modeling and Simulation";						this.courseNums[4] = "CS6328";
+		this.titles[5] = "Multimedia Systems";							this.courseNums[5] = "CS6331";
+		this.titles[6] = "Virtual Reality";								this.courseNums[6] = "CS6334";
+		this.titles[7] = "Computer Graphics";							this.courseNums[7] = "CS6366";
 		this.titles[9] = "1. " + this.titles[9];
 		this.titles[10] = "2. " + this.titles[10];
 		this.titles[11] = "3. " + this.titles[11];
@@ -58,11 +58,11 @@ public class InterCompPDF extends DefaultPDF {
 		this.titles[14] = "6. " + this.titles[14];
 		this.titles[15] = "7. " + this.titles[15];
 		this.titles[16] = "8. " + this.titles[16];
-		this.titles[19] = "Computer Science I";							this.courseNums[19] = "   CS5303";
-		this.titles[20] = "Computer Science II";						this.courseNums[20] = "   CS5330";
-		this.titles[21] = "Discrete Structures";						this.courseNums[21] = "   CS5333";
-		this.titles[22] = "Algorithm Analysis & Data Structures";		this.courseNums[22] = "   CS5343";
-		this.titles[23] = "Operating Systems Concepts";					this.courseNums[23] = "   CS5348";
+		this.titles[19] = "Computer Science I";							this.courseNums[19] = "CS5303";
+		this.titles[20] = "Computer Science II";						this.courseNums[20] = "CS5330";
+		this.titles[21] = "Discrete Structures";						this.courseNums[21] = "CS5333";
+		this.titles[22] = "Algorithm Analysis & Data Structures";		this.courseNums[22] = "CS5343";
+		this.titles[23] = "Operating Systems Concepts";					this.courseNums[23] = "CS5348";
 		
 	}
 	

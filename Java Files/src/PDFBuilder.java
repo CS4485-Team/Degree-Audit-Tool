@@ -37,13 +37,14 @@ public class PDFBuilder {
     private static String[] titles, courseNums, semesters, tsfOrWaivers, grades;
 
     public static void main(String[] args) throws IOException, DocumentException {
+        String[][] data;
     	try {
             String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/InterCompSample.csv";
+    		String path = cwd + "/Java Files/src/DataSciSample.csv";
     		
-    		String[][] data = CSVParser.getArray(path);
+    		data = CSVParser.getArray(path);
 
-            //AuditPDFBuilder.createAudRep("./src/broken.pdf", data, 1, 5, 7, 14, 16, 21);
+            //AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 6, 7, 14, 16, 21);
 
             titles = data[0];
             courseNums = data[1];
@@ -53,6 +54,7 @@ public class PDFBuilder {
 
     	} catch (Exception e) {
     		e.printStackTrace();
+            data = null;
     	}
     	
 
@@ -65,12 +67,14 @@ public class PDFBuilder {
         String next = input.next();
         if (next.equals("1")) {
         	pdf = new DataSciPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
+            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 5, 6, 10, 12, 20, 22, 27);
          } else if (next.equals("2")) {
         	pdf = new IntelSysPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("3")) {
         	pdf = new SysTrackPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("4")) {
         	pdf = new SoftEngPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
+            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 5, 0, 0, 6, 11, 16, 24);
         } else if (next.equals("5")) {
         	pdf = new CyberSecPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("6")) {

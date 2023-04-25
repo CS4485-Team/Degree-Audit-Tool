@@ -42,11 +42,11 @@ public class GPAMsgGen {
 		
 		// We must assume that classes and grades have the same length.
 		for (int i = 0; i < classes.length; i++) {
-			if (grades[i].trim().equals("")) {
+			if (grades[i].trim().equals("") && !classes[i].trim().equals("")) {
 				numClassesLeft++;
 			} else if (grades[i].trim().equals("I") || grades[i].trim().equals("P")) {
 				continue;
-			} else {
+			} else if (!classes[i].trim().equals("")){
 				numClassesFinished++;
 				currPts += (gradeToGPA(grades[i].trim()));
 			}

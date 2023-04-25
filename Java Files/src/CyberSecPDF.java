@@ -43,25 +43,25 @@ public class CyberSecPDF extends DefaultPDF {
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Information Security"; 						this.courseNums[0] = "   CS6324";
-		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "   CS6363";
-		this.titles[2] = "Advanced Operating Systems";					this.courseNums[2] = "   CS6378";
-		this.titles[5] = "System Sec. & Malicious Code Analysis";		this.courseNums[5] = "   CS6332";
-		this.titles[6] = "Data and Applications Security";				this.courseNums[6] = "   CS6348";
-		this.titles[7] = "Network Security";							this.courseNums[7] = "   CS6349";
-		this.titles[8] = "Introduction to Cryptography";				this.courseNums[8] = "   CS6377";
+		this.titles[0] = "Information Security"; 						this.courseNums[0] = "CS6324";
+		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "CS6363";
+		this.titles[2] = "Advanced Operating Systems";					this.courseNums[2] = "CS6378";
+		this.titles[5] = "System Sec. & Malicious Code Analysis";		this.courseNums[5] = "CS6332";
+		this.titles[6] = "Data and Applications Security";				this.courseNums[6] = "CS6348";
+		this.titles[7] = "Network Security";							this.courseNums[7] = "CS6349";
+		this.titles[8] = "Introduction to Cryptography";				this.courseNums[8] = "CS6377";
 		this.titles[10] = "1. " + this.titles[10];
 		this.titles[11] = "2. " + this.titles[11];
 		this.titles[13] = "3. " + this.titles[13];
 		this.titles[14] = "4. " + this.titles[14];
 		this.titles[15] = "5. " + this.titles[15];
 		this.titles[16] = "6. " + this.titles[16];
-		this.titles[20] = "Computer Science I";							this.courseNums[20] = "   CS5303";
-		this.titles[21] = "Computer Science II";						this.courseNums[21] = "   CS5330";
-		this.titles[22] = "Discrete Structures";						this.courseNums[22] = "   CS5333";
-		this.titles[23] = "Algorithm Analysis & Data Structures";		this.courseNums[23] = "   CS5343";
-		this.titles[24] = "Operating Systems Concepts";					this.courseNums[24] = "   CS5348";
-		this.titles[25] = "Computer Networks";							this.courseNums[25] = "   CS5390";
+		this.titles[20] = "Computer Science I";							this.courseNums[20] = "CS5303";
+		this.titles[21] = "Computer Science II";						this.courseNums[21] = "CS5330";
+		this.titles[22] = "Discrete Structures";						this.courseNums[22] = "CS5333";
+		this.titles[23] = "Algorithm Analysis & Data Structures";		this.courseNums[23] = "CS5343";
+		this.titles[24] = "Operating Systems Concepts";					this.courseNums[24] = "CS5348";
+		this.titles[25] = "Computer Networks";							this.courseNums[25] = "CS5390";
 		
 		
 		
