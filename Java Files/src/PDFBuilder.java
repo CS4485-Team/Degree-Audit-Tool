@@ -39,7 +39,7 @@ public class PDFBuilder {
     public static void main(String[] args) throws IOException, DocumentException {
     	try {
             String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/CyberSecSample.csv";
+    		String path = cwd + "/Java Files/src/InterCompSample.csv";
     		
     		String[][] data = CSVParser.getArray(path);
 
@@ -72,17 +72,13 @@ public class PDFBuilder {
         } else if (next.equals("4")) {
         	pdf = new SoftEngPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("5")) {
-        	pdf = new CyberSecPDF(strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS),
-                    strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS), strFiller(" ", CyberSecPDF.ROWS));
+        	pdf = new CyberSecPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("6")) {
-        	pdf = new NetTelePDF(strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS),
-                    strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS), strFiller(" ", NetTelePDF.ROWS));
+        	pdf = new NetTelePDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("7")) {
-        	pdf = new TradCSPDF(strFiller(" ", TradCSPDF.ROWS), strFiller(" ", TradCSPDF.ROWS),
-                    strFiller(" ", TradCSPDF.ROWS), strFiller(" ", TradCSPDF.ROWS), strFiller(" ", TradCSPDF.ROWS));
+            pdf = new TradCSPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         } else if (next.equals("8")) {
-        	pdf = new InterCompPDF(strFiller(" ", InterCompPDF.ROWS), strFiller(" ", InterCompPDF.ROWS),
-                    strFiller(" ", InterCompPDF.ROWS), strFiller(" ", InterCompPDF.ROWS), strFiller(" ", InterCompPDF.ROWS));
+            pdf = new InterCompPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
         }
         
         pdf.createPdf(DEST);
