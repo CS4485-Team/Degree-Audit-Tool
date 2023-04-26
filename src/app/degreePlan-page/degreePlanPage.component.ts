@@ -23,6 +23,10 @@ export class DegreePlanPageComponent {
     degreePlanData: any[] = []; // same data as in degree plan component
 
     constructor(private router: Router) {}
+
+    testElectronCall() {
+        window.ipcMain.send("close");
+    }
     
     onSelectedDegreePlan(value: string) {
         this.selectedDegreePlan = value;
@@ -55,8 +59,9 @@ export class DegreePlanPageComponent {
 
         // reformat the data for csv output
         const headers: string[] = ['Course Title', 'Course Num', 'UTD Semester', 'Transfer/Waiver', 'Grade'];
-        const data: any[] = [];
-        console.log(this.degreePlanData);
+        let dataStart: number = 0;
+        let data: any[] = [];
+        console.log();
 
         // push headers
         data.push(headers);
@@ -76,6 +81,8 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
+        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numCoreCourses);
+        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numCoreCourses;
 
         start += auditReportConfigs.courseCount.numCoreCourses + 1;
         for (let i = start; i < start + auditReportConfigs.courseCount.numAdditionalCoreCourses; ++i) {
@@ -89,6 +96,8 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
+        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalCoreCourses);
+        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalCoreCourses;
 
         start += auditReportConfigs.courseCount.numAdditionalCoreCourses + 1;
         for (let i = start; i < start + auditReportConfigs.courseCount.numElectiveCourses; ++i) {
@@ -102,8 +111,53 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
+        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numElectiveCourses);
+        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numElectiveCourses;
 
-        console.log(data);
+        start += auditReportConfigs.courseCount.numElectiveCourses + 1;
+        for (let i = start; i < start + auditReportConfigs.courseCount.numAdditionalElectiveCourses; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalElectiveCourses);
+        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalElectiveCourses;
+
+        start += auditReportConfigs.courseCount.numAdditionalElectiveCourses + 1;
+        for (let i = start; i < start + auditReportConfigs.courseCount.numOtherRequirements; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numOtherRequirements);
+        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numOtherRequirements;
+
+        start += auditReportConfigs.courseCount.numOtherRequirements + 1;
+        for (let i = start; i < start + auditReportConfigs.courseCount.numAdmissionPrereqs; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numAdmissionPrereqs);
+        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numAdmissionPrereqs;
 
         return data;
     }

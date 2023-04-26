@@ -1,11 +1,11 @@
 {
     "courseCount": {
-        "numCoreCourses": 6,
-        "numAdditionalCoreCourses": 3,
-        "numElectiveCourses": 5,
+        "numCoreCourses": 7,
+        "numAdditionalCoreCourses": 7,
+        "numElectiveCourses": 7,
         "numAdditionalElectiveCourses": 3,
         "numOtherRequirements": 2,
-        "numAdmissionPrereqs": 7
+        "numAdmissionPrereqs": 10
     },
     "coreCourseList": {
         "Cyber Security": [
@@ -105,5 +105,71 @@
         {"name": "Compiler Construction", "number": "CS 6353"},
         {"name": "Database Design", "number": "CS 6360"},
         {"name": "Advanced Programming Languages", "number": "CS 6371"}
-    ]
+    ],
+    "outputCourseInfo": {
+        "Cyber Security": {
+            "numCoreCourses": 5,
+            "numAdditionalCoreCourses": 5,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 7
+        },
+        "Data Science": {
+            "numCoreCourses": 5,
+            "numAdditionalCoreCourses": 6,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 7
+        },
+        "Intelligent Systems": {
+            "numCoreCourses": 5,
+            "numAdditionalCoreCourses": 3,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 6
+        },
+        "Interactive Computing": {
+            "numCoreCourses": 3,
+            "numAdditionalCoreCourses": 6,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 6
+        },
+        "Networks and Telecommunications": {
+            "numCoreCourses": 6,
+            "numAdditionalCoreCourses": 0,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 10
+        },
+        "Systems": {
+            "numCoreCourses": 5,
+            "numAdditionalCoreCourses": 6,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 7
+        },
+        "Software Engineering": {
+            "numCoreCourses": 6,
+            "numAdditionalCoreCourses": 0,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 10
+        },
+        "Traditional Computer Science": {
+            "numCoreCourses": 4,
+            "numAdditionalCoreCourses": 4,
+            "numElectiveCourses": 5,
+            "numAdditionalElectiveCourses": 3,
+            "numOtherRequirements": 2,
+            "numAdmissionPrereqs": 8
+        }
+    }
 }
