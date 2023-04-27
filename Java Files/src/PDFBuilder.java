@@ -44,7 +44,14 @@ public class PDFBuilder {
         DefaultPDF pdf = null;
         System.out.println("1 for datasci, 2 for intelsys");
         String next = input.next();
-        if (next.equals("1")) {
+        int opt = Integer.valueOf(next);
+//      Instead of text based option menu, use this when integrating
+//
+//      opt = Integer.valueOf(args[0]);
+//
+//
+//
+        if (opt == 1) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/DataSciSample.csv";
     		
@@ -58,7 +65,7 @@ public class PDFBuilder {
 
         	pdf = new DataSciPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 4, 5, 10, 11, 20, 22, 27);
-         } else if (next.equals("2")) {
+         } else if (opt == 2) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/IntelSysSample.csv";
     		
@@ -71,7 +78,7 @@ public class PDFBuilder {
             grades = data[4];
         	pdf = new IntelSysPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 4, 5, 7, 8, 16, 18, 23);
-        } else if (next.equals("3")) {
+        } else if (opt == 3) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/SysTrackSample.csv";
     		
@@ -84,7 +91,7 @@ public class PDFBuilder {
             grades = data[4];
         	pdf = new SysTrackPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1,4, 5, 10, 11, 20, 22, 27);
-        } else if (next.equals("4")) {
+        } else if (opt == 4) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/SoftEngSample.csv";
     		
@@ -97,7 +104,7 @@ public class PDFBuilder {
             grades = data[4];
         	pdf = new SoftEngPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 5, 0, 0, 6, 14, 16, 24);
-        } else if (next.equals("5")) {
+        } else if (opt == 5) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/CyberSecSample.csv";
     		
@@ -110,7 +117,7 @@ public class PDFBuilder {
             grades = data[4];
         	pdf = new CyberSecPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 3, 5, 9, 10, 16, 19, 24);
-        } else if (next.equals("6")) {
+        } else if (opt == 6) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/NetTeleSample.csv";
     		
@@ -123,7 +130,7 @@ public class PDFBuilder {
             grades = data[4];
         	pdf = new NetTelePDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 5, 0, 0, 6, 14, 16, 24);
-        } else if (next.equals("7")) {
+        } else if (opt == 7) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/TradCsSample.csv";
     		
@@ -136,7 +143,7 @@ public class PDFBuilder {
             grades = data[4];
             pdf = new TradCSPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, 1, 3, 4, 7, 8, 15, 16, 23);
-        } else if (next.equals("8")) {
+        } else if (opt == 8) {
             String cwd = System.getProperty("user.dir");
     		String path = cwd + "/Java Files/src/InterCompSample.csv";
     		
