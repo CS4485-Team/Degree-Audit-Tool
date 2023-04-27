@@ -14,8 +14,8 @@ public class AuditPDFBuilder {
 	//	createAudRep("./src/audtable.pdf", temp, 0, 0, 0,0,0,0);
 	//}
 
-	public static void createAudRep(String dest, String[][] classes, int coreStartIndex, int coreChoiceStartIndex, int coreChoiceEndIndex,
-			int coreEndIndex, int elecStartIndex, int elecEndIndex, int preStartIndex, int preEndIndex) {
+	public static void createAudRep(String dest, String[][] classes, int coreStartIndex, int coreEndIndex, int coreChoiceStartIndex, int coreChoiceEndIndex,
+			int elecStartIndex, int elecEndIndex, int preStartIndex, int preEndIndex) {
 		try {
 
 	        Document document = new Document();
@@ -38,16 +38,6 @@ public class AuditPDFBuilder {
 	        String line9 = 				   "LEVELING COURSES AND PRE-REQ'S FROM ADMISSION LETTER:";
 			String line10 =                "OUTSTANDING REQUIREMENTS: ";
 	        
-
-			for (int i = 0; i <= coreEndIndex - 1; i++) {
-				if (!classes[1][i].trim().equals(""))
-					line7 += classes[1][i] + ", ";
-			}
-
-			if (!classes[1][coreEndIndex].trim().equals("")) 
-	        	line7 += classes[1][coreEndIndex];
-			
-			line7 +=  "\n";
 	        
 	        for (int i = elecStartIndex; i <= elecEndIndex - 1; i++) {
 				if (!classes[1][i].trim().equals(""))
@@ -78,22 +68,33 @@ public class AuditPDFBuilder {
 			
 			String[] tempClasses1 = genArray(classes, 1, coreStartIndex, coreEndIndex);
 			String[] tempGrades1 = genArray(classes, 4, coreStartIndex, coreEndIndex);
-			
+
 			if (coreChoiceStartIndex != 0) {
 				ArrayList<Integer> indices = genArrayWithGradeOnly(classes, coreChoiceStartIndex, coreChoiceEndIndex);
 
 				String[] tempCoreChoiceClasses = new String[indices.size()];
 				String[] tempCoreChoiceGrades = new String[indices.size()];
 
+				System.out.println("Indices size: " + indices.size());
+
 				for (int i = 0; i < indices.size(); i++) {
 					tempCoreChoiceClasses[i] = classes[1][indices.get(i)];
+					System.out.println(tempCoreChoiceClasses[i]);
 					tempCoreChoiceGrades[i] = classes[4][indices.get(i)];
 				}
+
+				System.out.println(tempCoreChoiceClasses.length);
 
 				tempClasses1 = combArray(tempClasses1, tempCoreChoiceClasses);
 				tempGrades1 = combArray(tempGrades1, tempCoreChoiceGrades);
 			}
+
+			for (int i = 0; i < tempClasses1.length; i++) {
+				line7 += tempClasses1[i] + ", ";
+			}
 			
+			line7 +=  "\n";
+
 			line10 += GPAMsgGen.msgGen(tempClasses1, tempGrades1, GPAMsgGen.MIN_CORE_GPA);
 			
 			// Generating 4-6 now
@@ -158,7 +159,10 @@ public class AuditPDFBuilder {
 	private static ArrayList<Integer> genArrayWithGradeOnly(String[][] fullArray, int startInd, int endInd) {
 		ArrayList<Integer> indices = new ArrayList<Integer>();
 		for (int i = startInd; i <= endInd; i++) {
+			System.out.println("{CLASS CODE: " + fullArray[1][i] + "}");
+			System.out.println("{GRADE: " + fullArray[4][i] + "}");
 			if (!fullArray[1][i].trim().equals("") && !fullArray[4][i].trim().equals("")) {
+				System.out.println("If the above 2 are populated, this should print.");
 				indices.add(i);
 			} else {
 				continue;
