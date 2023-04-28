@@ -25,8 +25,7 @@
     ],
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
