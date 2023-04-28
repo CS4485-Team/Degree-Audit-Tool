@@ -36,7 +36,7 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
     data.push({'type': 'header', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
     let courses: any = configs.get('coreCourseList');
     courses = courses[selectedDegreePlan];
-    for (let i = 0; i < auditReportConfigs.courseCount.numCoreCourses; ++i) {
+    for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numCoreCourses"]; ++i) {
         if (i < courses.length)
             data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, '', '', '']});
         else
@@ -47,7 +47,7 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
     let additionalCourses: any = configs.get('additionalCoreCourseList');
     additionalCourses = additionalCourses[selectedDegreePlan];
     data.push({'type': 'header', 'data': ['One of the following Courses']});
-    for (let i = 0; i < auditReportConfigs.courseCount.numAdditionalCoreCourses; ++i) {
+    for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
         if (i < additionalCourses.length)
             data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, '', '', '']});
         else
@@ -59,26 +59,26 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
         data.push({'type': 'input', 'data': [electives[i].name, electives[i].number, '', '', '']})
     }
 
-    if (auditReportConfigs.courseCount.numElectiveCourses - electives.length > 0) {
-        for (let i = 0; i < auditReportConfigs.courseCount.numElectiveCourses - electives.length; ++i) {
+    if (configs.get("outputCourseInfo")[selectedDegreePlan]["numElectiveCourses"] - electives.length > 0) {
+        for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numElectiveCourses"] - electives.length; ++i) {
             data.push({'type': 'input', 'data': ['', '', '', '', '']});
         }
     }
 
     data.push({'type': 'header', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
-    for (let i = 0; i < auditReportConfigs.courseCount.numAdditionalElectiveCourses; ++i) {
+    for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
         data.push({'type': 'input', 'data': ['', '', '', '', '']});
     }
 
     // push other requirements
     data.push({'type': 'header', 'data': ['Other Requirements']})
-    for (let i = 0; i < auditReportConfigs.courseCount.numOtherRequirements; ++i) {
+    for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numOtherRequirements"]; ++i) {
         data.push({'type': 'input', 'data': ['','','','','']});
     }
 
     // push admission prereqs
     data.push({'type': 'header', 'data': ['Admission Prerequisites']})
-    for (let i = 0; i < auditReportConfigs.courseCount.numAdmissionPrereqs; ++i) {
+    for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
         data.push({'type': 'input', 'data': ['','','','','']})
     }
 
@@ -96,77 +96,6 @@ const seperateDataFromSettings = (dataWithSettings: any[]) : any[] => {
     return data;
 }
 
-const generateCells = (dataWithSettings: any[]) : any[] => {
-    let cells: any[] = [];
-
-    for (let i = 0; i < dataWithSettings.length; ++i) {
-        if (dataWithSettings[i].type == 'header') {
-            cells.push({ row: i, col: 0, className: 'htCenter', renderer: header });
-        }
-        else if (dataWithSettings[i].type == 'mainHeader') {
-            cells.push({ row: i, col: 0, className: 'htCenter', renderer: mainHeader });
-        }
-        else if (dataWithSettings[i].type == 'binaryInput') {
-            cells.push({ row: i, col: 1, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'Y ' }});
-            cells.push({ row: i, col: 2, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'N ' }});
-        }
-        else {
-            for (let j = 0; j < dataWithSettings[i].data.length; ++j) {
-                cells.push({ row: i, col: j, renderer: input });
-            }
-        }
-    }
-
-    return cells;
-}
-
-const generateMergeCells = (dataWithSettings: any[]) : any[] => {
-    let mergeCells: any[] = [];
-
-    for (let i = 0; i < dataWithSettings.length; ++i) {
-        if (dataWithSettings[i].type == 'header' || dataWithSettings[i].type == 'mainHeader') {
-            mergeCells.push({ row: i, col: 0, rowspan: 1, colspan: 5 });
-        }
-    }
-
-    return mergeCells;
-}
-
-/*
-    generates the custom borders for the table
-*/
-const generateBorders = (dataWithSettings: any[]) : any[] => {
-    let borders: any[] = [
-        // black outline for document
-        {
-            range: { from: {row: 0, col: 0}, to: {row: dataWithSettings.length - 1, col: dataWithSettings[0].data.length - 1} },
-            top: {width: 2, color: 'black'},
-            bottom: {width: 2, color: 'black'},
-            left: {width: 2, color: 'black'},
-            right: {width: 2, color: 'black'}
-        },
-    ];
-
-    return borders;
-}
-
-const mainHeader = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
-    Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
-    td.style.fontWeight = 'bold';
-    td.style.borderBottom = '#000'
-}
-
-const header = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
-    Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
-    td.style.background = '#fabf8f';
-    td.style.fontWeight = 'bold';
-}
-
-const input = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
-    Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
-    td.style.border = '1px solid black'
-}
-
 @Component({
     selector: 'degreePlan-editor',
     template: `
@@ -175,6 +104,9 @@ const input = (instance: any, td: any, row: any, col: any, prop: any, value: any
         [data]="preloadData"
         [colHeaders]="false"
         [rowHeaders]="false"
+        [cell]="cells"
+        [mergeCells]="mergeCells"
+        [customBorders]="borders"
         licenseKey="non-commercial-and-evaluation">
     </hot-table>
     `,
@@ -191,11 +123,14 @@ export class DegreePlanEditorComponent {
     @Input() gradSem: string = '';
     @Input() electives: any[] = [];
 
-    // data to pre-populate audit reports
     preloadDataWithSettings: any[];
     preloadData: any[];
     @Output() preloadDataChange = new EventEmitter<any[]>();
     settings: Handsontable.GridSettings;
+
+    cells: any[] = [];
+    borders: any[] = [];
+    mergeCells: any[] = [];
 
     ngOnInit() {
         this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, 
@@ -208,16 +143,84 @@ export class DegreePlanEditorComponent {
             width: '100%',
             height: 'auto',
             stretchH: 'all',
-            cell: generateCells(this.preloadDataWithSettings),
-            mergeCells: generateMergeCells(this.preloadDataWithSettings),
-            customBorders: generateBorders(this.preloadDataWithSettings)
         };
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges() {
         this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, 
             this.admitSem, this.gradSem, this.electives);
+        this.generateCells(this.preloadDataWithSettings);
+        this.generateMergeCells(this.preloadDataWithSettings);
+        this.generateBorders(this.preloadDataWithSettings);
         this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
         this.preloadDataChange.emit(this.preloadData);
+    }
+
+    generateCells = (dataWithSettings: any[]) => {
+        let cells: any[] = [];
+    
+        for (let i = 0; i < dataWithSettings.length; ++i) {
+            if (dataWithSettings[i].type == 'header') {
+                cells.push({ row: i, col: 0, className: 'htCenter', renderer: this.header});
+            }
+            else if (dataWithSettings[i].type == 'mainHeader') {
+                cells.push({ row: i, col: 0, className: 'htCenter', renderer: this.mainHeader });
+            }
+            else if (dataWithSettings[i].type == 'binaryInput') {
+                cells.push({ row: i, col: 1, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'Y ' }});
+                cells.push({ row: i, col: 2, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'N ' }});
+            }
+            else {
+                for (let j = 0; j < dataWithSettings[i].data.length; ++j) {
+                    cells.push({ row: i, col: j, renderer: this.input });
+                }
+            }
+        }
+    
+        this.cells = cells;
+    }
+
+    generateBorders = (dataWithSettings: any[]) => {
+        let borders: any[] = [
+            // black outline for document
+            {
+                range: { from: {row: 0, col: 0}, to: {row: dataWithSettings.length - 1, col: dataWithSettings[0].data.length - 1} },
+                top: {width: 2, color: 'black'},
+                bottom: {width: 2, color: 'black'},
+                left: {width: 2, color: 'black'},
+                right: {width: 2, color: 'black'}
+            },
+        ];
+    
+        this.borders = borders;
+    }
+
+    generateMergeCells = (dataWithSettings: any[]) => {
+        let mergeCells: any[] = [];
+    
+        for (let i = 0; i < dataWithSettings.length; ++i) {
+            if (dataWithSettings[i].type == 'header' || dataWithSettings[i].type == 'mainHeader') {
+                mergeCells.push({ row: i, col: 0, rowspan: 1, colspan: 5 });
+            }
+        }
+    
+        this.mergeCells = mergeCells;
+    }
+
+    mainHeader = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
+        Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
+        td.style.fontWeight = 'bold';
+        td.style.borderBottom = '#000'
+    }
+    
+    header = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
+        Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
+        td.style.background = '#fabf8f';
+        td.style.fontWeight = 'bold';
+    }
+    
+    input = (instance: any, td: any, row: any, col: any, prop: any, value: any, cellProperties: any) : void => {
+        Handsontable.renderers.TextRenderer.apply(this, [instance, td, row, col, prop, value, cellProperties]);
+        td.style.border = '1px solid black'
     }
 }

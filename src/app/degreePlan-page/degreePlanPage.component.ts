@@ -71,7 +71,8 @@ export class DegreePlanPageComponent {
         // push data
         let start: number = 12; // offset used to skip the header portion of the degree plan
                                   //  (student name, id, UTD title, etc.)
-        for (let i = start; i < start + auditReportConfigs.courseCount.numCoreCourses; ++i) {
+
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -82,11 +83,9 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
-        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numCoreCourses);
-        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numCoreCourses;
 
-        start += auditReportConfigs.courseCount.numCoreCourses + 1;
-        for (let i = start; i < start + auditReportConfigs.courseCount.numAdditionalCoreCourses; ++i) {
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -97,11 +96,9 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
-        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalCoreCourses);
-        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalCoreCourses;
 
-        start += auditReportConfigs.courseCount.numAdditionalCoreCourses + 1;
-        for (let i = start; i < start + auditReportConfigs.courseCount.numElectiveCourses; ++i) {
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numElectiveCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -112,11 +109,9 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
-        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numElectiveCourses);
-        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numElectiveCourses;
 
-        start += auditReportConfigs.courseCount.numElectiveCourses + 1;
-        for (let i = start; i < start + auditReportConfigs.courseCount.numAdditionalElectiveCourses; ++i) {
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numElectiveCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -127,11 +122,9 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
-        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalElectiveCourses);
-        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numAdditionalElectiveCourses;
 
-        start += auditReportConfigs.courseCount.numAdditionalElectiveCourses + 1;
-        for (let i = start; i < start + auditReportConfigs.courseCount.numOtherRequirements; ++i) {
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numOtherRequirements"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -142,11 +135,9 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
-        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numOtherRequirements);
-        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numOtherRequirements;
 
-        start += auditReportConfigs.courseCount.numOtherRequirements + 1;
-        for (let i = start; i < start + auditReportConfigs.courseCount.numAdmissionPrereqs; ++i) {
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numOtherRequirements"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -157,9 +148,8 @@ export class DegreePlanPageComponent {
             data.push(filteredData);
             data.push('\n');
         }
-        data = data.slice(dataStart, configs.outputCourseInfo[this.selectedDegreePlan].numAdmissionPrereqs);
-        dataStart += configs.outputCourseInfo[this.selectedDegreePlan].numAdmissionPrereqs;
 
+        console.log(data);
         return data;
     }
 

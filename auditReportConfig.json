@@ -1,12 +1,4 @@
 {
-    "courseCount": {
-        "numCoreCourses": 7,
-        "numAdditionalCoreCourses": 7,
-        "numElectiveCourses": 7,
-        "numAdditionalElectiveCourses": 3,
-        "numOtherRequirements": 2,
-        "numAdmissionPrereqs": 10
-    },
     "coreCourseList": {
         "Cyber Security": [
             {"name": "Information Security", "number": "CS 6324"},
