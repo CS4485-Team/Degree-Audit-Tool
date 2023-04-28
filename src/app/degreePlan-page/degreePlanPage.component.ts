@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import auditReportConfigs from 'auditreportConfig.json';
 
+declare var electron: any;
+
 @Component({
     selector: 'degreePlan-page',
     templateUrl: './degreePlanPage.component.html',
@@ -22,6 +24,10 @@ export class DegreePlanPageComponent {
     degreePlanData: any[] = []; // same data as in degree plan component
 
     constructor(private router: Router) {}
+
+    testIPC() {
+        console.log(electron.ipcRenderer.send('test'));
+    }
     
     onSelectedDegreePlan(value: string) {
         this.selectedDegreePlan = value;

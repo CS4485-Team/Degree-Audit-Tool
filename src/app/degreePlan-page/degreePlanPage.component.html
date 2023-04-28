@@ -57,7 +57,7 @@
 
         <button id="btn1" (click)="confirmBack()">Back</button>
         <button id="btn2" (click)="confirmSave()">Submit</button>
-        <button (click)="testElectronCall()" >Test</button>
+        <button (click)="testIPC()">Test IPC</button>
     </div>
 
     <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"
