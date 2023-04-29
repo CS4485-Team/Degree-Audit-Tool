@@ -1,6 +1,7 @@
 const {app, BrowserWindow, ipcMain, ipcRenderer} = require('electron')
 const url = require("url");
 const path = require("path");
+const { exec, spawn } = require('node:child_process');
 
 let mainWindow
 
@@ -41,5 +42,9 @@ ipcMain.on('close', () => {
 })
 
 ipcMain.on('test', () => {
-  console.log("Test working!");
+  
 })
+
+ipcMain.on('transcriptUpload', (data) => {
+  console.log(data);
+});

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import auditReportConfigs from 'auditreportConfig.json';
 import Handsontable from 'handsontable';
 
@@ -77,9 +77,14 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
     }
 
     // push admission prereqs
+    let prereqCourses: any = configs.get('prereqCourseList');
+    prereqCourses = prereqCourses[selectedDegreePlan];
     data.push({'type': 'header', 'data': ['Admission Prerequisites']})
     for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
-        data.push({'type': 'input', 'data': ['','','','','']})
+        if (i < prereqCourses.length)
+            data.push({'type': 'input', 'data': [prereqCourses[i].name, prereqCourses[i].number,'','','']});
+        else
+            data.push({'type': 'input', 'data': ['', '', '', '', '']});
     }
 
     return data;

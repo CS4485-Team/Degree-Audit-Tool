@@ -38,7 +38,7 @@
             {"name": "Object Oriented Software Engineering", "number": "SE 6329"},
             {"name": "Advanced Requirements Enginrg", "number": "SE 6361"},
             {"name": "Advanced Software Architecture and Design", "number": "SE 6362"},
-            {"name": "Software Testing, Validation, Verificaiton", "number": "SE 6367"},
+            {"name": "Software Testing، Validation، Verificaiton", "number": "SE 6367"},
             {"name": "Advanceed Software Engineering Project", "number": "SE 6387"}
         ],
         "Traditional Computer Science": [
@@ -87,6 +87,72 @@
             {"name": "Advanced Programming Languages", "number": "CS 6371"}
         ]
     },
+    "prereqCourseList": {
+        "Cyber Security": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"},
+            {"name": "Computer Networks", "number": "CS 5390"}
+        ],
+        "Data Science": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"},
+            {"name": "Probability and Statistics", "number": "CS 3341"}
+        ],
+        "Intelligent Systems": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"}
+        ],
+        "Interactive Computing": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"}
+        ],
+        "Networks and Telecommunications": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"},
+            {"name": "Computer Networks", "number": "CS 5390"},
+            {"name": "Probability and Statistics", "number": "CS 3341"}
+        ],
+        "Systems": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"},
+            {"name": "Computer Networks", "number": "CS 5390"}
+        ],
+        "Software Engineering": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"},
+            {"name": "Software Engineering", "number": "CS 5354"}
+        ],
+        "Traditional Computer Science": [
+            {"name": "Computer Science I", "number": "CS 5303"},
+            {"name": "Computer Science II", "number": "CS 5330"},
+            {"name": "Discrete Structures", "number": "CS 5333"},
+            {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+            {"name": "Operating System Concepts", "number": "CS 5348"},
+            {"name": "Automata Theory", "number": "CS 5349"},
+            {"name": "Computer Networks", "number": "CS 5390"}
+        ]
+    },
     "degreePlans": ["Cyber Security", "Data Science",
         "Intelligent Systems", "Interactive Computing",
         "Networks and Telecommunications", "Systems", "Software Engineering", 
@@ -102,8 +168,8 @@
         "Cyber Security": {
             "numCoreCourses": 5,
             "numAdditionalCoreCourses": 5,
-            "numElectiveCourses": 5,
-            "numAdditionalElectiveCourses": 3,
+            "numElectiveCourses": 3,
+            "numAdditionalElectiveCourses": 5,
             "numOtherRequirements": 2,
             "numAdmissionPrereqs": 7
         },

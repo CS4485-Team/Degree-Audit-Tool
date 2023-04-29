@@ -62,7 +62,6 @@ export class DegreePlanPageComponent {
         const headers: string[] = ['Course Title', 'Course Num', 'UTD Semester', 'Transfer/Waiver', 'Grade'];
         let dataStart: number = 0;
         let data: any[] = [];
-        console.log();
 
         // push headers
         data.push(headers);
@@ -80,6 +79,9 @@ export class DegreePlanPageComponent {
                 else
                     filteredData.push(this.degreePlanData[i][j]);
             }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
             data.push(filteredData);
             data.push('\n');
         }
@@ -92,6 +94,9 @@ export class DegreePlanPageComponent {
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
+            }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
             }
             data.push(filteredData);
             data.push('\n');
@@ -106,6 +111,9 @@ export class DegreePlanPageComponent {
                 else
                     filteredData.push(this.degreePlanData[i][j]);
             }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
             data.push(filteredData);
             data.push('\n');
         }
@@ -118,6 +126,9 @@ export class DegreePlanPageComponent {
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
+            }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
             }
             data.push(filteredData);
             data.push('\n');
@@ -132,6 +143,9 @@ export class DegreePlanPageComponent {
                 else
                     filteredData.push(this.degreePlanData[i][j]);
             }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
             data.push(filteredData);
             data.push('\n');
         }
@@ -144,6 +158,9 @@ export class DegreePlanPageComponent {
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
+            }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
             }
             data.push(filteredData);
             data.push('\n');
@@ -171,6 +188,16 @@ export class DegreePlanPageComponent {
         let blob: Blob = new Blob(data, {type: 'text/csv'});
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.click(); 
+        link.click();
+        // if (confirm('Are you sure you would like to continue?')) {
+        //     this.router.navigate(['/viewPdf']);
+        // }
+    }
+
+    uploadTranscriptFile() {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.click();
+        electron.ipcRenderer.send("transcriptUpload", ("hello"));
     }
 }
