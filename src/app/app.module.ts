@@ -13,6 +13,7 @@ import { DegreePlanPageComponent } from './degreePlan-page/degreePlanPage.compon
 import { HomePageComponent } from './home-page/homePage.component';
 import { DegreePlanEditorComponent } from './degreePlan-editor/degreePlanEditor.component';
 import { PDFViewerComponent } from './pdf-viewer/pdfViewer.component';
+import { StartSelectComponent } from './startSelect-page/startSelect.component';
 
 registerAllModules();
 
@@ -23,6 +24,7 @@ registerAllModules();
     HomePageComponent,
     DegreePlanEditorComponent,
     PDFViewerComponent,
+    StartSelectComponent
   ],
   imports: [
     BrowserModule,
