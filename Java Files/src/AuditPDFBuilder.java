@@ -14,9 +14,16 @@ public class AuditPDFBuilder {
 	//	createAudRep("./src/audtable.pdf", temp, 0, 0, 0,0,0,0);
 	//}
 
-	public static void createAudRep(String dest, String[][] classes, int coreStartIndex, int coreEndIndex, int coreChoiceStartIndex, int coreChoiceEndIndex,
+// usrData[0] = name
+// usrData[1] = ID
+// usrData[2] = applySem
+// usrData[3] = tsfOrWaiver
+// usrData[4] = expGrad
+
+	public static void createAudRep(String dest, String[][] classes, String[] usrData, int csOrSe, String track, int coreStartIndex, int coreEndIndex, int coreChoiceStartIndex, int coreChoiceEndIndex,
 			int elecStartIndex, int elecEndIndex, int preStartIndex, int preEndIndex) {
 		try {
+			String major;
 
 	        Document document = new Document();
 	        PdfWriter.getInstance(document, new FileOutputStream(dest));
@@ -26,10 +33,18 @@ public class AuditPDFBuilder {
 	        PdfPTable headerTable = new PdfPTable(1);     
 	        headerTable.setWidthPercentage(PDFBuilder.WIDTH_PERCENTAGE);
 	        
+			if (csOrSe == 0) {
+				major = "Computer Science";
+			} else if (csOrSe == 1) {
+				major = "Software Engineering";
+			} else {
+				major = "error";
+			}
+
 	        String title = 				   "                   AUDIT REPORT                   ";
-	        String line1 = String.format("\nNAME: %-25s          ID: %-25d", "Test N. Ame", 2021490138);
-	        String line2 = String.format("\nPLAN: %-25s          MAJOR: %-22s", "Master", "Computer Science");
-	        String line3 = String.format("\n                                         TRACK: %-22s", "Data Science");
+	        String line1 = String.format("\nNAME: %-25s          ID: %-25s", usrData[0], usrData[1]);
+	        String line2 = String.format("\nPLAN: %-25s          MAJOR: %-22s", "Master", major);
+	        String line3 = String.format("\n                                         TRACK: %-22s", track);
 	        String line4;// Generated below 
 	        String line5;// Generated below 
 	        String line6;// Generated below 
@@ -46,6 +61,8 @@ public class AuditPDFBuilder {
 
 			if (!classes[1][elecEndIndex].trim().equals(""))
 	        	line8 += classes[1][elecEndIndex];
+
+			line8 = line8.substring(0, line8.length() - 2);
 
 			line8 += "\n";
 			
@@ -93,6 +110,8 @@ public class AuditPDFBuilder {
 				line7 += tempClasses1[i] + ", ";
 			}
 			
+			line7 = line7.substring(0, line7.length() - 2);
+
 			line7 +=  "\n";
 
 			line10 += GPAMsgGen.msgGen(tempClasses1, tempGrades1, GPAMsgGen.MIN_CORE_GPA);
@@ -104,8 +123,18 @@ public class AuditPDFBuilder {
 			
 			String[] tempClasses2 = genArray(classes, 1, elecStartIndex, elecEndIndex);
 			String[] tempGrades2 = genArray(classes, 4, elecStartIndex, elecEndIndex);
-			
-			line10 += GPAMsgGen.msgGen(tempClasses2, tempGrades2, GPAMsgGen.MIN_ELEC_GPA);
+			int count = 0;
+
+			for (int i = 0; i < tempClasses2.length; i++) {
+				if (!tempClasses2[i].trim().equals("")) count++;
+			}
+
+			// Calculating the number of electives student still has to take
+			if (count >= 6) {
+				line10 += GPAMsgGen.msgGen(tempClasses2, tempGrades2, GPAMsgGen.MIN_ELEC_GPA);
+			} else {
+				line10 += GPAMsgGen.elecMsgGen(count, tempClasses2, tempGrades2, GPAMsgGen.MIN_ELEC_GPA);
+			}
 			
 			line5 = String.format("\nELECTIVE GPA: %-53.3f", GPAMsgGen.gpaGen(tempClasses2, tempGrades2));
 			

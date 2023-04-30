@@ -34,11 +34,36 @@ public class GPAMsgGen {
 		return currGPA;
 	}
 	
+	public static String elecMsgGen(int numElectivesTaken, String[] classes, String[] grades, double minGPA) {
+
+		double currPts = 0, /*currGPA = 0,*/ reqRemMinGPA = 0;
+		
+		// We must assume that classes and grades have the same length.
+		for (int i = 0; i < classes.length; i++) {
+			if (grades[i].trim().equals("") && !classes[i].trim().equals("")) {
+				continue;
+			} else if (grades[i].trim().equals("I") || grades[i].trim().equals("P")) {
+				continue;
+			} else if (!classes[i].trim().equals("")){
+				currPts += (gradeToGPA(grades[i].trim()));
+			}
+		}
+		
+		// Current GPA is not actually needed for any of these calculations.
+		/*currGPA = currPts / ((double) numClassesFinished);*/
+		
+		reqRemMinGPA = calcReqRemMinGPA(currPts, minGPA, numElectivesTaken, 6 - numElectivesTaken);
+		if (reqRemMinGPA > 2.0)
+			return "      -The student must pass " + (6 - numElectivesTaken) + " more electives with an overall minimum \n       GPA of " + reqRemMinGPA + ".";
+		else 
+			return "      -The student must pass " + (6 - numElectivesTaken) + " more electives.";
+	}
+
 	public static String msgGen(String[] classes, String[] grades, double minGPA) {
 		
 		int numClassesFinished = 0;
 		int numClassesLeft = 0;
-		double currPts = 0, /*currGPA = 0,*/ reqRemMinGPA = 0;
+		double currPts = 0, currGPA = 0, reqRemMinGPA = 0;
 		
 		// We must assume that classes and grades have the same length.
 		for (int i = 0; i < classes.length; i++) {
@@ -52,15 +77,14 @@ public class GPAMsgGen {
 			}
 		}
 		
-		// Current GPA is not actually needed for any of these calculations.
-		/*currGPA = currPts / ((double) numClassesFinished);*/
+		currGPA = currPts / ((double) numClassesFinished);
 		
 		reqRemMinGPA = calcReqRemMinGPA(currPts, minGPA, numClassesFinished, numClassesLeft);
 		
-		if (numClassesLeft == 0) {
-			
-			return "      -The student has completed all courses in this category.";
-		
+		if (numClassesLeft == 0 && currGPA >= minGPA) {
+			return "      -The student has fulfilled all GPA requirements in this category.";
+		} else if (numClassesLeft == 0 && currGPA < minGPA) {
+			return "      -The student has completed all coursework in this category, but\n       their GPA does not satisfy the requirements.";
 		} else if (reqRemMinGPA <= 2) {
 			String toReturn = "      -The student must pass: ";
 			for (int i = 0; i < classes.length; i++) {
