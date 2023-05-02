@@ -65,7 +65,8 @@ public class PDFBuilder {
             semesters = data[2];
             tsfOrWaivers = data[3];
             grades = data[4];
-
+            
+            System.out.println(usrData[3]);
         	pdf = new DataSciPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Data Science", 1, 4, 5, 10, 11, 20, 21, 27);
          } else if (opt == 2) {

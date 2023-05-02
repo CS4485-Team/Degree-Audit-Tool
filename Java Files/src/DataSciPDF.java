@@ -36,6 +36,7 @@ public class DataSciPDF extends DefaultPDF {
 		
 		this.titleSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_SEVENPTFIVE, ROWS);
 		this.otherSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_NINE, ROWS);
+        this.usrData = usrData;
 		this.titles = titles;
 		this.courseNums = courseNums;
 		this.semesters = semesters;
@@ -187,6 +188,7 @@ public class DataSciPDF extends DefaultPDF {
         String line4 = "\n                                                    ____________";
         String line5 = "\n                          DATA SCIENCE                         ";
         String line6 = "\n                                                               ";
+        System.out.println("DEBUG HERE { "+ usrData[0] +"}");
         String line7 = String.format(" \nName: %-36s FT: %-15s ", usrData[0], usrData[3].charAt(0));
         String line8 = String.format("\nID: %-34s Thesis: %-15s ", usrData[1], usrData[3].charAt(1));
         String line9 = String.format("\nApplied In: %s", usrData[2]);
