@@ -24,7 +24,7 @@ public class PDFBuilder {
     public static final BaseColor HOTPINK = new BaseColor(255, 90, 190);
     public static final BaseColor WHITE = new BaseColor(255, 255, 255);
     public static final String AUDDEST = "./src/table4.pdf";
-    public static final String DEST = "./src/table3.pdf";
+    public static final String DEST = "./src/output/DegreePlan.pdf";
     public static final Font FONT_TWELVE = FontFactory.getFont(FontFactory.COURIER, 12f, Font.BOLD);
     public static final Font FONT_FIFTEEN = FontFactory.getFont(FontFactory.COURIER, 15f, Font.BOLD);
     public static final Font FONT_ELEVEN = FontFactory.getFont(FontFactory.COURIER, 11f, Font.BOLD);
@@ -38,6 +38,9 @@ public class PDFBuilder {
 
     public static void main(String[] args) throws IOException, DocumentException {
         String[][] data;
+
+        String cwd = System.getProperty("user.dir");
+        String path = cwd + "/src/input/input.csv";
     	Scanner input = new Scanner(System.in);
         File file = new File(DEST);
         file.getParentFile().mkdirs();
@@ -52,8 +55,6 @@ public class PDFBuilder {
 //
 //
         if (opt == 1) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/DataSciSample2.csv";
     		
             String[] usrData = CSVParser.getUserData(path);
 
@@ -66,10 +67,8 @@ public class PDFBuilder {
             grades = data[4];
 
         	pdf = new DataSciPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Data Science", 1, 4, 5, 10, 11, 20, 21, 27);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Data Science", 1, 4, 5, 10, 11, 20, 21, 27);
          } else if (opt == 2) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/IntelSysSample2.csv";
     		
     		data = CSVParser.getArray(path);
             String[] usrData = CSVParser.getUserData(path);
@@ -80,10 +79,8 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new IntelSysPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Intelligent Systems", 1, 4, 5, 7, 8, 16, 18, 23);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Intelligent Systems", 1, 4, 5, 7, 8, 16, 18, 23);
         } else if (opt == 3) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/SysTrackSample2.csv";
     		
     		data = CSVParser.getArray(path);
             String[] usrData = CSVParser.getUserData(path);
@@ -94,10 +91,8 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new SysTrackPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Systems Track", 1,4, 5, 10, 11, 20, 21, 27);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Systems Track", 1,4, 5, 10, 11, 20, 21, 27);
         } else if (opt == 4) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/SoftEngSample2.csv";
     		
     		data = CSVParser.getArray(path);
             String[] usrData = CSVParser.getUserData(path);
@@ -108,10 +103,8 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new SoftEngPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 1, "Software Engineering", 1, 5, 0, 0, 6, 14, 16, 24);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 1, "Software Engineering", 1, 5, 0, 0, 6, 14, 16, 24);
         } else if (opt == 5) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/CyberSecSample2.csv";
     		
     		data = CSVParser.getArray(path);
             String[] usrData = CSVParser.getUserData(path);
@@ -122,10 +115,8 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new CyberSecPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Cyber Security", 1, 3, 5, 9, 10, 16, 19, 25);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Cyber Security", 1, 3, 5, 9, 10, 16, 19, 25);
         } else if (opt == 6) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/NetTeleSample2.csv";
     		
     		data = CSVParser.getArray(path);
             String[] usrData = CSVParser.getUserData(path);
@@ -136,10 +127,8 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new NetTelePDF(titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Networking/Telecomms", 1, 5, 0, 0, 6, 14, 16, 24);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Networking/Telecomms", 1, 5, 0, 0, 6, 14, 16, 24);
         } else if (opt == 7) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/TradCsSample2.csv";
     		
     		data = CSVParser.getArray(path);
             String[] usrData = CSVParser.getUserData(path);
@@ -152,8 +141,6 @@ public class PDFBuilder {
             pdf = new TradCSPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
             AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Traditional CS", 1, 3, 4, 7, 8, 15, 16, 23);
         } else if (opt == 8) {
-            String cwd = System.getProperty("user.dir");
-    		String path = cwd + "/Java Files/src/InterCompSample2.csv";
     		
     		data = CSVParser.getArray(path);
             String[] usrData = CSVParser.getUserData(path);
@@ -164,7 +151,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
             pdf = new InterCompPDF(titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Interactive Computing", 1, 2, 3, 8, 9, 16, 19, 24);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Interactive Computing", 1, 2, 3, 8, 9, 16, 19, 24);
         }
         
         pdf.createPdf(DEST);
