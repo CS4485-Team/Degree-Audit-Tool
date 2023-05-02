@@ -15,12 +15,13 @@ public class DataSciPDF extends DefaultPDF {
 	public static final int ROWS = 28;
 	Font[] titleSizes;
 	Font[] otherSizes;
-	String[] titles, courseNums, semesters, tsfOrWaivers, grades;
+	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
 	
 	
 	
 	/** Monster (bad) constructor for presetting certain array values to degree plan defaults. Note: Default values will not be replaced unless this method is edited directly.
 	 * 
+     * @param usrData
 	 * @param titles
 	 * @param courseNums
 	 * @param semesters
@@ -28,7 +29,7 @@ public class DataSciPDF extends DefaultPDF {
 	 * @param grades
 	 * @throws IndexOutOfBoundsException
 	 */
-	public DataSciPDF(String[] titles, String[] courseNums,
+	public DataSciPDF(String[] usrData, String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		
 		
@@ -79,18 +80,7 @@ public class DataSciPDF extends DefaultPDF {
         // Top of document. Did not PDFBuilder.make a function in order to customize with precision. Will do so later when expandability needs to be implemented
         PdfPTable introTable = new PdfPTable(1);     
         introTable.setWidthPercentage(PDFBuilder.WIDTH_PERCENTAGE);
-        PdfPCell cell = new PdfPCell(new Phrase(10f,   "                          DEGREE PLAN               ____________"
-                                                   + "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________"
-                                                   + "\n                  MASTERS OF COMPUTER SCIENCE       ____________"
-                                                   + "\n                                                    ____________"
-                                                   + "\n                          DATA SCIENCE                         "
-                                                   + "\n                                                               "
-                                                   + "\nName:                                      FT:                 "
-                                                   + "\nID:                                    Thesis:                 "
-                                                   + "\nApplied In:                                                    "
-                                                   + "\n                         Anticipated Graduation:               "
-                                                   + "\n                                                               "
-                                                   , PDFBuilder.FONT_TWELVE)); 
+        PdfPCell cell = new PdfPCell(new Phrase(10f, getHeaderString(usrData), PDFBuilder.FONT_TWELVE)); 
         introTable.addCell(cell);
         document.add(introTable);
  
@@ -188,5 +178,21 @@ public class DataSciPDF extends DefaultPDF {
         document.add(sigTable);
 
         document.close();
+    }
+
+    private String getHeaderString(String[] usrData) {
+        String line1 =   "                          DEGREE PLAN               ____________";
+        String line2 = "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________";
+        String line3 = "\n                  MASTERS OF COMPUTER SCIENCE       ____________";
+        String line4 = "\n                                                    ____________";
+        String line5 = "\n                          DATA SCIENCE                         ";
+        String line6 = "\n                                                               ";
+        String line7 = String.format(" \nName: %-36s FT: %-15s ", usrData[0], usrData[3].charAt(0));
+        String line8 = String.format("\nID: %-34s Thesis: %-15s ", usrData[1], usrData[3].charAt(1));
+        String line9 = String.format("\nApplied In: %s", usrData[2]);
+        String line10 = String.format("\n                         Anticipated Graduation: %-13s ", usrData[4]);
+        String line11 = "\n                                                               ";
+
+        return line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + line9 + line10 + line11;
     }
 }

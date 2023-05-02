@@ -15,7 +15,7 @@ public class InterCompPDF extends DefaultPDF {
 	public static final int ROWS = 25;
 	Font[] titleSizes;
 	Font[] otherSizes;
-	String[] titles, courseNums, semesters, tsfOrWaivers, grades;
+	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
 	
 	
 	
@@ -28,7 +28,7 @@ public class InterCompPDF extends DefaultPDF {
 	 * @param grades
 	 * @throws IndexOutOfBoundsException
 	 */
-	public InterCompPDF(String[] titles, String[] courseNums,
+	public InterCompPDF(String[] usrData, String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
 			throw new IndexOutOfBoundsException("Illegal Array Length for InterCompPDF (Must be 26)");
@@ -37,6 +37,7 @@ public class InterCompPDF extends DefaultPDF {
 		
 		this.titleSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_SEVENPTFIVE, ROWS);
 		this.otherSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_NINE, ROWS);
+        this.usrData = usrData;
 		this.titles = titles;
 		this.courseNums = courseNums;
 		this.semesters = semesters;
@@ -45,7 +46,7 @@ public class InterCompPDF extends DefaultPDF {
 		
 		this.titles[0] = "Human Computer Interaction";					this.courseNums[0] = "CS6326";
 		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "CS6363";
-		this.titles[3] = "Computer ANimation and Gaming";				this.courseNums[3] = "CS6323";
+		this.titles[3] = "Computer Animation and Gaming";				this.courseNums[3] = "CS6323";
 		this.titles[4] = "Modeling and Simulation";						this.courseNums[4] = "CS6328";
 		this.titles[5] = "Multimedia Systems";							this.courseNums[5] = "CS6331";
 		this.titles[6] = "Virtual Reality";								this.courseNums[6] = "CS6334";
@@ -75,18 +76,7 @@ public class InterCompPDF extends DefaultPDF {
         // Top of document. Did not PDFBuilder.make a function in order to customize with precision. Will do so later when expandability needs to be implemented
         PdfPTable introTable = new PdfPTable(1);     
         introTable.setWidthPercentage(PDFBuilder.WIDTH_PERCENTAGE);
-        PdfPCell cell = new PdfPCell(new Phrase(10f,   "                          DEGREE PLAN               ____________"
-                                                   + "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________"
-                                                   + "\n                  MASTERS OF COMPUTER SCIENCE       ____________"
-                                                   + "\n                                                    ____________"
-                                                   + "\n                     INTERACTIVE COMPUTING                     "
-                                                   + "\n                                                               "
-                                                   + "\nName:                                      FT:                 "
-                                                   + "\nID:                                    Thesis:                 "
-                                                   + "\nApplied In:                                                    "
-                                                   + "\n                         Anticipated Graduation:               "
-                                                   + "\n                                                               "
-                                                   , PDFBuilder.FONT_TWELVE)); 
+        PdfPCell cell = new PdfPCell(new Phrase(10f, getHeaderString(usrData), PDFBuilder.FONT_TWELVE)); 
         introTable.addCell(cell);
         document.add(introTable);
  
@@ -180,5 +170,21 @@ public class InterCompPDF extends DefaultPDF {
         document.add(sigTable);
 
         document.close();
+    }
+
+    private String getHeaderString(String[] usrData) {
+        String line1 =   "                          DEGREE PLAN               ____________";
+        String line2 = "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________";
+        String line3 = "\n                  MASTERS OF COMPUTER SCIENCE       ____________";
+        String line4 = "\n                                                    ____________";
+        String line5 = "\n                     INTERACTIVE COMPUTING                     ";
+        String line6 = "\n                                                               ";
+        String line7 = String.format(" \nName: %-36s FT: %-15s ", usrData[0], usrData[3].charAt(0));
+        String line8 = String.format("\nID: %-34s Thesis: %-15s ", usrData[1], usrData[3].charAt(1));
+        String line9 = String.format("\nApplied In: %s", usrData[2]);
+        String line10 = String.format("\n                         Anticipated Graduation: %-13s ", usrData[4]);
+        String line11 = "\n                                                               ";
+
+        return line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + line9 + line10 + line11;
     }
 }
