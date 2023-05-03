@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import auditReportConfigs from 'auditreportConfig.json';
 
 declare var electron: any;
@@ -15,18 +15,36 @@ export class DegreePlanPageComponent {
     majors: string[] = auditReportConfigs.majors;
     electives: any[] = auditReportConfigs.electives;
     selectedElectives: any[] = [];
+    selectedAddElectives: any[] = [];
     selectedDegreePlan: string = 'Cyber Security';
     selectedMajor: string = 'Computer Science';
     studentName: string = '';
     studentId: string = '';
     admitSem: string = '';
     gradSem: string = '';
+    importedClassData: any = [];
     degreePlanData: any[] = []; // same data as in degree plan component
 
-    constructor(private router: Router) {}
+    constructor(private router: Router) {
+        const state: any = router.getCurrentNavigation()?.extras.state
+        // console.log(state['preload']);
+
+        const csvData: any = this.CSVToArray(state['preload'], ',');
+
+        try {
+            this.studentName = csvData[csvData.length - 2][0];
+            this.studentId = csvData[csvData.length - 2][1];
+            this.admitSem = csvData[csvData.length - 2][2];
+            this.importedClassData = csvData;
+            this.selectedMajor = csvData[csvData.length - 2][3];
+        }
+        catch {
+            console.log("Error in loading preload data into document.");
+        }
+    }
 
     testIPC() {
-        console.log(electron.ipcRenderer.send('test'));
+        electron.ipcRenderer.send('test');
     }
     
     onSelectedDegreePlan(value: string) {
@@ -37,15 +55,38 @@ export class DegreePlanPageComponent {
         this.selectedMajor = value;
     }
 
-    onSelectedElective(value: string) {
-        this.selectedElectives.push(value);
-        console.log(this.selectedElectives);
+    onSelectedElective(value: any) {
+        for (let i = 0; i < this.electives.length; ++i) {
+            if (this.electives[i].number == value) {
+                this.selectedElectives.push(this.electives[i]);
+                this.electives.splice(i, 1);
+            }
+        }
     }
 
-    removeElective(value: string) {
+    removeElective(value: any) {
         for (let i = 0; i < this.selectedElectives.length; ++i) {
-            if (this.selectedElectives[i].name == value) {
+            if (this.selectedElectives[i].number == value.number) {
+                this.electives.push(this.selectedElectives[i]);
                 this.selectedElectives.splice(i, 1);
+            }
+        }
+    }
+
+    onSelectedAddElective(value: any) {
+        for (let i = 0; i < this.electives.length; ++i) {
+            if (this.electives[i].number == value) {
+                this.selectedAddElectives.push(this.electives[i]);
+                this.electives.splice(i, 1);
+            }
+        }
+    }
+
+    removeAddElective(value: any) {
+        for (let i = 0; i < this.selectedAddElectives.length; ++i) {
+            if (this.selectedAddElectives[i].number == value.number) {
+                this.electives.push(this.selectedAddElectives[i]);
+                this.selectedAddElectives.splice(i, 1);
             }
         }
     }
@@ -200,4 +241,50 @@ export class DegreePlanPageComponent {
         input.click();
         electron.ipcRenderer.send("transcriptUpload", ("hello"));
     }
+
+
+    CSVToArray(strData: string, strDelimiter: string){
+		// Check to see if the delimiter is defined. If not,
+		// then default to comma.
+		strDelimiter = (strDelimiter || ",");
+
+		// Create a regular expression to parse the CSV values.
+		var objPattern = new RegExp(
+			(
+				// Delimiters.
+				"(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+
+				// Quoted fields.
+				"(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+
+				// Standard fields.
+				"([^\"\\" + strDelimiter + "\\r\\n]*))"
+			),
+			"gi"
+			);
+
+		var arrData: any = [[]];
+		var arrMatches = null;
+
+		while (arrMatches = objPattern.exec( strData )){
+			var strMatchedDelimiter = arrMatches[ 1 ];
+			if (
+				strMatchedDelimiter.length &&
+				(strMatchedDelimiter != strDelimiter)
+				){
+				arrData.push( [] );
+
+			}
+			if (arrMatches[ 2 ]){
+				var strMatchedValue: any = arrMatches[ 2 ].replace(
+					new RegExp( "\"\"", "g" ),
+					"\""
+					);
+			} else {
+				var strMatchedValue: any = arrMatches[ 3 ];
+			}
+			arrData[arrData.length - 1].push(strMatchedValue);
+		}
+		return(arrData);
+	}
 }

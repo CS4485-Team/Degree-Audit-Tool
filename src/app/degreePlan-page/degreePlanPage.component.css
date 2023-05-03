@@ -69,3 +69,32 @@
 .elective_selector p:hover {
     background-color: red;
 }
+
+.additionalElective_selector {
+    overflow-y: auto;
+    border: 1px solid black;
+    width: 100%;
+    min-height: 10em;
+}
+
+.additionalElective_selector  * {
+    width: 100%;
+}
+
+.additionalElective_selector p::before {
+    display: inline-block;
+    content: "";
+    background: url('../../assets/delete-x.png') no-repeat 0 0;
+    background-size: 10px 10px;
+    height: 1em;
+    width: 1em;
+    opacity: 0%;
+}
+
+.additionalElective_selector p:hover::before {
+    opacity: 100%;
+}
+
+.additionalElective_selector p:hover {
+    background-color: red;
+}

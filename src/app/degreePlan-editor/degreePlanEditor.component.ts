@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { toWords } from 'number-to-words';
 import auditReportConfigs from 'auditreportConfig.json';
 import Handsontable from 'handsontable';
 
@@ -14,12 +15,13 @@ import Handsontable from 'handsontable';
         instruct the custom renderer how to style the row (i.e., highlight, bold-text, etc.),
         while the data is the actual data loaded into that row.
 */
-const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, studentId: string, admitSem: string, gradSem: string, electives: any[]) : any[] => {
+const loadPrepopulationData = (selectedDegreePlan: string, selectedMajor: string, studentName: string, studentId: string, 
+    admitSem: string, gradSem: string, electives: any[], addElectives: any[], importedClassData: any[]) : any[] => {
     let data: any[] = [];
 
     data.push({'type': 'mainHeader', 'data': ['DEGREE PLAN', '', '', '', '']});
     data.push({'type': 'mainHeader', 'data': ['UNIVERSITY OF TEXAS AT DALLAS', '', '', '', '']});
-    data.push({'type': 'mainHeader', 'data': ['MASTER OF COMPUTER SCIENCE', '', '', '', '']});
+    data.push({'type': 'mainHeader', 'data': [`MASTER OF ${selectedMajor.toUpperCase()}`, '', '', '', '']});
     data.push({'type': 'mainHeader', 'data': ['', '', '', '', '']});
     data.push({'type': 'mainHeader', 'data': [selectedDegreePlan, '', '', '', '']});
     data.push({'type': 'binaryInput', 'data': ['FT:', '', '', '', '']});
@@ -40,7 +42,7 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
         if (i < courses.length)
             data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, '', '', '']});
         else
-            data.push({'type': 'input', 'data': ['','','','','']})
+            data.push({'type': 'input', 'data': ['','','','','']});
     }
 
     // push all additional core course work for this degree plan
@@ -51,23 +53,28 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
         if (i < additionalCourses.length)
             data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, '', '', '']});
         else
-            data.push({'type': 'input', 'data': ['','','','','']})
+            data.push({'type': 'input', 'data': ['','','','','']});
     }
 
-    data.push({'type': 'header', 'data': ['FIVE APPROVED 6000 LEVEL ELECTIVES     (15 * Credit Hours)     3.0 Grade Point Average']});
-    for (let i = 0; i < electives.length; ++i) {
-        data.push({'type': 'input', 'data': [electives[i].name, electives[i].number, '', '', '']})
-    }
-
-    if (configs.get("outputCourseInfo")[selectedDegreePlan]["numElectiveCourses"] - electives.length > 0) {
-        for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numElectiveCourses"] - electives.length; ++i) {
+    let electivesCount: number = configs.get("outputCourseInfo")[selectedDegreePlan]["numElectiveCourses"];
+    data.push({'type': 'header', 'data': [`${toWords(electivesCount).toUpperCase()} APPROVED 6000 LEVEL ELECTIVES     (15 * Credit Hours)     3.0 Grade Point Average`]});
+    for (let i = 0; i < electivesCount; ++i) {
+        if (i < electives.length) {
+            data.push({'type': 'input', 'data': [electives[i].name, electives[i].number, '', '', '']});
+        }
+        else {
             data.push({'type': 'input', 'data': ['', '', '', '', '']});
         }
     }
 
     data.push({'type': 'header', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
     for (let i = 0; i < configs.get("outputCourseInfo")[selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
-        data.push({'type': 'input', 'data': ['', '', '', '', '']});
+        if (i < addElectives.length) {
+            data.push({'type': 'input', 'data': [addElectives[i].name, addElectives[i].number, '', '', '']});
+        }
+        else {
+            data.push({'type': 'input', 'data': ['', '', '', '', '']});
+        }
     }
 
     // push other requirements
@@ -85,6 +92,18 @@ const loadPrepopulationData = (selectedDegreePlan: string, studentName: string, 
             data.push({'type': 'input', 'data': [prereqCourses[i].name, prereqCourses[i].number,'','','']});
         else
             data.push({'type': 'input', 'data': ['', '', '', '', '']});
+    }
+
+    // iterate over all data again and check to see if any of the data also exists in the imported class data
+    for (let i = 0; i < data.length; ++i) {
+        for (let j = 0; j < importedClassData.length; ++j) {
+            if (data[i]['data'][1] == importedClassData[j][2]) {
+                // found a class that was imported
+                data[i]['data'][2] = importedClassData[j][11];
+                data[i]['data'][4] = importedClassData[j][9];
+                data[i]['data'][3] = importedClassData[j][7];
+            }
+        }
     }
 
     return data;
@@ -122,11 +141,14 @@ export class DegreePlanEditorComponent {
     // input taken from the auditPage. Must preset to some value, otherwise the table will not be able
     // to render first time
     @Input() selectedDegreePlan: string = '';
+    @Input() selectedMajor: string = '';
     @Input() studentName: string = '';
     @Input() studentId: string = '';
     @Input() admitSem: string = '';
     @Input() gradSem: string = '';
     @Input() electives: any[] = [];
+    @Input() addElectives: any[] = [];
+    @Input() importedClassData: any[] = [];
 
     preloadDataWithSettings: any[];
     preloadData: any[];
@@ -138,8 +160,9 @@ export class DegreePlanEditorComponent {
     mergeCells: any[] = [];
 
     ngOnInit() {
-        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, 
-            this.admitSem, this.gradSem, this.electives);
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.selectedMajor, 
+            this.studentName, this.studentId, this.admitSem, this.gradSem, this.electives, this.addElectives,
+            this.importedClassData);
         this.preloadData = seperateDataFromSettings(this.preloadDataWithSettings);
 
         // these settings are what actually allow the table to generate. Do not adjust these directly. Instead,
@@ -147,13 +170,14 @@ export class DegreePlanEditorComponent {
         this.settings = {
             width: '100%',
             height: 'auto',
-            stretchH: 'all',
+            stretchH: 'all'
         };
     }
 
     ngOnChanges() {
-        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.studentName, this.studentId, 
-            this.admitSem, this.gradSem, this.electives);
+        this.preloadDataWithSettings = loadPrepopulationData(this.selectedDegreePlan, this.selectedMajor,
+            this.studentName, this.studentId, this.admitSem, this.gradSem, this.electives, this.addElectives,
+            this.importedClassData);
         this.generateCells(this.preloadDataWithSettings);
         this.generateMergeCells(this.preloadDataWithSettings);
         this.generateBorders(this.preloadDataWithSettings);

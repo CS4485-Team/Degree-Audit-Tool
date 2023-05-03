@@ -1,6 +1,5 @@
 .container {
     width: 100%;
-    height: 100vh;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -11,4 +10,9 @@
 button {
     width: 10em;
     height: 4em;
+}
+
+.transcriptUpload {
+    display: flex;
+    flex-direction: column;
 }

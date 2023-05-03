@@ -7,16 +7,20 @@
                 <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
             </select>
         </div>
+        <div>
+            <label>Major </label>
+            <input type="text" placeholder="selectedMajor" [(ngModel)]="selectedMajor"/>
+        </div>
 
         <h3>Student Info</h3>
         <div>
             <label>Student Name </label>
-            <input type="text" [(ngModel)]="studentName"/>
+            <input type="text" placeholder="studentName" [(ngModel)]="studentName"/>
         </div>
 
         <div>
             <label>Student ID Number </label>
-            <input type="text" [(ngModel)]="studentId"/>
+            <input type="text" placeholder="studentId" [(ngModel)]="studentId"/>
         </div>
 
         <div>
@@ -47,20 +51,32 @@
             </div>
         </div>
 
-        <h3>Electives</h3>
+        <h3>Five Approved Electives</h3>
         <div class="elective_selector">
             <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
-                <option *ngFor="let elective of electives" value={{elective.name}}>{{elective.name}} {{elective.number}}</option>
+                <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
             </select>
-            <p *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective.name)">{{selectedElective.name}}</p>
+            <p *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
+        </div>
+
+        <h3>Three Additional Electives</h3>
+        <div class="additionalElective_selector">
+            <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
+                <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
+            </select>
+            <p *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
         </div>
 
         <button id="btn1" (click)="confirmBack()">Back</button>
         <button id="btn2" (click)="confirmSave()">Submit</button>
         <button (click)="testIPC()">Test IPC</button>
-        <button (click)="uploadTranscriptFile()">Upload Transcript</button>
     </div>
 
-    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"
-        [electives]="selectedElectives" [admitSem]="admitSem" [gradSem]="gradSem"></degreePlan-editor>
+    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" 
+        [selectedDegreePlan]="selectedDegreePlan" [selectedMajor]="selectedMajor"
+        [studentName]="studentName" [studentId]="studentId" [electives]="selectedElectives" 
+        [addElectives]="selectedAddElectives" [admitSem]="admitSem" [gradSem]="gradSem" 
+        [importedClassData]="importedClassData">
+    </degreePlan-editor>
+
 </div>
