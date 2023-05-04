@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+declare const electron: any;
+
 @Component({
   selector: 'startSelect',
   templateUrl: './startSelect.component.html',
@@ -41,12 +43,14 @@ export class StartSelectComponent {
         })(f);
 
         // Read in the image file as a data URL.
-        reader.readAsText(f);
+        // reader.readAsText(f);
+        reader.readAsDataURL(f);
       })
       
       promise.then(
         function(value) {
-          r.navigateByUrl('/degreePlan', {state: {preload: value}})
+          // r.navigateByUrl('/degreePlan', {state: {preload: value}})
+          electron.ipcRenderer.send("parseTranscript", value);
         }
       )
     }

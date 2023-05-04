@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import auditReportConfigs from 'auditReportConfig.json';
 
-declare var electron: any;
+declare const electron: any;
 
 @Component({
     selector: 'degreePlan-page',

@@ -89,3 +89,15 @@ ipcMain.on('saveCSVFile', (event, csvData) => {
 
   jetpack.write('./src/input/input.csv', outputData);
 });
+
+ipcMain.on('parseTranscript', (event, transcript) => {
+  const process = spawn("java", ['-jar', '', transcript]);
+
+  // process.stdout.on('data', (data) => {
+  //   console.log(`stdout: ${data}`);
+  // });
+
+  // process.stderr.on('data', (err) => {
+  //   console.log(`stderr: ${err}`);
+  // });
+});
