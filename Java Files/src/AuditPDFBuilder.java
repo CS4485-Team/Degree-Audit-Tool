@@ -62,7 +62,7 @@ public class AuditPDFBuilder {
 			if (!classes[1][elecEndIndex].trim().equals(""))
 	        	line8 += classes[1][elecEndIndex];
 
-			line8 = line8.substring(0, line8.length() - 2);
+			line8 = line8.substring(0, line8.length());
 
 			line8 += "\n";
 			
