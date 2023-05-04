@@ -1,4 +1,6 @@
 import javafx.util.Pair;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -199,8 +201,9 @@ public class StudentParser {
 
     public void printStudentInformation()
             throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-
-        FileWriter writer = new FileWriter("C://Users/David/Desktop/Test.csv/");
+        String dirName = System.getProperty("user.dir");
+        File file = new File(dirName, "Test.csv");
+        FileWriter writer = new FileWriter(file);
         StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
         beanToCsv.write(courseList);
         beanToCsv.write(transcriptList);

@@ -3,15 +3,13 @@ import java.io.FileWriter;
 
 public class Main {
     public static void main(String args[]) throws Exception {
-        String inputFilePath = "C://Users/David/Desktop/Tartt, Jaime -SSR_TSRPT.pdf/";
+        String inputFilePath = args[0];
         File inputFile = new File(inputFilePath);
         transcriptParser transcript = new transcriptParser(inputFile);
         StudentParser curr = transcript.getStudent();
 
         curr.getThesisCourses();
 
-        Plan track = new Plan("Interactive Computing");
-        curr.setCurrentTrack(track);
         curr.printStudentInformation();
 
     }
