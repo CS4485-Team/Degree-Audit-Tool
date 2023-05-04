@@ -7,6 +7,10 @@
                 <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
             </select>
         </div>
+        <div id="major-box">
+            <label>Major </label>
+            <input type="text" placeholder="selectedMajor" [(ngModel)]="selectedMajor"/>
+        </div>
 
         <div id="name-box">
             <label>Student Name </label>
@@ -77,11 +81,35 @@
                 </li>
             </ul>
         </div>
-
-    <button id="btn1" (click)="confirmBack()">Back</button>
-    <button id="btn2" (click)="confirmSave()">Submit</button>
+<div id="fiveElectives">
+        <h3>Five Approved Electives</h3>
+        <div class="elective_selector">
+            <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
+                <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
+            </select>
+            <p *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
+        </div>
+</div>
+<div id="threeElectives">
+        <h3>Three Additional Electives</h3>
+        <div class="additionalElective_selector">
+            <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
+                <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
+            </select>
+            <p *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
+        </div>
 </div>
 
-<degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor"
-    [selectedDegreePlan]="selectedDegreePlan" [studentName]="studentName" [studentId]="studentId"></degreePlan-editor>
+        <button id="btn1" (click)="confirmBack()">Back</button>
+        <button id="btn2" (click)="confirmSaveStudentObject()">Save Student Object</button>
+        <button id="btn3" (click)="confirmSavePDF()">Submit</button>
+    </div>
+
+    <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" 
+        [selectedDegreePlan]="selectedDegreePlan" [selectedMajor]="selectedMajor"
+        [studentName]="studentName" [studentId]="studentId" [electives]="selectedElectives" 
+        [addElectives]="selectedAddElectives" [admitSem]="admitSem" [gradSem]="gradSem" 
+        [importedClassData]="importedClassData">
+    </degreePlan-editor>
+
 </div>

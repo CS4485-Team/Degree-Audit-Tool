@@ -1,16 +1,21 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pdf-view',
-  template: `
-  <pdf-viewer [src]="pdfSrc"
-              [render-text]="true"
-              [original-size]="false"
-              style="width: 100%; height: 100vh"
-  ></pdf-viewer>
-  `
+  templateUrl: './pdfViewer.component.html'
 })
 
 export class PDFViewerComponent {
   pdfSrc = "./test.pdf";
+
+  constructor(private router: Router) {}
+
+  continue() {
+    
+  }
+
+  back() {
+    this.router.navigate(['/degreePlan']);
+  }
 }

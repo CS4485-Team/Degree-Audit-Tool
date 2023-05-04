@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import auditReportConfigs from 'auditreportConfig.json';
 
+declare var electron: any;
 
 @Component({
     selector: 'degreePlan-page',
@@ -12,13 +13,35 @@ import auditReportConfigs from 'auditreportConfig.json';
 export class DegreePlanPageComponent {
     degreePlans: string[] = auditReportConfigs.degreePlans;
     majors: string[] = auditReportConfigs.majors;
+    electives: any[] = auditReportConfigs.electives;
+    selectedElectives: any[] = [];
+    selectedAddElectives: any[] = [];
     selectedDegreePlan: string = 'Cyber Security';
     selectedMajor: string = 'Computer Science';
     studentName: string = '';
     studentId: string = '';
+    admitSem: string = '';
+    gradSem: string = '';
+    importedClassData: any = [];
     degreePlanData: any[] = []; // same data as in degree plan component
 
-    constructor(private router: Router) {}
+    constructor(private router: Router) {
+        const state: any = router.getCurrentNavigation()?.extras.state
+        
+        if (state['preload'].length != 0) {
+            const csvData: any = this.CSVToArray(state['preload'], ',');
+            try {
+                this.studentName = csvData[csvData.length - 2][0];
+                this.studentId = csvData[csvData.length - 2][1];
+                this.admitSem = csvData[csvData.length - 2][2];
+                this.importedClassData = csvData;
+                this.selectedMajor = csvData[csvData.length - 2][3];
+            }
+            catch {
+                console.log("Error in loading preload data into document.");
+            }
+        }
+    }
     
     onSelectedDegreePlan(value: string) {
         this.selectedDegreePlan = value;
@@ -26,6 +49,42 @@ export class DegreePlanPageComponent {
 
     onSelectedMajor(value: string) {
         this.selectedMajor = value;
+    }
+
+    onSelectedElective(value: any) {
+        for (let i = 0; i < this.electives.length; ++i) {
+            if (this.electives[i].number == value) {
+                this.selectedElectives.push(this.electives[i]);
+                this.electives.splice(i, 1);
+            }
+        }
+    }
+
+    removeElective(value: any) {
+        for (let i = 0; i < this.selectedElectives.length; ++i) {
+            if (this.selectedElectives[i].number == value.number) {
+                this.electives.push(this.selectedElectives[i]);
+                this.selectedElectives.splice(i, 1);
+            }
+        }
+    }
+
+    onSelectedAddElective(value: any) {
+        for (let i = 0; i < this.electives.length; ++i) {
+            if (this.electives[i].number == value) {
+                this.selectedAddElectives.push(this.electives[i]);
+                this.electives.splice(i, 1);
+            }
+        }
+    }
+
+    removeAddElective(value: any) {
+        for (let i = 0; i < this.selectedAddElectives.length; ++i) {
+            if (this.selectedAddElectives[i].number == value.number) {
+                this.electives.push(this.selectedAddElectives[i]);
+                this.selectedAddElectives.splice(i, 1);
+            }
+        }
     }
 
     setData(data: any[]) {
@@ -38,8 +97,8 @@ export class DegreePlanPageComponent {
 
         // reformat the data for csv output
         const headers: string[] = ['Course Title', 'Course Num', 'UTD Semester', 'Transfer/Waiver', 'Grade'];
-        const data: any[] = [];
-        console.log(this.degreePlanData);
+        let dataStart: number = 0;
+        let data: any[] = [];
 
         // push headers
         data.push(headers);
@@ -48,7 +107,8 @@ export class DegreePlanPageComponent {
         // push data
         let start: number = 12; // offset used to skip the header portion of the degree plan
                                   //  (student name, id, UTD title, etc.)
-        for (let i = start; i < start + auditReportConfigs.courseCount.numCoreCourses; ++i) {
+
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -56,12 +116,15 @@ export class DegreePlanPageComponent {
                 else
                     filteredData.push(this.degreePlanData[i][j]);
             }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
             data.push(filteredData);
             data.push('\n');
         }
 
-        start += auditReportConfigs.courseCount.numCoreCourses + 1;
-        for (let i = start; i < start + auditReportConfigs.courseCount.numAdditionalCoreCourses; ++i) {
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
@@ -69,25 +132,78 @@ export class DegreePlanPageComponent {
                 else
                     filteredData.push(this.degreePlanData[i][j]);
             }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
             data.push(filteredData);
             data.push('\n');
         }
 
-        start += auditReportConfigs.courseCount.numAdditionalCoreCourses + 1;
-        for (let i = start; i < start + auditReportConfigs.courseCount.numElectiveCourses; ++i) {
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numElectiveCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
                 if (this.degreePlanData[i][j] == '')
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
+            }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numElectiveCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numOtherRequirements"]; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
+            }
+            data.push(filteredData);
+            data.push('\n');
+        }
+
+        start += configs.get("outputCourseInfo")[this.selectedDegreePlan]["numOtherRequirements"] + 1;
+        for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
+            var filteredData: any[] = [];
+            for (let j = 0; j < this.degreePlanData[i].length; ++j) {
+                if (this.degreePlanData[i][j] == '')
+                    filteredData.push('blank');
+                else
+                    filteredData.push(this.degreePlanData[i][j]);
+            }
+            if (filteredData.length == 0) {
+                filteredData = ['blank', 'blank', 'blank', 'blank', 'blank'];
             }
             data.push(filteredData);
             data.push('\n');
         }
 
         console.log(data);
-
         return data;
     }
 
@@ -104,11 +220,69 @@ export class DegreePlanPageComponent {
 
     // check whether the user left any fields blank. If not, proceed to the next section of the
     //  application. Else, alert the user that some fields were not fully entered properly
-    confirmSave() {
-        var data: any[] = this.saveDegreePlan();
-        let blob: Blob = new Blob(data, {type: 'text/csv'});
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.click(); 
+    confirmSavePDF() {
+        if (confirm("Are you sure you would like to continue? (You will lose your progress on this report and will have to resubmit all information)")) {
+            var data: any[] = this.saveDegreePlan();
+            let blob: Blob = new Blob(data, {type: 'text/csv'});
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            electron.ipcRenderer.send('test');
+            this.router.navigate(['/viewPdf']);
+        }
     }
+
+    confirmSaveStudentObject() {
+        // var data: any[] = this.saveDegreePlan();
+        // let blob: Blob = new Blob(data, {type: 'text/csv'});
+        // var link = document.createElement('a');
+        // link.href = window.URL.createObjectURL(blob);
+        // link.click();
+        electron.ipcRenderer.send("test");
+    }
+
+
+    CSVToArray(strData: string, strDelimiter: string){
+		// Check to see if the delimiter is defined. If not,
+		// then default to comma.
+		strDelimiter = (strDelimiter || ",");
+
+		// Create a regular expression to parse the CSV values.
+		var objPattern = new RegExp(
+			(
+				// Delimiters.
+				"(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+
+				// Quoted fields.
+				"(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+
+				// Standard fields.
+				"([^\"\\" + strDelimiter + "\\r\\n]*))"
+			),
+			"gi"
+			);
+
+		var arrData: any = [[]];
+		var arrMatches = null;
+
+		while (arrMatches = objPattern.exec( strData )){
+			var strMatchedDelimiter = arrMatches[ 1 ];
+			if (
+				strMatchedDelimiter.length &&
+				(strMatchedDelimiter != strDelimiter)
+				){
+				arrData.push( [] );
+
+			}
+			if (arrMatches[ 2 ]){
+				var strMatchedValue: any = arrMatches[ 2 ].replace(
+					new RegExp( "\"\"", "g" ),
+					"\""
+					);
+			} else {
+				var strMatchedValue: any = arrMatches[ 3 ];
+			}
+			arrData[arrData.length - 1].push(strMatchedValue);
+		}
+		return(arrData);
+	}
 }
