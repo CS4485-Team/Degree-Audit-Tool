@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 })
 
 export class PDFViewerComponent {
-  pdfSrc = "./test.pdf";
+  pdfSrc = "./output/DegreePlan.pdf";
 
   constructor(private router: Router) {}
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { toWords } from 'number-to-words';
-import auditReportConfigs from 'auditreportConfig.json';
+import auditReportConfigs from 'auditReportConfig.json';
 import Handsontable from 'handsontable';
 
 /*

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import auditReportConfigs from 'auditreportConfig.json';
+import auditReportConfigs from 'auditReportConfig.json';
 
 declare var electron: any;
 
@@ -203,7 +203,6 @@ export class DegreePlanPageComponent {
             data.push('\n');
         }
 
-        console.log(data);
         return data;
     }
 
@@ -220,14 +219,42 @@ export class DegreePlanPageComponent {
 
     // check whether the user left any fields blank. If not, proceed to the next section of the
     //  application. Else, alert the user that some fields were not fully entered properly
-    confirmSavePDF() {
-        if (confirm("Are you sure you would like to continue? (You will lose your progress on this report and will have to resubmit all information)")) {
+    async confirmSavePDF() {
+        if (confirm("Submit and save this degree plan?")) {
             var data: any[] = this.saveDegreePlan();
-            let blob: Blob = new Blob(data, {type: 'text/csv'});
-            var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            electron.ipcRenderer.send('test');
-            this.router.navigate(['/viewPdf']);
+
+            electron.ipcRenderer.send("saveCSVFile", data);
+
+            let degreePlanType: number = 1;
+            switch(this.selectedDegreePlan) {
+                case "Data Science":
+                    degreePlanType = 1;
+                    break;
+                case "Intelligent Systems":
+                    degreePlanType = 2;
+                    break;
+                case "Systems":
+                    degreePlanType = 3;
+                    break;
+                case "Software Engineering":
+                    degreePlanType = 4;
+                    break;
+                case "Cyber Security":
+                    degreePlanType = 5;
+                    break;
+                case "Networks and Telecommunications":
+                    degreePlanType = 6;
+                    break;
+                case "Traditional Computer Science":
+                    degreePlanType = 7;
+                    break;
+                case "Interactive Computing":
+                    degreePlanType = 8;
+                    break;
+            }
+            
+            electron.ipcRenderer.send("generateDegreePlanPDF", degreePlanType);
+            // this.router.navigate(['/viewPdf']);
         }
     }
 
@@ -237,7 +264,6 @@ export class DegreePlanPageComponent {
         // var link = document.createElement('a');
         // link.href = window.URL.createObjectURL(blob);
         // link.click();
-        electron.ipcRenderer.send("test");
     }
 
 
@@ -262,7 +288,7 @@ export class DegreePlanPageComponent {
 			);
 
 		var arrData: any = [[]];
-		var arrMatches = null;
+		var arrMatches: any = null;
 
 		while (arrMatches = objPattern.exec( strData )){
 			var strMatchedDelimiter = arrMatches[ 1 ];
@@ -270,7 +296,7 @@ export class DegreePlanPageComponent {
 				strMatchedDelimiter.length &&
 				(strMatchedDelimiter != strDelimiter)
 				){
-				arrData.push( [] );
+				arrData.push([]);
 
 			}
 			if (arrMatches[ 2 ]){
