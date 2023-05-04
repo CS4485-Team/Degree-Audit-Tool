@@ -8,7 +8,7 @@ public class Plan {
         private String[] excludedElectives = new String[] {};
         private CourseScanner[] additional = new CourseScanner[] {};
         private CourseScanner[] electives = new CourseScanner[] {};
-
+        //Track types
         public enum concentration {
                 TRADITIONAL,
                 NETWORKS,
@@ -27,7 +27,7 @@ public class Plan {
         public void setDegreePlan(String degreePlan) {
                 setConcentration(degreePlan);
         }
-
+      
         private void setConcentration(String degreePlan) {
                 switch (degreePlan) {
                         case "Traditional":
@@ -64,7 +64,7 @@ public class Plan {
                                 break;
                 }
         }
-
+    //If the transcript is for traditionalComputerScience then match the course numbers obtained and saved the course name.
         private void traditionalComputerScience() {
                 numOptional = 2;
                 excludedElectives = new String[] {};
@@ -361,7 +361,7 @@ public class Plan {
                                                 CourseScanner.CourseType.PREREQ),
                 };
         }
-
+      //Checks if the class is a core class
         public boolean isCore(CourseScanner courseNumber) {
                 for (CourseScanner currentClass : requiredCore) {
                         if (courseNumber.equals(currentClass))
@@ -369,7 +369,7 @@ public class Plan {
                 }
                 return false;
         }
-
+  // Checks if the class is a optional core class
         public boolean isOpt(CourseScanner courseNumber) {
                 for (CourseScanner currentClass : optionalCore) {
                         if (courseNumber.equals(currentClass))
@@ -377,7 +377,7 @@ public class Plan {
                 }
                 return false;
         }
-
+//Checks if the class is a track preequisite
         public boolean isTrack(CourseScanner courseNumber) {
                 for (CourseScanner currentClass : trackPrerequisites) {
                         if (courseNumber.equals(currentClass))
@@ -385,7 +385,7 @@ public class Plan {
                 }
                 return false;
         }
-
+//Checks if the class is a admission prereq
         public boolean isPre(CourseScanner courseNumber) {
                 for (CourseScanner currentClass : admissionPrerequisites) {
                         if (courseNumber.equals(currentClass))
