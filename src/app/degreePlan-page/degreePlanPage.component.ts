@@ -27,24 +27,20 @@ export class DegreePlanPageComponent {
 
     constructor(private router: Router) {
         const state: any = router.getCurrentNavigation()?.extras.state
-        // console.log(state['preload']);
-
-        const csvData: any = this.CSVToArray(state['preload'], ',');
-
-        try {
-            this.studentName = csvData[csvData.length - 2][0];
-            this.studentId = csvData[csvData.length - 2][1];
-            this.admitSem = csvData[csvData.length - 2][2];
-            this.importedClassData = csvData;
-            this.selectedMajor = csvData[csvData.length - 2][3];
+        
+        if (state['preload'].length != 0) {
+            const csvData: any = this.CSVToArray(state['preload'], ',');
+            try {
+                this.studentName = csvData[csvData.length - 2][0];
+                this.studentId = csvData[csvData.length - 2][1];
+                this.admitSem = csvData[csvData.length - 2][2];
+                this.importedClassData = csvData;
+                this.selectedMajor = csvData[csvData.length - 2][3];
+            }
+            catch {
+                console.log("Error in loading preload data into document.");
+            }
         }
-        catch {
-            console.log("Error in loading preload data into document.");
-        }
-    }
-
-    testIPC() {
-        electron.ipcRenderer.send('test');
     }
     
     onSelectedDegreePlan(value: string) {
@@ -224,22 +220,24 @@ export class DegreePlanPageComponent {
 
     // check whether the user left any fields blank. If not, proceed to the next section of the
     //  application. Else, alert the user that some fields were not fully entered properly
-    confirmSave() {
-        var data: any[] = this.saveDegreePlan();
-        let blob: Blob = new Blob(data, {type: 'text/csv'});
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.click();
-        // if (confirm('Are you sure you would like to continue?')) {
-        //     this.router.navigate(['/viewPdf']);
-        // }
+    confirmSavePDF() {
+        if (confirm("Are you sure you would like to continue? (You will lose your progress on this report and will have to resubmit all information)")) {
+            var data: any[] = this.saveDegreePlan();
+            let blob: Blob = new Blob(data, {type: 'text/csv'});
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            electron.ipcRenderer.send('test');
+            this.router.navigate(['/viewPdf']);
+        }
     }
 
-    uploadTranscriptFile() {
-        var input = document.createElement('input');
-        input.type = 'file';
-        input.click();
-        electron.ipcRenderer.send("transcriptUpload", ("hello"));
+    confirmSaveStudentObject() {
+        // var data: any[] = this.saveDegreePlan();
+        // let blob: Blob = new Blob(data, {type: 'text/csv'});
+        // var link = document.createElement('a');
+        // link.href = window.URL.createObjectURL(blob);
+        // link.click();
+        electron.ipcRenderer.send("test");
     }
 
 

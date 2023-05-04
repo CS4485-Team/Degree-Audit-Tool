@@ -50,4 +50,8 @@ export class StartSelectComponent {
         }
       )
     }
+
+    continueScratch() {
+      this.router.navigateByUrl("/degreePlan", {state: {preload: []}})
+    }
   }

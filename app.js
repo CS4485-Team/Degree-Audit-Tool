@@ -42,9 +42,5 @@ ipcMain.on('close', () => {
 })
 
 ipcMain.on('test', () => {
-  
+  console.log("test working");
 })
-
-ipcMain.on('transcriptUpload', (data) => {
-  console.log(data);
-});
