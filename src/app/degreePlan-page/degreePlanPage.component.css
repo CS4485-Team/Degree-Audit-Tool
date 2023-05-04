@@ -593,6 +593,7 @@ margin-top: 150px;
 
 #elective_selector{
     position: relative;
+
     display: flex;
     width: 25em;
     height: 3em;
@@ -602,6 +603,18 @@ margin-top: 150px;
     border-radius: .25em;
     color: white;
 }
+
+#elective_selector::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #2b2e2e; 
+    cursor:pointer;
+    pointer-events:none;
+    transition:.25s all ease;
+ }
 
 #additionalElective_selector{
     position: relative;
@@ -614,3 +627,35 @@ margin-top: 150px;
     border-radius: .25em;
     color: white;
 }
+
+#elective_selector:hover::after {
+    color: #23b499;
+ }
+
+#additionalElective_selector::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #2b2e2e; 
+    cursor:pointer;
+    pointer-events:none;
+    transition:.25s all ease;
+ }
+
+ #additionalElective_selector:hover::after {
+    color: #23b499;
+ }
+
+ #approved {
+    color: white;
+    text-shadow: 0.6px 0.6px black;
+ }
+
+#additional {
+    color: white;
+    text-shadow: 0.6px 0.6px black;
+}
+
+
