@@ -15,7 +15,7 @@ public class NetTelePDF extends DefaultPDF {
 	public static final int ROWS = 26;
 	Font[] titleSizes;
 	Font[] otherSizes;
-	String[] titles, courseNums, semesters, tsfOrWaivers, grades;
+	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
 	
 	
 	
@@ -28,7 +28,7 @@ public class NetTelePDF extends DefaultPDF {
 	 * @param grades
 	 * @throws IndexOutOfBoundsException
 	 */
-	public NetTelePDF(String[] titles, String[] courseNums,
+	public NetTelePDF(String[] usrData,String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
 			throw new IndexOutOfBoundsException("Illegal Array Length for NetTelePDF (Must be 26)");
@@ -37,17 +37,18 @@ public class NetTelePDF extends DefaultPDF {
 		
 		this.titleSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_SEVENPTFIVE, ROWS);
 		this.otherSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_NINE, ROWS);
+        this.usrData = usrData;
 		this.titles = titles;
 		this.courseNums = courseNums;
 		this.semesters = semesters;
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Performance of Computer Systems & Networks"; 	this.courseNums[0] = "   CS6352";
-		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "   CS6363";
-		this.titles[2] = "Advanced Operating Systems";					this.courseNums[2] = "   CS6378";
-		this.titles[3] = "Algorithmic Aspects of Telecom Networks";		this.courseNums[3] = "   CS6385";
-		this.titles[4] = "Advanced Computer Networks";					this.courseNums[4] = "   CS6390";
+		this.titles[0] = "Performance of Computer Systems & Networks"; 	this.courseNums[0] = "CS6352";
+		this.titles[1] = "Design and Analysis of Computer Algorithms";  this.courseNums[1] = "CS6363";
+		this.titles[2] = "Advanced Operating Systems";					this.courseNums[2] = "CS6378";
+		this.titles[3] = "Algorithmic Aspects of Telecom Networks";		this.courseNums[3] = "CS6385";
+		this.titles[4] = "Advanced Computer Networks";					this.courseNums[4] = "CS6390";
 		this.titles[6] = "1. " + this.titles[6];
 		this.titles[7] = "2. " + this.titles[7];
 		this.titles[8] = "3. " + this.titles[8];
@@ -56,13 +57,13 @@ public class NetTelePDF extends DefaultPDF {
 		this.titles[11] = "6. " + this.titles[11];
 		this.titles[12] = "7. " + this.titles[12];
 		this.titles[13] = "8. " + this.titles[13];
-		this.titles[16] = "Computer Science I";							this.courseNums[16] = "   CS5303";
-		this.titles[17] = "Computer Science II";						this.courseNums[17] = "   CS5330";
-		this.titles[18] = "Discrete Structures";						this.courseNums[18] = "   CS5333";
-		this.titles[19] = "Algorithm Analysis & Data Structures";		this.courseNums[19] = "   CS5343";
-		this.titles[20] = "Operating Systems Concepts";					this.courseNums[20] = "   CS5348";
-		this.titles[21] = "Computer Networks";							this.courseNums[21] = "   CS5390";
-		this.titles[22] = "Probability and Statistics in CS";			this.courseNums[22] = "   CS3341";
+		this.titles[16] = "Computer Science I";							this.courseNums[16] = "CS5303";
+		this.titles[17] = "Computer Science II";						this.courseNums[17] = "CS5330";
+		this.titles[18] = "Discrete Structures";						this.courseNums[18] = "CS5333";
+		this.titles[19] = "Algorithm Analysis & Data Structures";		this.courseNums[19] = "CS5343";
+		this.titles[20] = "Operating Systems Concepts";					this.courseNums[20] = "CS5348";
+		this.titles[21] = "Computer Networks";							this.courseNums[21] = "CS5390";
+		this.titles[22] = "Probability and Statistics in CS";			this.courseNums[22] = "CS3341";
 		
 		
 		
@@ -77,18 +78,7 @@ public class NetTelePDF extends DefaultPDF {
         // Top of document. Did not PDFBuilder.make a function in order to customize with precision. Will do so later when expandability needs to be implemented
         PdfPTable introTable = new PdfPTable(1);     
         introTable.setWidthPercentage(PDFBuilder.WIDTH_PERCENTAGE);
-        PdfPCell cell = new PdfPCell(new Phrase(10f,   "                          DEGREE PLAN               ____________"
-                                                   + "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________"
-                                                   + "\n                  MASTERS OF COMPUTER SCIENCE       ____________"
-                                                   + "\n                                                    ____________"
-                                                   + "\n                NETWORKING AND TELECOMMUNICATION                "
-                                                   + "\n                                                               "
-                                                   + "\nName:                                      FT:                 "
-                                                   + "\nID:                                    Thesis:                 "
-                                                   + "\nApplied In:                                                    "
-                                                   + "\n                         Anticipated Graduation:               "
-                                                   + "\n                                                               "
-                                                   , PDFBuilder.FONT_TWELVE)); 
+        PdfPCell cell = new PdfPCell(new Phrase(10f, getHeaderString(usrData), PDFBuilder.FONT_TWELVE)); 
         introTable.addCell(cell);
         document.add(introTable);
  
@@ -173,5 +163,21 @@ public class NetTelePDF extends DefaultPDF {
         document.add(sigTable);
 
         document.close();
+    }
+
+    private String getHeaderString(String[] usrData) {
+        String line1 =   "                          DEGREE PLAN               ____________";
+        String line2 = "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________";
+        String line3 = "\n                  MASTERS OF COMPUTER SCIENCE       ____________";
+        String line4 = "\n                                                    ____________";
+        String line5 = "\n                NETWORKING AND TELECOMMUNICATION                ";
+        String line6 = "\n                                                               ";
+        String line7 = String.format(" \nName: %-36s FT: %-15s ", usrData[0], usrData[3].charAt(0));
+        String line8 = String.format("\nID: %-34s Thesis: %-15s ", usrData[1], usrData[3].charAt(1));
+        String line9 = String.format("\nApplied In: %s", usrData[2]);
+        String line10 = String.format("\n                         Anticipated Graduation: %-13s ", usrData[4]);
+        String line11 = "\n                                                               ";
+
+        return line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + line9 + line10 + line11;
     }
 }

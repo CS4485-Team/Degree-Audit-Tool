@@ -15,12 +15,13 @@ public class DataSciPDF extends DefaultPDF {
 	public static final int ROWS = 28;
 	Font[] titleSizes;
 	Font[] otherSizes;
-	String[] titles, courseNums, semesters, tsfOrWaivers, grades;
+	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
 	
 	
 	
 	/** Monster (bad) constructor for presetting certain array values to degree plan defaults. Note: Default values will not be replaced unless this method is edited directly.
 	 * 
+     * @param usrData
 	 * @param titles
 	 * @param courseNums
 	 * @param semesters
@@ -28,28 +29,29 @@ public class DataSciPDF extends DefaultPDF {
 	 * @param grades
 	 * @throws IndexOutOfBoundsException
 	 */
-	public DataSciPDF(String[] titles, String[] courseNums,
+	public DataSciPDF(String[] usrData, String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		
 		
 		
 		this.titleSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_SEVENPTFIVE, ROWS);
 		this.otherSizes = PDFBuilder.sizeFiller(PDFBuilder.FONT_NINE, ROWS);
+        this.usrData = usrData;
 		this.titles = titles;
 		this.courseNums = courseNums;
 		this.semesters = semesters;
 		this.tsfOrWaivers = tsfOrWaivers;
 		this.grades = grades;
 		
-		this.titles[0] = "Statistical Methods for Data Science"; 		this.courseNums[0] = "   CS6313";
-		this.titles[1] = "Big Data Management and Analytics";    		this.courseNums[1] = "   CS6350";
-		this.titles[2] = "Design and Analysis of Computer Algorithms";  this.courseNums[2] = "   CS6363";
-		this.titles[3] = "Machine Learning";							this.courseNums[3] = "   CS6375";
-		this.titles[5] = "Social Media Analytics";						this.courseNums[5] = "   CS6301";
-		this.titles[6] = "Natural Language Processing";					this.courseNums[6] = "   CS6320";
-		this.titles[7] = "Video Analytics";								this.courseNums[7] = "   CS6327";
-		this.titles[8] = "Statistics for Machine Learning";				this.courseNums[8] = "   CS6347";
-		this.titles[9] = "Database Design";								this.courseNums[9] = "   CS6360";
+		this.titles[0] = "Statistical Methods for Data Science"; 		this.courseNums[0] = "CS6313";
+		this.titles[1] = "Big Data Management and Analytics";    		this.courseNums[1] = "CS6350";
+		this.titles[2] = "Design and Analysis of Computer Algorithms";  this.courseNums[2] = "CS6363";
+		this.titles[3] = "Machine Learning";							this.courseNums[3] = "CS6375";
+		this.titles[5] = "Social Media Analytics";						this.courseNums[5] = "CS6301";
+		this.titles[6] = "Natural Language Processing";					this.courseNums[6] = "CS6320";
+		this.titles[7] = "Video Analytics";								this.courseNums[7] = "CS6327";
+		this.titles[8] = "Statistics for Machine Learning";				this.courseNums[8] = "CS6347";
+		this.titles[9] = "Database Design";								this.courseNums[9] = "CS6360";
 		this.titles[11] = "1. " + this.titles[11];
 		this.titles[12] = "2. " + this.titles[12];
 		this.titles[13] = "3. " + this.titles[13];
@@ -58,12 +60,12 @@ public class DataSciPDF extends DefaultPDF {
 		this.titles[16] = "6. " + this.titles[16];
 		this.titles[17] = "7. " + this.titles[17];
 		this.titles[18] = "8. " + this.titles[18];
-		this.titles[21] = "Computer Science I";							this.courseNums[21] = "   CS5303";
-		this.titles[22] = "Computer Science II";						this.courseNums[22] = "   CS5330";
-		this.titles[23] = "Discrete Structures";						this.courseNums[23] = "   CS5333";
-		this.titles[24] = "Algorithm Analysis & Data Structures";		this.courseNums[24] = "   CS5343";
-		this.titles[25] = "Operating Systems Concepts";					this.courseNums[25] = "   CS5348";
-		this.titles[26] = "Probability and Statistics in CS";			this.courseNums[26] = "   CS3341";
+		this.titles[21] = "Computer Science I";							this.courseNums[21] = "CS5303";
+		this.titles[22] = "Computer Science II";						this.courseNums[22] = "CS5330";
+		this.titles[23] = "Discrete Structures";						this.courseNums[23] = "CS5333";
+		this.titles[24] = "Algorithm Analysis & Data Structures";		this.courseNums[24] = "CS5343";
+		this.titles[25] = "Operating Systems Concepts";					this.courseNums[25] = "CS5348";
+		this.titles[26] = "Probability and Statistics in CS";			this.courseNums[26] = "CS3341";
 		
 		
 		
@@ -79,18 +81,7 @@ public class DataSciPDF extends DefaultPDF {
         // Top of document. Did not PDFBuilder.make a function in order to customize with precision. Will do so later when expandability needs to be implemented
         PdfPTable introTable = new PdfPTable(1);     
         introTable.setWidthPercentage(PDFBuilder.WIDTH_PERCENTAGE);
-        PdfPCell cell = new PdfPCell(new Phrase(10f,   "                          DEGREE PLAN               ____________"
-                                                   + "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________"
-                                                   + "\n                  MASTERS OF COMPUTER SCIENCE       ____________"
-                                                   + "\n                                                    ____________"
-                                                   + "\n                          DATA SCIENCE                         "
-                                                   + "\n                                                               "
-                                                   + "\nName:                                      FT:                 "
-                                                   + "\nID:                                    Thesis:                 "
-                                                   + "\nApplied In:                                                    "
-                                                   + "\n                         Anticipated Graduation:               "
-                                                   + "\n                                                               "
-                                                   , PDFBuilder.FONT_TWELVE)); 
+        PdfPCell cell = new PdfPCell(new Phrase(10f, getHeaderString(usrData), PDFBuilder.FONT_TWELVE)); 
         introTable.addCell(cell);
         document.add(introTable);
  
@@ -188,5 +179,22 @@ public class DataSciPDF extends DefaultPDF {
         document.add(sigTable);
 
         document.close();
+    }
+
+    private String getHeaderString(String[] usrData) {
+        String line1 =   "                          DEGREE PLAN               ____________";
+        String line2 = "\n                 UNIVERSITY OF TEXAS AT DALLAS      ____________";
+        String line3 = "\n                  MASTERS OF COMPUTER SCIENCE       ____________";
+        String line4 = "\n                                                    ____________";
+        String line5 = "\n                          DATA SCIENCE                         ";
+        String line6 = "\n                                                               ";
+        System.out.println("DEBUG HERE { "+ usrData[0] +"}");
+        String line7 = String.format(" \nName: %-36s FT: %-15s ", usrData[0], usrData[3].charAt(0));
+        String line8 = String.format("\nID: %-34s Thesis: %-15s ", usrData[1], usrData[3].charAt(1));
+        String line9 = String.format("\nApplied In: %s", usrData[2]);
+        String line10 = String.format("\n                         Anticipated Graduation: %-13s ", usrData[4]);
+        String line11 = "\n                                                               ";
+
+        return line1 + line2 + line3 + line4 + line5 + line6 + line7 + line8 + line9 + line10 + line11;
     }
 }
