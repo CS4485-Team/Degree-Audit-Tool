@@ -2,11 +2,14 @@
     <div>
         <input id="transcriptInput" type="file"/>
     </div>
-    <div>
-        <button (click)="continueScratch()">Scratch</button>
+    <div id="new">
+        <img src="assets/img/paper-pen-icon.png">
+        <button id="btn1" (click)="continueScratch()">New</button>
     </div>
-    <div>
-        <button (click)="uploadStudentObjectFile()">Student Object</button>
+    <div id="studentObj">
+        <button id="btn2" (click)="uploadStudentObjectFile()">Student Object</button>
+    </div>    
+    <div id="submit">
+    <button id="btn3" (click)="continue()">Submit</button>
     </div>
-    <button (click)="continue()">Submit</button>
 </div>
