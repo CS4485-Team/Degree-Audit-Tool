@@ -23,7 +23,6 @@
             <p>(*** numbers only ***)</p>
         </div>
 
-    <!-- Radio Forms-->
     <!--FORM 1-->    
         <div class="radio_inputs">
             <p id="Fast-Track">Student is Fast Track</p>
@@ -87,7 +86,7 @@
             <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
                 <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
             </select>
-            <p *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
+            <p id="pid1" *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
         </div>
 </div>
 <div id="threeElectives">
@@ -96,7 +95,7 @@
             <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
                 <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
             </select>
-            <p *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
+            <p id="pid2" *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
         </div>
 </div>
 

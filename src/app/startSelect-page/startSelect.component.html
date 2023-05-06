@@ -1,15 +1,19 @@
 <div class="container" id="container">
-    <div>
-        <input id="transcriptInput" type="file"/>
+    <div id="file-box">
+        <img src="assets/img/folder.png" id="img0">
+        <input id="transcriptInput" type="file" onmouseover="document.getElementById('file-box').style.border='5px dotted rgb(255, 191, 0)';"
+        onmouseleave="document.getElementById('file-box').style.border='2px dotted black';"/>
     </div>
+    <button id="btn1" (click)="continueScratch()">New</button>
     <div id="new">
-        <img src="assets/img/paper-pen-icon.png">
-        <button id="btn1" (click)="continueScratch()">New</button>
+        <img src="assets/img/paper-pen-icon.png" id="img1">
     </div>
+    <button id="btn2" (click)="uploadStudentObjectFile()">Student Object</button>
     <div id="studentObj">
-        <button id="btn2" (click)="uploadStudentObjectFile()">Student Object</button>
+        <img src="assets/img/apple.png" id="img2">
     </div>    
-    <div id="submit">
     <button id="btn3" (click)="continue()">Submit</button>
+    <div id="submit">
+        <img src="assets/img/download.png" id="img3">
     </div>
 </div>

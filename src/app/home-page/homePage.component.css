@@ -310,7 +310,7 @@ button:is(:hover, :focus-visible) {
 }
 
 .particle-pen {
-	position: absolute;
+	position: relative;
 	width: 200%;
 	aspect-ratio: 1;
 	top: 50%;
@@ -380,12 +380,11 @@ a {
 }
 
 .row1 {
-	margin-top: 80px;
 	margin-left: 40px;
 }
 
 .row2 {
-	margin-top: 110px;
+	margin-top: 80px;
 	margin-left: 36px;
 }
 
@@ -396,20 +395,18 @@ a {
 
 .container {
     background: linear-gradient(140deg,limegreen,#66a366);
-    height: 1000px;
+    height: 614px;
     width: auto;
     display: flex;
     align-content: center;
     position: inherit;
     align-items: center;
-    min-height: 150vh;
 }
 
 
 /*HEADER */
 h1 {
-    font-size: 72px;
-    margin-bottom: 130px;
+	font-size: 72px;
     margin-top: 0;
     color: orange;
     text-shadow: 1px 1px white;

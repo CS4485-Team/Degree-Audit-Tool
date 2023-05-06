@@ -44,22 +44,20 @@
 }
 
 select {
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    -ms-appearance:none;
-    appearance:none;
-    outline:0;
-    box-shadow:none;
-    border:0!important;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0!important;
     background: #5c6664;
     background-image: none;
     flex: 1;
-    padding: 0 .5em;
-    color:#fff;
-    cursor:pointer;
+    padding: 0 0.5em;
+    color: #fff;
+    cursor: pointer;
     font-size: 1em;
-    font-family: 'Open Sans', sans-serif;
-
+    font-family: Open Sans,sans-serif;
+    padding-right: 160px;
 }
 
 #label_id {
@@ -101,7 +99,7 @@ select::-ms-expand {
 
  #major-box {
     position:relative;
-	margin-top:80px;
+	margin-top:20px;
  }
 
  #major-box label{
@@ -140,7 +138,7 @@ select::-ms-expand {
 
  #name-box {
     position:relative;
-	margin-top:80px;
+	margin-top:20px;
  }
 
 #name-box label{
@@ -174,8 +172,9 @@ select::-ms-expand {
 
    #id-box {
     position:relative;
-	margin-top:80px;
-    margin-bottom: 100px;
+	margin-top:20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
    }
 
    #id-box label{
@@ -245,15 +244,12 @@ ul li .check{
   ul li .check::before {
     display: block;
     position: absolute;
-      content: '';
-    border-radius: 100%;
-    height: 15px;
-    width: 15px;
-    top: 5px;
-      left: 5px;
+    content: "";
+    height: 20px;
+    width: 20px;
     margin: auto;
-      transition: background 0.25s linear;
-      -webkit-transition: background 0.25s linear;
+    transition: background .25s linear;
+    -webkit-transition: background .25s linear;
   }
 
   input[type=radio]:checked ~ .check {
@@ -357,24 +353,26 @@ div.wtHider{
 
 
 .radio_inputs{
-    display: block;
+    display: flex;
     position: relative;
-    height: auto;
-    width: 500px;
+    height: 40px;
+    padding-top: 10px;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
   .radio_inputs2{
-    display: block;
+    display: flex;
     position: relative;
-    height: auto;
-    width: 500px;
   }
 
   .radio_inputs ul{
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow: auto;
+    display: flex;
   }
 
   #list1 {
@@ -389,15 +387,17 @@ div.wtHider{
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow: auto;
+    display: flex;
   }
 
   ul li{
-    color: #AAAAAA;
-    display: block;
+    color: #aaa;
+    display: flex;
     position: relative;
-    float: left;
-    height: 100px;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-content: space-around;
+    margin-top: -15px;
   }
 
   ul li input[type=radio]{
@@ -410,7 +410,7 @@ div.wtHider{
     position: relative;
     font-weight: 300;
     font-size: 1.35em;
-    padding: 25px 25px 25px 80px;
+    padding: 25px 25px 25px 60px;
     margin: 10px auto;
     height: 30px;
     z-index: 9;
@@ -423,17 +423,17 @@ div.wtHider{
 }
 
 ul li .check{
-    display: block;
+    display: flex;
     position: absolute;
-    border: 5px solid #AAAAAA;
+    border: 3px solid #AAAAAA;
     border-radius: 100%;
-    height: 25px;
-    width: 25px;
+    height: 12px;
+    width: 12px;
     top: 30px;
     left: 20px;
-      z-index: 5;
-      transition: border .25s linear;
-      -webkit-transition: border .25s linear;
+    z-index: 5;
+    transition: border .25s linear;
+    -webkit-transition: border .25s linear;
   }
 
   ul li:hover .check {
@@ -441,17 +441,21 @@ ul li .check{
   }
 
   ul li .check::before {
-    display: block;
-    position: absolute;
-      content: '';
-    border-radius: 100%;
+    display: flex;
+    position: relative;
+    content: "";
+    /* border-radius: 100%; */
     height: 15px;
-    width: 15px;
-    top: 5px;
-      left: 5px;
-    margin: auto;
-      transition: background 0.25s linear;
-      -webkit-transition: background 0.25s linear;
+    width: 20px;
+    /* top: 5px; */
+    right: 0px;
+    margin: 0;
+    transition: background .25s linear;
+    -webkit-transition: background .25s linear;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    align-content: stretch;
+    align-items: center;
   }
 
   input[type=radio]:checked ~ .check {
@@ -465,6 +469,7 @@ ul li .check{
   input[type=radio]:checked ~ label{
     color: #0DFF92;
   }
+
 
 
 
@@ -588,20 +593,22 @@ a {
 }
 
 #threeElectives {
-margin-top: 150px;
+margin-top: 50px;
+padding-top: 50px;
 }
 
 #elective_selector{
     position: relative;
-
-    display: flex;
-    width: 25em;
     height: 3em;
     line-height: 3;
     background: #5c6664;
-    overflow: hidden;
-    border-radius: .25em;
-    color: white;
+    border-radius: 0.25em;
+    color: #fff;
+    justify-content: center;
+    align-content: center;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    flex-direction: column;
 }
 
 #elective_selector::after {
@@ -657,5 +664,7 @@ margin-top: 150px;
     color: white;
     text-shadow: 0.6px 0.6px black;
 }
+
+
 
 
