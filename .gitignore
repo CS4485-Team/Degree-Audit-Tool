@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# ignore jar file since it is too big to push
+Degree2.jar
+
 # Compiled output
 /dist
 /tmp

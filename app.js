@@ -12,7 +12,7 @@ function createWindow () {
   const fs = require("fs");
   const path = require("path");
 
-  const directory = ["./src/input", "./src/output"];
+  const directory = ["./src/input", "./src/output", "./src/transcriptInput", "./src/transcriptOutput"];
 
   directory.forEach(directory => {
     fs.readdir(directory, (err, files) => {
@@ -90,14 +90,22 @@ ipcMain.on('saveCSVFile', (event, csvData) => {
   jetpack.write('./src/input/input.csv', outputData);
 });
 
-ipcMain.on('parseTranscript', (event, transcript) => {
-  const process = spawn("java", ['-jar', '', transcript]);
+ipcMain.on("copyFile", (event, fileToCopy) => {
+  jetpack.copy(fileToCopy, "./src/transcriptInput/input.pdf");
+});
 
-  // process.stdout.on('data', (data) => {
-  //   console.log(`stdout: ${data}`);
-  // });
+ipcMain.on("moveFile", (event) => {
+  jetpack.copy("./Test.csv", "./dist/degree-audit-tool/Test.csv");
+})
 
-  // process.stderr.on('data', (err) => {
-  //   console.log(`stderr: ${err}`);
-  // });
+ipcMain.on('parseTranscript', (event) => {
+  const process = spawn("java", ['-jar', './Degree2.jar', "./src/transcriptInput/input.pdf"]);
+
+  process.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  process.stderr.on('data', (err) => {
+    console.log(`stderr: ${err}`);
+  });
 });

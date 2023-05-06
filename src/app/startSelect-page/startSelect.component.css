@@ -20,7 +20,7 @@
     justify-content: center;
 }
 
-.fileInput {
+#fileInput {
     display: none;
 }
 
