@@ -3,17 +3,30 @@ import { toWords } from 'number-to-words';
 import auditReportConfigs from 'auditReportConfig.json';
 import Handsontable from 'handsontable';
 
-/*
-    loadPrepopulationData
-    params: none
-    returns: any[]
-    desc:
-        loads data to prepolulate the table. This should only be called if the table
-        has not already been updated or is a new table. Each row of the table is pushed
-        into the data array seperately. Each row element contains two pieces of info,
-        the type of row and the actual row data. The type of row is used to
-        instruct the custom renderer how to style the row (i.e., highlight, bold-text, etc.),
-        while the data is the actual data loaded into that row.
+/*  loadPrepopulationData
+    Fills the table seen on the degreePlan page with the information entered by the user.
+    If the user input a prepopulation file (either a transcript PDF file or a student object file),
+    the table will reflect the information from those files. Anytime information is changed, this function is
+    recalled to reload the table and reflect the changes made. 
+    The table is built using rows of CSV. Each row is built and individually pushed to the data list. My custom
+    implementation was to assign each row a 'type' and a 'data' field. The 'type' field is used to format the row.
+    Several functions exist lower in this file that apply a specific style to a row depending on what this type is.
+    The 'data' field of the row contains the actual data to fill the table with. Each 'data' field of each row MUST be
+    the same length. In this case, each row is hardcoded to be 5 elements long. Any modification to the width of the table
+    will need to be reflected in each individual row. The only rows that do not need to be the same length are rows that will
+    be merged into a single row. These rows in my custom implementation are called 'header' rows.
+
+    :param: selectedDegreePlan (string) -> the degree plan selected on the degreePlan page
+    :param: selectedMajor (string) -> the major selected on the degreePlan page
+    :param: studentName (string) -> the student name input on the degreePlan page
+    :param: studentId (string) -> the student id input on the degreePlan page
+    :param: admitSem (string) -> the semester admitted input on the degreePlan page
+    :param: gradSem (string) -> the anticipated graduation semester input on the degreePlan page
+    :param: electives (any[]) -> list of selected electives input on the degreePlan page
+    :param: addElectives (any[]) -> list of additional electives input on the degreePlan page
+    :param: importedClassData (any[]) -> list of class data inputted from the prepopulation data file (this may be empty if
+        the user did not input one of these files and started from scratch)
+    :returns: data (any[]) the data to fill the table
 */
 const loadPrepopulationData = (selectedDegreePlan: string, selectedMajor: string, studentName: string, studentId: string, 
     admitSem: string, gradSem: string, electives: any[], addElectives: any[], importedClassData: any[]) : any[] => {
