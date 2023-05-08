@@ -20,7 +20,7 @@
         <div id="id-box">
             <label>Student ID Number </label>
             <input type="number" [(ngModel)]="studentId" />
-            <p>(*** numbers only ***)</p>
+            <p style="letter-spacing: 1px;">(*** numbers only ***)</p>
         </div>
 
     <!--FORM 1-->    
@@ -82,21 +82,21 @@
         </div>
 <div id="fiveElectives">
         <h3 id="approved">Five Approved Electives</h3>
-        <div id="elective_selector">
-            <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
+        <!--<div id="elective_selector"> -->
+            <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)" style="position: relative; display: flex; height: 3em; line-height: 3; background: #5c6664; border-radius: 0.25em; color: #fff; appearance: auto;">
                 <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
             </select>
             <p id="pid1" *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
-        </div>
+       <!-- </div> -->
 </div>
 <div id="threeElectives">
         <h3 id="additional">Three Additional Electives</h3>
-        <div id="additionalElective_selector">
-            <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
+        <!-- <div id="additionalElective_selector"> -->
+            <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)" style="position: relative; display: flex; height: 3em; line-height: 3; background: #5c6664; border-radius: 0.25em; color: #fff; appearance: auto;">
                 <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
             </select>
             <p id="pid2" *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
-        </div>
+        <!-- </div> -->
 </div>
 
         <button id="btn1" (click)="confirmBack()">Back</button>

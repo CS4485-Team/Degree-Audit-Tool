@@ -5,6 +5,8 @@
     align-items: center;
     justify-content: center;
     column-gap: 2em;
+    height: 600px;
+    background: linear-gradient(140deg,limegreen,#66a366);
 }
 
 button {
@@ -57,6 +59,7 @@ button {
     align-content: center;
     justify-content: space-around;
     align-items: flex-end;
+    margin-right: 5px;;
 }
 
 #btn1 {
@@ -209,6 +212,8 @@ img {
     padding-top: 30px;
     padding-bottom: 30px;
     border: 2px dotted black;
+    background: white;
+    margin-left: 5px;
 }
 
 #transcriptInput{

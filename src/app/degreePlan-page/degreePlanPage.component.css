@@ -44,8 +44,8 @@
 }
 
 select {
-    -webkit-appearance: none;
-    appearance: none;
+    -webkit-appearance: auto;
+    appearance: auto;
     outline: 0;
     box-shadow: none;
     border: 0!important;
@@ -173,8 +173,6 @@ select::-ms-expand {
    #id-box {
     position:relative;
 	margin-top:20px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
    }
 
    #id-box label{
@@ -356,7 +354,6 @@ div.wtHider{
     display: flex;
     position: relative;
     height: 40px;
-    padding-top: 10px;
     flex-wrap: wrap;
     align-content: center;
     flex-direction: row;
@@ -532,7 +529,7 @@ div.wtHider{
     color: #fff;
 	padding:10px 20px;
 	text-transform:uppercase;
-	margin-top:150px;
+	margin-top:50px;
 	border-radius:2px;
 	cursor:pointer;
 	position:relative;
@@ -556,7 +553,7 @@ div.wtHider{
 	cursor:pointer;
 	position:relative;
     border-radius: 20px;
-    margin-left: 50px;
+    margin-left: 10px;
 }
 
 #btn2:hover{
@@ -576,7 +573,7 @@ div.wtHider{
 	cursor:pointer;
 	position:relative;
     border-radius: 20px;
-    margin-left: 50px;
+    margin-left: 10px;
 }
 
 #btn3:hover{
@@ -589,12 +586,9 @@ a {
 }
 
 #fiveElectives {
-
 }
 
 #threeElectives {
-margin-top: 50px;
-padding-top: 50px;
 }
 
 #elective_selector{
@@ -609,7 +603,9 @@ padding-top: 50px;
     align-items: stretch;
     flex-wrap: nowrap;
     flex-direction: column;
+    margin-bottom: 30px;
 }
+
 
 #elective_selector::after {
     content: '\25BC';
@@ -622,6 +618,7 @@ padding-top: 50px;
     pointer-events:none;
     transition:.25s all ease;
  }
+ 
 
 #additionalElective_selector{
     position: relative;
