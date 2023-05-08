@@ -36,17 +36,17 @@
         <div class="radio_inputs">
             <div>
                 <p>Student is Fast Track </p>
-                <input type="radio" id="yes_ft" name="is_ft" value="y"/>
+                <input type="radio" id="yes_ft" name="is_ft" value="y" (click)="setIsFT(true)"/>
                 <label for="yes_ft">Yes</label><br>
-                <input type="radio" id="no_ft" name="is_ft" value="n"/>
+                <input type="radio" id="no_ft" name="is_ft" value="n" (click)="setIsFT(false)"/>
                 <label for="no_ft">No</label>
             </div>
             <br>
             <div>
                 <p>Student is Pursuing Thesis </p>
-                <input type="radio" id="yes_thesis" name="is_thesis" value="y"/>
+                <input type="radio" id="yes_thesis" name="is_thesis" value="y" (click)="setIsTH(true)"/>
                 <label for="yes_ft">Yes</label><br>
-                <input type="radio" id="no_thesis" name="is_thesis" value="n"/>
+                <input type="radio" id="no_thesis" name="is_thesis" value="n" (click)="setIsTH(false)"/>
                 <label for="no_ft">No</label>
             </div>
         </div>
@@ -76,7 +76,7 @@
         [selectedDegreePlan]="selectedDegreePlan" [selectedMajor]="selectedMajor"
         [studentName]="studentName" [studentId]="studentId" [electives]="selectedElectives" 
         [addElectives]="selectedAddElectives" [admitSem]="admitSem" [gradSem]="gradSem" 
-        [importedClassData]="importedClassData">
+        [importedClassData]="importedClassData" [isFT]="isFT" [isTH]="isTH">
     </degreePlan-editor>
 
 </div>

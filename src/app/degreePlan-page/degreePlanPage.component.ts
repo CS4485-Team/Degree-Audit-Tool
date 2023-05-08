@@ -22,6 +22,8 @@ export class DegreePlanPageComponent {
     studentId: string = '';
     admitSem: string = '';
     gradSem: string = '';
+    isFT: string = 'F';
+    isTH: string = 'F';
     importedClassData: any = [];
     degreePlanData: any[] = []; // same data as in degree plan component
 
@@ -41,6 +43,20 @@ export class DegreePlanPageComponent {
                 console.log("Error in loading preload data into document.");
             }
         }
+    }
+
+    setIsFT(value: boolean) {
+        if (value)
+            this.isFT = "Y";
+        else
+            this.isFT = "F";
+    }
+
+    setIsTH(value: boolean) {
+        if (value)
+            this.isTH = "Y";
+        else
+            this.isTH = "F";
     }
     
     onSelectedDegreePlan(value: string) {

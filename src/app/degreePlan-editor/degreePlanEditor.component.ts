@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { toWords } from 'number-to-words';
 import auditReportConfigs from 'auditReportConfig.json';
 import Handsontable from 'handsontable';
@@ -37,11 +37,17 @@ export class DegreePlanEditorComponent {
     @Input() addElectives: any[] = [];
     @Input() importedClassData: any[];
     importedClassDataMap: Map<string, string[]>
+    @Input() isFT: string = 'F';
+    @Input() isTH: string = 'F';
 
     preloadDataWithSettings: any[];
     preloadData: any[];
-    settings: Handsontable.GridSettings;
+    settings: Handsontable.GridSettings = {width: '100%', height: 'auto', stretchH: 'all'};
+    firstLoad: boolean = true;
     @Output() preloadDataChange = new EventEmitter<any[]>();
+
+    courseList: string;
+    configs: any; 
 
     cells: any[] = [];
     borders: any[] = [];
@@ -61,7 +67,7 @@ export class DegreePlanEditorComponent {
         be merged into a single row. These rows in my custom implementation are called 'header' rows.
 
     */
-    loadPrepopulationData = (electives: any[], addElectives: any[], importedClassDataMap: Map<string, string[]>) => {
+    loadPrepopulationData = () => {
         let data: any[] = [];
 
         data.push({'type': 'mainHeader', 'data': ['DEGREE PLAN', '', '', '', '']});
@@ -69,89 +75,85 @@ export class DegreePlanEditorComponent {
         data.push({'type': 'mainHeader', 'data': [`MASTER OF ${this.selectedMajor.toUpperCase()}`, '', '', '', '']});
         data.push({'type': 'mainHeader', 'data': ['', '', '', '', '']});
         data.push({'type': 'mainHeader', 'data': [this.selectedDegreePlan, '', '', '', '']});
-        data.push({'type': 'binaryInput', 'data': [`FT:`, '', '', '', '']});
-        data.push({'type': 'binaryInput', 'data': ['Thesis:', '', '', '', '']});
+        data.push({'type': 'input', 'data': [`FT: ${this.isFT}`, '', '', '', '']});
+        data.push({'type': 'input', 'data': [`Thesis: ${this.isTH}`, '', '', '', '']});
         data.push({'type': 'input', 'data': [`Name: ${this.studentName}`, '', '', '', '']});
         data.push({'type': 'input', 'data': [`ID: ${this.studentId}`, '', '', '', '']});
         data.push({'type': 'input', 'data': [`Semester Admitted to Program: ${this.admitSem}`, '', '', `Graduation: ${this.gradSem}`, '']});
         data.push({'type': 'input', 'data': ['Course Title', 'Course Number', 'UTD Semester', 'Transfer', 'Grade']});
 
-        const courseList: string = JSON.stringify(auditReportConfigs);
-        const configs: any = new Map(Object.entries(JSON.parse(courseList)));
-
         // push all core courses for this degree plan
         data.push({'type': 'header', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
-        let courses: any = configs.get('coreCourseList');
+        let courses: any = this.configs.get('coreCourseList');
         courses = courses[this.selectedDegreePlan];
-        for (let i = 0; i < configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
-            if (i < courses.length)
-                data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, '', '', '']});
+        for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
+            if (i < courses.length) {
+                let importedData: any = this.importedClassDataMap.get(courses[i].number);
+                data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, 
+                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+            }
             else
                 data.push({'type': 'input', 'data': ['','','','','']});
         }
 
         // push all additional core course work for this degree plan
-        let additionalCourses: any = configs.get('additionalCoreCourseList');
+        let additionalCourses: any = this.configs.get('additionalCoreCourseList');
         additionalCourses = additionalCourses[this.selectedDegreePlan];
         data.push({'type': 'header', 'data': ['One of the following Courses']});
-        for (let i = 0; i < configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
-            if (i < additionalCourses.length)
-                data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, '', '', '']});
+        for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
+            if (i < additionalCourses.length) {
+                let importedData: any = this.importedClassDataMap.get(additionalCourses[i].number);
+                data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, 
+                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+            }
             else
                 data.push({'type': 'input', 'data': ['','','','','']});
         }
 
         // push all selected elective courses
-        let electivesCount: number = configs.get("outputCourseInfo")[this.selectedDegreePlan]["numElectiveCourses"];
+        let electivesCount: number = this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numElectiveCourses"];
         data.push({'type': 'header', 'data': [`${toWords(electivesCount).toUpperCase()} APPROVED 6000 LEVEL ELECTIVES     (15 * Credit Hours)     3.0 Grade Point Average`]});
         for (let i = 0; i < electivesCount; ++i) {
-            if (i < electives.length) {
-                data.push({'type': 'input', 'data': [electives[i].name, electives[i].number, '', '', '']});
+            if (i < this.electives.length) {
+                let importedData: any = this.importedClassDataMap.get(this.electives[i].number);
+                data.push({'type': 'input', 'data': [this.electives[i].name, this.electives[i].number, 
+                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
             }
-            else {
-                data.push({'type': 'input', 'data': ['', '', '', '', '']});
-            }
-        }
-
-        // push all selected additional elective courses
-        data.push({'type': 'header', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
-        for (let i = 0; i < configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
-            if (i < addElectives.length) {
-                data.push({'type': 'input', 'data': [addElectives[i].name, addElectives[i].number, '', '', '']});
-            }
-            else {
-                data.push({'type': 'input', 'data': ['', '', '', '', '']});
-            }
-        }
-
-        // push other requirements
-        data.push({'type': 'header', 'data': ['Other Requirements']})
-        for (let i = 0; i < configs.get("outputCourseInfo")[this.selectedDegreePlan]["numOtherRequirements"]; ++i) {
-            data.push({'type': 'input', 'data': ['','','','','']});
-        }
-
-        // push admission prereqs
-        let prereqCourses: any = configs.get('prereqCourseList');
-        prereqCourses = prereqCourses[this.selectedDegreePlan];
-        data.push({'type': 'header', 'data': ['Admission Prerequisites']})
-        for (let i = 0; i < configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
-            if (i < prereqCourses.length)
-                data.push({'type': 'input', 'data': [prereqCourses[i].name, prereqCourses[i].number,'','','']});
             else
                 data.push({'type': 'input', 'data': ['', '', '', '', '']});
         }
 
-        // // iterate over all data again and check to see if any of the data also exists in the imported class data
-        // for (let i = 0; i < data.length; ++i) {
-        //     for (let j = 0; j < importedClassData.length; ++j) {
-        //         if (data[i]['data'][1] == importedClassData[j][2]) {
-        //             // found a class that was imported
-        //             data[i]['data'][2] = importedClassData[j][11];
-        //             data[i]['data'][4] = importedClassData[j][9];
-        //             data[i]['data'][3] = importedClassData[j][7];
-        //         }
-        //     }
-        // }
+        // push all selected additional elective courses
+        data.push({'type': 'header', 'data': ['Additional Electives (3 Credit Hours Minimum)']});
+        for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
+            if (i < this.addElectives.length) {
+                let importedData: any = this.importedClassDataMap.get(this.addElectives[i].number);
+                data.push({'type': 'input', 'data': [this.addElectives[i].name, this.addElectives[i].number, 
+                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+            }
+            else
+                data.push({'type': 'input', 'data': ['', '', '', '', '']});
+        }
+
+        // push other requirements
+        data.push({'type': 'header', 'data': ['Other Requirements']})
+        for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numOtherRequirements"]; ++i) {
+            data.push({'type': 'input', 'data': ['','','','','']});
+        }
+
+        // push admission prereqs
+        let prereqCourses: any = this.configs.get('prereqCourseList');
+        prereqCourses = prereqCourses[this.selectedDegreePlan];
+        data.push({'type': 'header', 'data': ['Admission Prerequisites']})
+        for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
+            if (i < prereqCourses.length) {
+                let importedData: any = this.importedClassDataMap.get(prereqCourses[i].number);
+                data.push({'type': 'input', 'data': [prereqCourses[i].name, prereqCourses[i].number,
+                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+            }
+            else
+                data.push({'type': 'input', 'data': ['', '', '', '', '']});
+        }
 
         this.preloadDataWithSettings = data;
     }
@@ -167,36 +169,28 @@ export class DegreePlanEditorComponent {
         this.preloadData = data;
     }
 
-    /*  ngOnInit
-        Built in angular function. Is called one time when the component (page) is first rendered.
-        The data and styling settings must first be initialized. After, the data is seperated from the settings and sent into
-        the actual table
-    */
-    ngOnInit() {
-        // take the class data in list format and convert it into a hash map. This will help with overall table generation efficiency
-        this.importedClassDataMap = new Map<string, string[]>();
-        for (let i = 0; i < this.importedClassData.length; ++i) {
-            this.importedClassDataMap.set(this.importedClassData[i][2], this.importedClassData[i]);
+    ngOnChanges(changes: SimpleChanges) {
+        if (this.firstLoad) {
+            // take the class data in list format and convert it into a hash map. This will help with overall table generation efficiency
+            this.importedClassDataMap = new Map<string, string[]>();
+            for (let i = 0; i < this.importedClassData.length; ++i) {
+                this.importedClassDataMap.set(this.importedClassData[i][2], this.importedClassData[i]);
+            }
+            this.firstLoad = false;
         }
 
-        this.loadPrepopulationData(this.electives, this.addElectives, this.importedClassDataMap);
-        this.seperateDataFromSettings();
+        if (changes["selectedDegreePlan"]) {
+            this.courseList = JSON.stringify(auditReportConfigs);
+            this.configs = new Map(Object.entries(JSON.parse(this.courseList)));
+        }
 
-        // these settings are what actually allow the table to generate. Do not adjust these.
-        this.settings = {
-            width: '100%',
-            height: 'auto',
-            stretchH: 'all'
-        };
-    }
-
-    ngOnChanges() {
-        this.loadPrepopulationData(this.electives, this.addElectives, this.importedClassDataMap);
+        this.loadPrepopulationData();
         this.generateCells(this.preloadDataWithSettings);
         this.generateMergeCells(this.preloadDataWithSettings);
         this.generateBorders(this.preloadDataWithSettings);
         this.seperateDataFromSettings();
         this.preloadDataChange.emit(this.preloadData);
+        console.log(this.importedClassDataMap);
     }
 
     generateCells = (dataWithSettings: any[]) => {
