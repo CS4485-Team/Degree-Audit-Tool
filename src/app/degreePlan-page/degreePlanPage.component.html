@@ -1,75 +1,95 @@
 <div class="container">
 
     <div class="toolbar">
-        <div>
+        <div id="selector">
             <label for="degree-plan" id="label_id">Degree Plan </label>
             <select #degreeTracks (change)="onSelectedDegreePlan(degreeTracks.value)">
                 <option *ngFor="let plan of degreePlans" value={{plan}}>{{plan}}</option>
             </select>
         </div>
-        <div>
+        <div id="selector">
             <label>Major </label>
-            <input type="text" placeholder="selectedMajor" [(ngModel)]="selectedMajor"/>
+            <select #majorTracks (change)="onSelectedMajor(majorTracks.value)">
+                <option *ngFor="let major of majors" value={{major}}>{{major}}</option>
+            </select>
         </div>
 
         <h3>Student Info</h3>
-        <div>
-            <label>Student Name </label>
+        <div id="name-box">
+            <label id="studentName">Student Name </label>
             <input type="text" placeholder="studentName" [(ngModel)]="studentName"/>
         </div>
 
-        <div>
+        <div id="id-box">
             <label>Student ID Number </label>
             <input type="text" placeholder="studentId" [(ngModel)]="studentId"/>
         </div>
 
-        <div>
+        <div id="name-box">
             <label>Semester Admitted: </label>
             <input type="text" [(ngModel)]="admitSem"/>
         </div>
 
-        <div>
+        <div id="name-box">
             <label>Anticipated Graduation: </label>
             <input type="text" [(ngModel)]="gradSem"/>
         </div>
 
         <div class="radio_inputs">
-            <div>
-                <p>Student is Fast Track </p>
-                <input type="radio" id="yes_ft" name="is_ft" value="y" (click)="setIsFT(true)"/>
-                <label for="yes_ft">Yes</label><br>
-                <input type="radio" id="no_ft" name="is_ft" value="n" (click)="setIsFT(false)"/>
-                <label for="no_ft">No</label>
-            </div>
+            <p id="Fast-Track">Student is Fast Track </p>
+            <ul id="list1">
+                <li><input type="radio" id="yes_ft" name="is_ft" value="y" (click)="setIsFT(true)"/></li>
+                <li><label for="yes_ft">Yes</label></li>
+                <li><input type="radio" id="no_ft" name="is_ft" value="n" (click)="setIsFT(false)"/></li>
+                <li><label for="no_ft">No</label></li>
+            </ul>
+        </div>
+
             <br>
-            <div>
-                <p>Student is Pursuing Thesis </p>
-                <input type="radio" id="yes_thesis" name="is_thesis" value="y" (click)="setIsTH(true)"/>
-                <label for="yes_ft">Yes</label><br>
-                <input type="radio" id="no_thesis" name="is_thesis" value="n" (click)="setIsTH(false)"/>
-                <label for="no_ft">No</label>
+
+        <div class="radio_inputs2">
+            <p id="Fast-Track">Student is Pursuing Thesis </p>
+            <ul id="list2">
+                <li><input type="radio" id="yes_thesis" name="is_thesis" value="y" (click)="setIsTH(true)"/></li>
+                <li><label for="yes_thesis">Yes</label></li>
+                <li><input type="radio" id="no_thesis" name="is_thesis" value="n" (click)="setIsTH(false)"/></li>
+                <li><label for="no_thesis">No</label></li>
+            </ul>
+        </div>
+
+        <div id="fiveElectives">
+            <h3 id="approved">Five Approved Electives</h3>
+            <div id="elective_selector">
+                <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
+                    <option selected>Select Course</option>
+                    <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
+                </select>
             </div>
+            <p id="pid1" *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
         </div>
 
-        <h3>Five Approved Electives</h3>
-        <div class="elective_selector">
-            <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
-                <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
-            </select>
-            <p *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
+        <div id="threeElectives">
+            <h3 id="additional">Three Additional Electives</h3>
+            <div id="additionalElective_selector">
+                <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
+                    <option selected>Select Course</option>
+                    <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
+                </select>
+            </div>
+            <p id="pid2" *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
         </div>
 
-        <h3>Three Additional Electives</h3>
-        <div class="additionalElective_selector">
-            <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
-                <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
-            </select>
-            <p *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
+        <div>
+            <p>Select folder to save Degree Plan and Audit Report to</p>
+            <input type="file" id="selectDir" webkitdirectory directory #dirSelect (change)="selectSaveLocation($event)"/>
         </div>
 
-        <button id="btn1" (click)="confirmBack()">Back</button>
-        <button id="btn2" (click)="confirmSaveStudentObject()">Save Student Object</button>
-        <button id="btn3" (click)="confirmSavePDF()">Submit</button>
+        <div id="buttonContainer">
+            <p style="color: red; font-weight: bold;">{{errorMessage}}</p>
+            <button id="btn1" (click)="confirmBack()">Back</button>
+            <button id="btn2" (click)="confirmSaveStudentObject()">Save Student Object</button>
+            <button id="btn3" (click)="confirmSavePDF()">Submit</button>
+        </div>
     </div>
 
     <degreePlan-editor (preloadDataChange)="updateDegreePlanData($event)" class="degreePlan-editor" 

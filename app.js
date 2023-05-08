@@ -1,8 +1,10 @@
 const {app, BrowserWindow, ipcMain, ipcRenderer} = require('electron')
 const url = require("url");
 const path = require("path");
+const https = require('https');
 const { spawn } = require('node:child_process');
 const jetpack = require("fs-jetpack");
+const fs = require('fs');
 
 let mainWindow
 
@@ -15,6 +17,10 @@ function createWindow () {
   const directory = ["./src/input", "./src/output", "./src/transcriptInput", "./src/transcriptOutput"];
 
   directory.forEach(directory => {
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
+
     fs.readdir(directory, (err, files) => {
       if (err) throw err;
     
@@ -108,4 +114,9 @@ ipcMain.on('parseTranscript', (event) => {
   process.stderr.on('data', (err) => {
     console.log(`stderr: ${err}`);
   });
+});
+
+ipcMain.on('saveDegreePlan', (event, destination) => {
+  jetpack.copy('./src/output/DegreePlan.pdf', "C:/Users/Collin/Desktop/DegreePlan.pdf");
+  console.log("File saved");
 });

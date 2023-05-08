@@ -1,6 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import auditReportConfigs from 'auditReportConfig.json';
+import { Router } from '@angular/router';
+import configFile from 'config.json';
 
 declare const electron: any;
 
@@ -11,9 +12,9 @@ declare const electron: any;
 })
 
 export class DegreePlanPageComponent {
-    degreePlans: string[] = auditReportConfigs.degreePlans;
-    majors: string[] = auditReportConfigs.majors;
-    electives: any[] = auditReportConfigs.electives;
+    degreePlans: string[] = Object.keys(configFile.degreePlans);
+    majors: string[] = configFile.majors;
+    electives: any[] = configFile.electives;
     selectedElectives: any[] = [];
     selectedAddElectives: any[] = [];
     selectedDegreePlan: string = 'Cyber Security';
@@ -26,8 +27,9 @@ export class DegreePlanPageComponent {
     isTH: string = 'F';
     importedClassData: any = [];
     degreePlanData: any[] = []; // same data as in degree plan component
+    errorMessage: string = "";
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private httpClient: HttpClient) {
         const state: any = router.getCurrentNavigation()?.extras.state
         
         if (state['preload'].length != 0) {
@@ -68,12 +70,18 @@ export class DegreePlanPageComponent {
     }
 
     onSelectedElective(value: any) {
+        const courseList: string = JSON.stringify(configFile);
+        const configs: any = new Map(Object.entries(JSON.parse(courseList)));
+        if (this.selectedElectives.length == configs.get('outputCourseInfo')[this.selectedDegreePlan].numElectiveCourses)
+            return;
+        
         for (let i = 0; i < this.electives.length; ++i) {
             if (this.electives[i].number == value) {
                 this.selectedElectives.push(this.electives[i]);
                 this.electives.splice(i, 1);
             }
         }
+        this.selectedElectives = [...this.selectedElectives];
     }
 
     removeElective(value: any) {
@@ -83,15 +91,22 @@ export class DegreePlanPageComponent {
                 this.selectedElectives.splice(i, 1);
             }
         }
+        this.selectedElectives = [...this.selectedElectives];
     }
 
     onSelectedAddElective(value: any) {
+        const courseList: string = JSON.stringify(configFile);
+        const configs: any = new Map(Object.entries(JSON.parse(courseList)));
+        if (this.selectedElectives.length == configs.get('outputCourseInfo')[this.selectedDegreePlan].numAdditionalElectiveCourses)
+            return;
+
         for (let i = 0; i < this.electives.length; ++i) {
             if (this.electives[i].number == value) {
                 this.selectedAddElectives.push(this.electives[i]);
                 this.electives.splice(i, 1);
             }
         }
+        this.selectedAddElectives = [...this.selectedAddElectives];
     }
 
     removeAddElective(value: any) {
@@ -101,23 +116,27 @@ export class DegreePlanPageComponent {
                 this.selectedAddElectives.splice(i, 1);
             }
         }
+        this.selectedAddElectives = [...this.selectedAddElectives];
     }
 
     setData(data: any[]) {
         this.degreePlanData = data;
     }
 
-    saveDegreePlan(): any[] {
-        const courseList: string = JSON.stringify(auditReportConfigs);
+    saveDegreePlan(): any {
+        const courseList: string = JSON.stringify(configFile);
         const configs: any = new Map(Object.entries(JSON.parse(courseList)));
 
+        let errorsExist: boolean = this.studentName.length == 0 || this.studentId.length != 10 || this.admitSem.length != 3 || this.gradSem.length != 3;
+        if (errorsExist) {
+            return null;
+        }
+
         // reformat the data for csv output
-        const headers: string[] = ['Course Title', 'Course Num', 'UTD Semester', 'Transfer/Waiver', 'Grade'];
-        let dataStart: number = 0;
         let data: any[] = [];
 
         // push headers
-        data.push(headers);
+        data.push([this.studentName, this.studentId, this.admitSem, `${this.isFT}${this.isTH}`, this.gradSem]);
         data.push('\n');
 
         // push data
@@ -127,7 +146,7 @@ export class DegreePlanPageComponent {
         for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
-                if (this.degreePlanData[i][j] == '')
+                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined)
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
@@ -143,7 +162,7 @@ export class DegreePlanPageComponent {
         for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
-                if (this.degreePlanData[i][j] == '')
+                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined)
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
@@ -159,7 +178,7 @@ export class DegreePlanPageComponent {
         for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numElectiveCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
-                if (this.degreePlanData[i][j] == '')
+                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined)
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
@@ -175,7 +194,7 @@ export class DegreePlanPageComponent {
         for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
-                if (this.degreePlanData[i][j] == '')
+                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined)
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
@@ -191,7 +210,7 @@ export class DegreePlanPageComponent {
         for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numOtherRequirements"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
-                if (this.degreePlanData[i][j] == '')
+                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined)
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
@@ -207,7 +226,7 @@ export class DegreePlanPageComponent {
         for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
-                if (this.degreePlanData[i][j] == '')
+                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined)
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
@@ -236,8 +255,13 @@ export class DegreePlanPageComponent {
     // check whether the user left any fields blank. If not, proceed to the next section of the
     //  application. Else, alert the user that some fields were not fully entered properly
     async confirmSavePDF() {
-        if (confirm("Submit and save this degree plan?")) {
+        if (confirm("Submit and save degree plan / audit report?")) {
             var data: any[] = this.saveDegreePlan();
+            if (data == null) {
+                this.errorMessage = "Please correct any mistakes and try again."
+                return;
+            }
+            this.errorMessage = "";
 
             electron.ipcRenderer.send("saveCSVFile", data);
 
@@ -270,16 +294,47 @@ export class DegreePlanPageComponent {
             }
             
             electron.ipcRenderer.send("generateDegreePlanPDF", degreePlanType);
-            // this.router.navigate(['/viewPdf']);
+            
+            const container = document.getElementById("buttonContainer");
+            const downloadedDegree = document.createElement("button");
+            const downloadedDegreeText = document.createTextNode("Download Degree Plan");
+            // downloadedDegree.href = "../../src/output/DegreePlan.pdf";
+            downloadedDegree.addEventListener('click', this.saveDegreePlanLink, false);
+            downloadedDegree.appendChild(downloadedDegreeText);
+            container?.appendChild(downloadedDegree);
+
+            const downloadedAudit = document.createElement("a");
+            const downloadedAuditText = document.createTextNode("Download Audit Report");
+            downloadedAudit.href = "../../src/output/AudRep.pdf";
+            downloadedAudit.addEventListener('click', this.saveAuditLink, false);
+            downloadedAudit.appendChild(downloadedAuditText);
+            container?.appendChild(downloadedAudit);
         }
     }
 
+    selectSaveLocation(event: any) {
+        console.log()
+    }
+
+    saveDegreePlanLink(target: any) {
+        electron.ipcRenderer.send('saveDegreePlan', "")
+    }
+
+    saveAuditLink(target: any) {
+        let headers = new HttpHeaders();
+        headers = headers.set('Accept', 'application/pdf');
+        this.httpClient.get(target.href, { headers: headers, responseType: 'blob' })
+            .subscribe((data) => {
+                console.log(data);
+            });
+    }
+
     confirmSaveStudentObject() {
-        // var data: any[] = this.saveDegreePlan();
-        // let blob: Blob = new Blob(data, {type: 'text/csv'});
-        // var link = document.createElement('a');
-        // link.href = window.URL.createObjectURL(blob);
-        // link.click();
+        var data: any[] = this.saveDegreePlan();
+        let blob: Blob = new Blob(data, {type: 'text/csv'});
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.click();
     }
 
 

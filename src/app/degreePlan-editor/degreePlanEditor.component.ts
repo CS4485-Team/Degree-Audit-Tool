@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { toWords } from 'number-to-words';
-import auditReportConfigs from 'auditReportConfig.json';
+import configFile from 'config.json';
 import Handsontable from 'handsontable';
 
 @Component({
@@ -49,6 +49,11 @@ export class DegreePlanEditorComponent {
     courseList: string;
     configs: any; 
 
+    coreCourses: any;
+    additionalCourses: any;
+    prereqCourses: any;
+
+
     cells: any[] = [];
     borders: any[] = [];
     mergeCells: any[] = [];
@@ -84,12 +89,10 @@ export class DegreePlanEditorComponent {
 
         // push all core courses for this degree plan
         data.push({'type': 'header', 'data': ['CORE COURSES     (15 CREDIT HOURS)     3.19 Grade Point Average Required']});
-        let courses: any = this.configs.get('coreCourseList');
-        courses = courses[this.selectedDegreePlan];
         for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
-            if (i < courses.length) {
-                let importedData: any = this.importedClassDataMap.get(courses[i].number);
-                data.push({'type': 'input', 'data': [courses[i].name, courses[i].number, 
+            if (i < this.coreCourses.length) {
+                let importedData: any = this.importedClassDataMap.get(this.coreCourses[i].number);
+                data.push({'type': 'input', 'data': [this.coreCourses[i].name, this.coreCourses[i].number, 
                     importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
             }
             else
@@ -97,13 +100,11 @@ export class DegreePlanEditorComponent {
         }
 
         // push all additional core course work for this degree plan
-        let additionalCourses: any = this.configs.get('additionalCoreCourseList');
-        additionalCourses = additionalCourses[this.selectedDegreePlan];
         data.push({'type': 'header', 'data': ['One of the following Courses']});
         for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
-            if (i < additionalCourses.length) {
-                let importedData: any = this.importedClassDataMap.get(additionalCourses[i].number);
-                data.push({'type': 'input', 'data': [additionalCourses[i].name, additionalCourses[i].number, 
+            if (i < this.additionalCourses.length) {
+                let importedData: any = this.importedClassDataMap.get(this.additionalCourses[i].number);
+                data.push({'type': 'input', 'data': [this.additionalCourses[i].name, this.additionalCourses[i].number, 
                     importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
             }
             else
@@ -142,13 +143,11 @@ export class DegreePlanEditorComponent {
         }
 
         // push admission prereqs
-        let prereqCourses: any = this.configs.get('prereqCourseList');
-        prereqCourses = prereqCourses[this.selectedDegreePlan];
         data.push({'type': 'header', 'data': ['Admission Prerequisites']})
         for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
-            if (i < prereqCourses.length) {
-                let importedData: any = this.importedClassDataMap.get(prereqCourses[i].number);
-                data.push({'type': 'input', 'data': [prereqCourses[i].name, prereqCourses[i].number,
+            if (i < this.prereqCourses.length) {
+                let importedData: any = this.importedClassDataMap.get(this.prereqCourses[i].number);
+                data.push({'type': 'input', 'data': [this.prereqCourses[i].name, this.prereqCourses[i].number,
                     importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
             }
             else
@@ -179,18 +178,26 @@ export class DegreePlanEditorComponent {
             this.firstLoad = false;
         }
 
+        // check to see if the degree plan is changed. Most of the updates to the data loaded into the table only change
+        //  if the degree plan changes, so by only changing these settings on a degree plan change speeds up performance
+        //  considerably
         if (changes["selectedDegreePlan"]) {
-            this.courseList = JSON.stringify(auditReportConfigs);
+            // this.courseList = JSON.stringify(auditReportConfigs);
+            this.courseList = JSON.stringify(configFile);
             this.configs = new Map(Object.entries(JSON.parse(this.courseList)));
+            this.coreCourses = this.configs.get("degreePlans")[this.selectedDegreePlan]["coreCourseList"];
+            this.additionalCourses = this.configs.get("degreePlans")[this.selectedDegreePlan]["additionalCoreCourseList"];
+            this.prereqCourses = this.configs.get("degreePlans")[this.selectedDegreePlan]["prereqCourseList"];
+            this.loadPrepopulationData();
+            this.seperateDataFromSettings();
+            this.generateCells(this.preloadDataWithSettings);
+            this.generateMergeCells(this.preloadDataWithSettings);
+            this.generateBorders(this.preloadDataWithSettings);
         }
 
         this.loadPrepopulationData();
-        this.generateCells(this.preloadDataWithSettings);
-        this.generateMergeCells(this.preloadDataWithSettings);
-        this.generateBorders(this.preloadDataWithSettings);
         this.seperateDataFromSettings();
         this.preloadDataChange.emit(this.preloadData);
-        console.log(this.importedClassDataMap);
     }
 
     generateCells = (dataWithSettings: any[]) => {
@@ -202,10 +209,6 @@ export class DegreePlanEditorComponent {
             }
             else if (dataWithSettings[i].type == 'mainHeader') {
                 cells.push({ row: i, col: 0, className: 'htCenter', renderer: this.mainHeader });
-            }
-            else if (dataWithSettings[i].type == 'binaryInput') {
-                cells.push({ row: i, col: 1, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'Y ' }});
-                cells.push({ row: i, col: 2, className: 'htCenter', type: 'checkbox', label: { position: 'before', value: 'N ' }});
             }
             else {
                 for (let j = 0; j < dataWithSettings[i].data.length; ++j) {
