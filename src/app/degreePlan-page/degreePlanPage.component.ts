@@ -294,39 +294,27 @@ export class DegreePlanPageComponent {
             }
             
             electron.ipcRenderer.send("generateDegreePlanPDF", degreePlanType);
+            setTimeout(this.saveDegreePlanFile, 1000);
             
-            const container = document.getElementById("buttonContainer");
-            const downloadedDegree = document.createElement("button");
-            const downloadedDegreeText = document.createTextNode("Download Degree Plan");
-            // downloadedDegree.href = "../../src/output/DegreePlan.pdf";
-            downloadedDegree.addEventListener('click', this.saveDegreePlanLink, false);
-            downloadedDegree.appendChild(downloadedDegreeText);
-            container?.appendChild(downloadedDegree);
+            // const container = document.getElementById("buttonContainer");
+            // const downloadedDegree = document.createElement("button");
+            // const downloadedDegreeText = document.createTextNode("Download Degree Plan");
+            // // downloadedDegree.href = "../../src/output/DegreePlan.pdf";
+            // downloadedDegree.addEventListener('click', this.saveDegreePlanLink, false);
+            // downloadedDegree.appendChild(downloadedDegreeText);
+            // container?.appendChild(downloadedDegree);
 
-            const downloadedAudit = document.createElement("a");
-            const downloadedAuditText = document.createTextNode("Download Audit Report");
-            downloadedAudit.href = "../../src/output/AudRep.pdf";
-            downloadedAudit.addEventListener('click', this.saveAuditLink, false);
-            downloadedAudit.appendChild(downloadedAuditText);
-            container?.appendChild(downloadedAudit);
+            // const downloadedAudit = document.createElement("a");
+            // const downloadedAuditText = document.createTextNode("Download Audit Report");
+            // downloadedAudit.href = "../../src/output/AudRep.pdf";
+            // downloadedAudit.addEventListener('click', this.saveAuditLink, false);
+            // downloadedAudit.appendChild(downloadedAuditText);
+            // container?.appendChild(downloadedAudit);
         }
     }
 
-    selectSaveLocation(event: any) {
-        console.log()
-    }
-
-    saveDegreePlanLink(target: any) {
-        electron.ipcRenderer.send('saveDegreePlan', "")
-    }
-
-    saveAuditLink(target: any) {
-        let headers = new HttpHeaders();
-        headers = headers.set('Accept', 'application/pdf');
-        this.httpClient.get(target.href, { headers: headers, responseType: 'blob' })
-            .subscribe((data) => {
-                console.log(data);
-            });
+    saveDegreePlanFile() {
+        electron.ipcRenderer.send('saveDegreePlanAndAudit', configFile.outputFolder);
     }
 
     confirmSaveStudentObject() {

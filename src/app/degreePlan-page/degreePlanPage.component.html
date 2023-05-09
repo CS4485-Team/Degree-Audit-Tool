@@ -79,10 +79,10 @@
             <p id="pid2" *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
         </div>
 
-        <div>
+        <!-- <div>
             <p>Select folder to save Degree Plan and Audit Report to</p>
             <input type="file" id="selectDir" webkitdirectory directory #dirSelect (change)="selectSaveLocation($event)"/>
-        </div>
+        </div> -->
 
         <div id="buttonContainer">
             <p style="color: red; font-weight: bold;">{{errorMessage}}</p>

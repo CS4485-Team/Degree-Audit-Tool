@@ -8,29 +8,54 @@ const fs = require('fs');
 
 let mainWindow
 
-function createWindow () {
-
+function clearDirs () {
   // clear input and output directories to prepare for new file saves
-  const fs = require("fs");
-  const path = require("path");
-
   const directory = ["./src/input", "./src/output", "./src/transcriptInput", "./src/transcriptOutput"];
 
-  directory.forEach(directory => {
-    if (!fs.existsSync(directory)) {
-      fs.mkdirSync(directory, { recursive: true });
-    }
+  try {
+    directory.forEach(directory => {
+      if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, { recursive: true });
+      }
 
-    fs.readdir(directory, (err, files) => {
-      if (err) throw err;
-    
-        for (const file of files) {
-          fs.unlink(path.join(directory, file), (err) => {
-            if (err) throw err;
+      fs.readdir(directory, (err, files) => {
+        if (err) {
+          console.log(err);
+        };
+      
+          for (const file of files) {
+            fs.unlink(path.join(directory, file), (err) => {
+              if (err) {
+                console.log(err);
+              }
+            });
+          }
+        });
+    })
+  }
+  catch (err) {
+    console.log(err);
+  }
+
+  try {
+    fs.readdir('.', (err, files) => {
+      if (err) {
+        console.log(err);
+      };
+          fs.unlink(path.join('.', 'Test.csv'), (err) => {
+            if (err) {
+              console.log(err);
+            }
           });
-        }
       });
-  })
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
+function createWindow () {
+  clearDirs();
 
   mainWindow = new BrowserWindow({
     webPreferences: {
@@ -100,10 +125,6 @@ ipcMain.on("copyFile", (event, fileToCopy) => {
   jetpack.copy(fileToCopy, "./src/transcriptInput/input.pdf");
 });
 
-ipcMain.on("moveFile", (event) => {
-  jetpack.copy("./Test.csv", "./dist/degree-audit-tool/Test.csv");
-})
-
 ipcMain.on('parseTranscript', (event) => {
   const process = spawn("java", ['-jar', './Degree2.jar', "./src/transcriptInput/input.pdf"]);
 
@@ -116,7 +137,18 @@ ipcMain.on('parseTranscript', (event) => {
   });
 });
 
-ipcMain.on('saveDegreePlan', (event, destination) => {
-  jetpack.copy('./src/output/DegreePlan.pdf', "C:/Users/Collin/Desktop/DegreePlan.pdf");
-  console.log("File saved");
+ipcMain.on('clearDirs', (event) => {
+  clearDirs();
+})
+
+ipcMain.on('saveDegreePlanAndAudit', (event, destination) => {
+  try {
+    jetpack.copy('./src/output/DegreePlan.pdf', destination + `/DegreePlan.pdf`);
+    jetpack.copy('./src/output/AudRep.pdf', destination + `/AuditReport.pdf`);
+    console.log("Files saved to destination " + destination);
+  }
+  catch (err) {
+    console.log(err);
+  }
+
 });

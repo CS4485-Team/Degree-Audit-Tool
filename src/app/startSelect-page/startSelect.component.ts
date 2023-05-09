@@ -56,6 +56,7 @@ export class StartSelectComponent {
         //  file contents are read, so we must wait until the contents are finished before
         //  proceeding).
         const promise = new Promise(function(resolve, reject) {
+          electron.ipcRenderer.send("clearDirs");
           let reader = new FileReader();
 
           // once the file is loaded, call the 'copyFile' command in app.js to move the file
@@ -74,7 +75,7 @@ export class StartSelectComponent {
         promise.then(
           function(value: any) {
             updateFileName(value);
-            electron.ipcRenderer.send("moveFile"); // once the file is done being processed, move it to the appropriate folder to preload
+            // electron.ipcRenderer.send("moveFile"); // once the file is done being processed, move it to the appropriate folder to preload
           }
         )
 
@@ -96,15 +97,54 @@ export class StartSelectComponent {
       // the HTML element that acts as the holder for the input file
       const inputNode: HTMLInputElement = document.getElementById("fileInput") as HTMLInputElement;
 
-      const updateFile = (event: any) => {
-        this.inputFileName = event.target.files[0].name;
+      // the filename needs to be updated in a function outside of the promise since any reference to
+      //  'this' will reference the promise itself
+      const updateFileName = (name: string) => {
+        this.inputFileName = name;
       }
+
+      // updates the file information once the user has uploaded the file
+      const updateFile = (event: any) => {
+        this.inputFileName = "Loading file info...";
+
+        // convert file from pdf to csv. This must be done in a promise since the
+        //  file reading is async (meaning, the program may try to continue before the
+        //  file contents are read, so we must wait until the contents are finished before
+        //  proceeding).
+        const promise = new Promise(function(resolve, reject) {
+          electron.ipcRenderer.send("clearDirs");
+          let reader = new FileReader();
+
+          // once the file is loaded, call the 'copyFile' command in app.js to move the file
+          //  to the required input spot for reading
+          reader.onload = (function(theFile) {
+            return function(event: any) {
+              electron.ipcRenderer.send("copyFile", theFile.path);
+              electron.ipcRenderer.send("parseTranscript");
+              resolve(theFile.name);
+            };
+
+          })(event.target.files[0]);
+          reader.readAsDataURL(event.target.files[0]);
+        });
+
+        promise.then(
+          function(value: any) {
+            updateFileName(value);
+            // electron.ipcRenderer.send("moveFile"); // once the file is done being processed, move it to the appropriate folder to preload
+          }
+        )
+
+      }
+
       inputNode.addEventListener("change", updateFile, false);
 
       if (inputNode != null) {
-        inputNode.accept = ".stdobj";
+        inputNode.accept = ".csv";
         inputNode.click();
       }
+
+
     }
 
     /*  continue
@@ -113,7 +153,7 @@ export class StartSelectComponent {
     */
     continue() {
       try {
-        this.httpClient.get("Test.csv", {responseType: 'text'}).subscribe((csvData) => {
+        this.httpClient.get("../../Test.csv", {responseType: 'text'}).subscribe((csvData) => {
           this.router.navigateByUrl('/degreePlan', {state: {preload: csvData}});
         })
       }
