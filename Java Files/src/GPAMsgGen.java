@@ -55,11 +55,11 @@ public class GPAMsgGen {
 		// Current GPA is not actually needed for any of these calculations.
 		/*currGPA = currPts / ((double) numClassesFinished);*/
 		
-		reqRemMinGPA = calcReqRemMinGPA(currPts, minGPA, numElectivesTaken, 6 - numElectivesTaken + currentCourses.size());
+		reqRemMinGPA = calcReqRemMinGPA(currPts, minGPA, numElectivesTaken, 6 - numElectivesTaken /*+ currentCourses.size()*/);
 		if (reqRemMinGPA > 2.0)																						  //
-			return "      -The student must pass " + (6 - numElectivesTaken + currentCourses.size()) + " more electives (includes currently \n        enrolled courses)  with an overall minimum GPA of " + reqRemMinGPA + ".";
+			return "      -The student must pass " + (6 - numElectivesTaken /*+ currentCourses.size()*/) + " more electives (includes currently \n        enrolled courses)  with an overall minimum GPA of " + reqRemMinGPA + ".";
 		else 
-			return "      -The student must pass " + (6 - numElectivesTaken + currentCourses.size()) + " more electives (includes currently \n        enrolled courses).";
+			return "      -The student must pass " + (6 - numElectivesTaken /*+ currentCourses.size()*/) + " more electives (includes currently \n        enrolled courses).";
 	}
 
 	public static String msgGen(String[] classes, String[] grades, double minGPA) {

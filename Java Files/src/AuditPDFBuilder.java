@@ -126,7 +126,7 @@ public class AuditPDFBuilder {
 			int count = 0;
 
 			for (int i = 0; i < tempClasses2.length; i++) {
-				if (!tempClasses2[i].trim().equals("")) count++;
+				if (!tempClasses2[i].trim().equals("") && !tempGrades2[i].trim().equals("")) count++;
 			}
 
 			// Calculating the number of electives student still has to take
