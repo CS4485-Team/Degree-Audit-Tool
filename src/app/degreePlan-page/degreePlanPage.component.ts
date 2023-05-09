@@ -350,12 +350,18 @@ export class DegreePlanPageComponent {
     }
 
     saveDegreePlanFile() {
-        console.log(this.saveDir);
-        if (this.saveDir == '' || this.saveDir == undefined) {
+        let saveDir = '';
+        const container: any = document.getElementById('saveDirInput');
+        saveDir = container.value;
+        console.log(saveDir);
+
+        if (saveDir == '' || saveDir == undefined) {
             electron.ipcRenderer.send('saveDegreePlanAndAudit', configFile.outputFolder);
+            console.log("saving default");
         }
         else {
-            electron.ipcRenderer.send('saveDegreePlanAndAudit', this.saveDir);
+            electron.ipcRenderer.send('saveDegreePlanAndAudit', saveDir);
+            console.log("saving custom");
         }
     }
 

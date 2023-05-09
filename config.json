@@ -220,7 +220,7 @@
             "numElectiveCourses": 3,
             "numAdditionalElectiveCourses": 5,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 7
+            "numAdmissionPrereqs": 10
         },
         "Data Science": {
             "numCoreCourses": 5,
@@ -228,7 +228,7 @@
             "numElectiveCourses": 5,
             "numAdditionalElectiveCourses": 3,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 7
+            "numAdmissionPrereqs": 10
         },
         "Intelligent Systems": {
             "numCoreCourses": 5,
@@ -236,7 +236,7 @@
             "numElectiveCourses": 5,
             "numAdditionalElectiveCourses": 3,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 6
+            "numAdmissionPrereqs": 9
         },
         "Interactive Computing": {
             "numCoreCourses": 3,
@@ -244,7 +244,7 @@
             "numElectiveCourses": 5,
             "numAdditionalElectiveCourses": 3,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 6
+            "numAdmissionPrereqs": 9
         },
         "Networks and Telecommunications": {
             "numCoreCourses": 6,
@@ -252,7 +252,7 @@
             "numElectiveCourses": 5,
             "numAdditionalElectiveCourses": 3,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 10
+            "numAdmissionPrereqs": 13
         },
         "Systems": {
             "numCoreCourses": 5,
@@ -260,7 +260,7 @@
             "numElectiveCourses": 5,
             "numAdditionalElectiveCourses": 3,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 7
+            "numAdmissionPrereqs": 10
         },
         "Software Engineering": {
             "numCoreCourses": 6,
@@ -268,7 +268,7 @@
             "numElectiveCourses": 5,
             "numAdditionalElectiveCourses": 3,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 10
+            "numAdmissionPrereqs": 13
         },
         "Traditional Computer Science": {
             "numCoreCourses": 4,
@@ -276,7 +276,7 @@
             "numElectiveCourses": 5,
             "numAdditionalElectiveCourses": 3,
             "numOtherRequirements": 2,
-            "numAdmissionPrereqs": 8
+            "numAdmissionPrereqs": 11
         }
     }
 }
