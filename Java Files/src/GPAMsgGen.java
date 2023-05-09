@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+
 public class GPAMsgGen {
 	
 	public static final double MIN_CORE_GPA = 3.19;
@@ -36,12 +38,13 @@ public class GPAMsgGen {
 	
 	public static String elecMsgGen(int numElectivesTaken, String[] classes, String[] grades, double minGPA) {
 
+		ArrayList<String> currentCourses = new ArrayList<String>();
 		double currPts = 0, /*currGPA = 0,*/ reqRemMinGPA = 0;
 		
 		// We must assume that classes and grades have the same length.
 		for (int i = 0; i < classes.length; i++) {
 			if (grades[i].trim().equals("") && !classes[i].trim().equals("")) {
-				continue;
+				currentCourses.add(classes[i].trim());
 			} else if (grades[i].trim().equals("I") || grades[i].trim().equals("P")) {
 				continue;
 			} else if (!classes[i].trim().equals("")){
@@ -52,11 +55,11 @@ public class GPAMsgGen {
 		// Current GPA is not actually needed for any of these calculations.
 		/*currGPA = currPts / ((double) numClassesFinished);*/
 		
-		reqRemMinGPA = calcReqRemMinGPA(currPts, minGPA, numElectivesTaken, 6 - numElectivesTaken);
-		if (reqRemMinGPA > 2.0)
-			return "      -The student must pass " + (6 - numElectivesTaken) + " more electives with an overall minimum \n       GPA of " + reqRemMinGPA + ".";
+		reqRemMinGPA = calcReqRemMinGPA(currPts, minGPA, numElectivesTaken, 6 - numElectivesTaken + currentCourses.size());
+		if (reqRemMinGPA > 2.0)																						  //
+			return "      -The student must pass " + (6 - numElectivesTaken + currentCourses.size()) + " more electives (includes currently \n        enrolled courses)  with an overall minimum GPA of " + reqRemMinGPA + ".";
 		else 
-			return "      -The student must pass " + (6 - numElectivesTaken) + " more electives.";
+			return "      -The student must pass " + (6 - numElectivesTaken + currentCourses.size()) + " more electives (includes currently \n        enrolled courses).";
 	}
 
 	public static String msgGen(String[] classes, String[] grades, double minGPA) {
@@ -89,7 +92,7 @@ public class GPAMsgGen {
 			String toReturn = "      -The student must pass: ";
 			for (int i = 0; i < classes.length; i++) {
 				if (grades[i].trim().equals("")) {
-					toReturn += classes[i];
+					toReturn += classes[i].trim();
 					toReturn += " ";
 				}
 			}
@@ -102,7 +105,7 @@ public class GPAMsgGen {
 			toReturn += " in: ";
 			for (int i = 0; i < classes.length; i++) {
 				if (grades[i].trim().equals("")) {
-					toReturn += classes[i];
+					toReturn += classes[i].trim();
 					toReturn += " ";
 				}
 			}
@@ -115,7 +118,7 @@ public class GPAMsgGen {
 			toReturn += " in: ";			
 			for (int i = 0; i < classes.length; i++) {
 				if (grades[i].trim().equals("")) {
-					toReturn += classes[i];
+					toReturn += classes[i].trim();
 					toReturn += " ";
 				}
 			}
