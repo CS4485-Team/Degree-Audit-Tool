@@ -13,6 +13,7 @@ declare const electron: any;
 export class StartSelectComponent {
 
     inputFileName: string = "";
+    uploadingTranscript: boolean = false;
 
     /*  StartSelectComponent
         Component to hold the logic for the start-select page. This page is intended to allow the
@@ -38,6 +39,8 @@ export class StartSelectComponent {
         The user can only input a PDF file if they select this option.
     */
     uploadTranscriptFile() {
+      this.uploadingTranscript = true;
+
       // the HTML element that acts as the holder for the input file
       const inputNode: HTMLInputElement = document.getElementById("fileInput") as HTMLInputElement;
 
@@ -94,6 +97,8 @@ export class StartSelectComponent {
         Allow the user to upload a student object file to prepopulate the degreePlan page.
     */
     uploadStudentObjectFile() {
+      this.uploadingTranscript = false;
+
       // the HTML element that acts as the holder for the input file
       const inputNode: HTMLInputElement = document.getElementById("fileInput") as HTMLInputElement;
 
@@ -119,8 +124,7 @@ export class StartSelectComponent {
           //  to the required input spot for reading
           reader.onload = (function(theFile) {
             return function(event: any) {
-              electron.ipcRenderer.send("copyFile", theFile.path);
-              electron.ipcRenderer.send("parseTranscript");
+              electron.ipcRenderer.send("copyStudentObject", theFile.path);
               resolve(theFile.name);
             };
 
@@ -131,7 +135,6 @@ export class StartSelectComponent {
         promise.then(
           function(value: any) {
             updateFileName(value);
-            // electron.ipcRenderer.send("moveFile"); // once the file is done being processed, move it to the appropriate folder to preload
           }
         )
 
@@ -154,7 +157,7 @@ export class StartSelectComponent {
     continue() {
       try {
         this.httpClient.get("../../Test.csv", {responseType: 'text'}).subscribe((csvData) => {
-          this.router.navigateByUrl('/degreePlan', {state: {preload: csvData}});
+          this.router.navigateByUrl('/degreePlan', {state: {preload: csvData, uploadingTranscript: this.uploadingTranscript}});
         })
       }
       catch {

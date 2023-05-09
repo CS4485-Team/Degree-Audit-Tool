@@ -12,13 +12,16 @@ declare const electron: any;
 })
 
 export class DegreePlanPageComponent {
+    configs: any;
     degreePlans: string[] = Object.keys(configFile.degreePlans);
     majors: string[] = configFile.majors;
     electives: any[] = configFile.electives;
+    prereqs: any[] = [];
     selectedElectives: any[] = [];
     selectedAddElectives: any[] = [];
     selectedDegreePlan: string = 'Cyber Security';
     selectedMajor: string = 'Computer Science';
+    selectedPrereqs: any[] = [];
     studentName: string = '';
     studentId: string = '';
     admitSem: string = '';
@@ -28,22 +31,41 @@ export class DegreePlanPageComponent {
     importedClassData: any = [];
     degreePlanData: any[] = []; // same data as in degree plan component
     errorMessage: string = "";
+    isLoadingFromTranscript: boolean = true;
 
     constructor(private router: Router, private httpClient: HttpClient) {
         const state: any = router.getCurrentNavigation()?.extras.state
-        
         if (state['preload'].length != 0) {
             const csvData: any = this.CSVToArray(state['preload'], ',');
+
             try {
-                this.studentName = csvData[csvData.length - 2][0];
-                this.studentId = csvData[csvData.length - 2][1];
-                this.admitSem = csvData[csvData.length - 2][2];
-                this.importedClassData = csvData;
-                this.selectedMajor = csvData[csvData.length - 2][3];
+                if (state['uploadingTranscript']) {
+                    this.isLoadingFromTranscript = true;
+                    this.studentName = csvData[csvData.length - 2][0];
+                    this.studentId = csvData[csvData.length - 2][1];
+                    this.admitSem = csvData[csvData.length - 2][2];
+                    this.importedClassData = csvData;
+                    this.selectedMajor = csvData[csvData.length - 2][3];
+                }
+                else {
+                    this.isLoadingFromTranscript = false;
+                    this.studentName = csvData[0][0];
+                    this.studentId = csvData[0][1];
+                    this.admitSem = csvData[0][2];
+                    this.importedClassData = csvData;
+                    this.selectedMajor = csvData[0][3];
+                }
             }
             catch {
                 console.log("Error in loading preload data into document.");
             }
+        }
+
+        const courseList: string = JSON.stringify(configFile);
+        this.configs = new Map(Object.entries(JSON.parse(courseList)));
+        const prereqs = this.configs.get('degreePlans')[this.selectedDegreePlan]['prereqCourseList'];
+        for (let i = 0; i < prereqs.length; ++i) {
+            this.selectedPrereqs.push(prereqs[i]);
         }
     }
 
@@ -51,18 +73,20 @@ export class DegreePlanPageComponent {
         if (value)
             this.isFT = "Y";
         else
-            this.isFT = "F";
+            this.isFT = "N";
     }
 
     setIsTH(value: boolean) {
         if (value)
             this.isTH = "Y";
         else
-            this.isTH = "F";
+            this.isTH = "N";
     }
     
     onSelectedDegreePlan(value: string) {
         this.selectedDegreePlan = value;
+        const courseList: string = JSON.stringify(configFile);
+        this.configs = new Map(Object.entries(JSON.parse(courseList)));
     }
 
     onSelectedMajor(value: string) {
@@ -97,7 +121,7 @@ export class DegreePlanPageComponent {
     onSelectedAddElective(value: any) {
         const courseList: string = JSON.stringify(configFile);
         const configs: any = new Map(Object.entries(JSON.parse(courseList)));
-        if (this.selectedElectives.length == configs.get('outputCourseInfo')[this.selectedDegreePlan].numAdditionalElectiveCourses)
+        if (this.selectedAddElectives.length == configs.get('outputCourseInfo')[this.selectedDegreePlan].numAdditionalElectiveCourses)
             return;
 
         for (let i = 0; i < this.electives.length; ++i) {
@@ -117,6 +141,27 @@ export class DegreePlanPageComponent {
             }
         }
         this.selectedAddElectives = [...this.selectedAddElectives];
+    }
+
+    onSelectedPrereq(value: any) {
+        for (let i = 0; i < this.prereqs.length; ++i) {
+            if (this.prereqs[i].number == value) {
+                this.selectedPrereqs.push(this.prereqs[i]);
+                this.prereqs.splice(i, 1);
+            }
+        }
+        this.selectedPrereqs = [...this.selectedPrereqs];
+    }
+
+    removePrereq(value: any) {
+        for (let i = 0; i < this.selectedPrereqs.length; ++i) {
+            if (this.selectedPrereqs[i].number == value.number) {
+                this.prereqs.push(this.selectedPrereqs[i]);
+                this.selectedPrereqs.splice(i, 1);
+                console.log(this.prereqs);
+            }
+        }
+        this.selectedPrereqs = [...this.selectedPrereqs];
     }
 
     setData(data: any[]) {
@@ -146,7 +191,7 @@ export class DegreePlanPageComponent {
         for (let i = start; i < start + configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
             var filteredData: any[] = [];
             for (let j = 0; j < this.degreePlanData[i].length; ++j) {
-                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined)
+                if (this.degreePlanData[i][j] == '' || this.degreePlanData[i][j] == undefined) 
                     filteredData.push('blank');
                 else
                     filteredData.push(this.degreePlanData[i][j]);
@@ -295,21 +340,6 @@ export class DegreePlanPageComponent {
             
             electron.ipcRenderer.send("generateDegreePlanPDF", degreePlanType);
             setTimeout(this.saveDegreePlanFile, 1000);
-            
-            // const container = document.getElementById("buttonContainer");
-            // const downloadedDegree = document.createElement("button");
-            // const downloadedDegreeText = document.createTextNode("Download Degree Plan");
-            // // downloadedDegree.href = "../../src/output/DegreePlan.pdf";
-            // downloadedDegree.addEventListener('click', this.saveDegreePlanLink, false);
-            // downloadedDegree.appendChild(downloadedDegreeText);
-            // container?.appendChild(downloadedDegree);
-
-            // const downloadedAudit = document.createElement("a");
-            // const downloadedAuditText = document.createTextNode("Download Audit Report");
-            // downloadedAudit.href = "../../src/output/AudRep.pdf";
-            // downloadedAudit.addEventListener('click', this.saveAuditLink, false);
-            // downloadedAudit.appendChild(downloadedAuditText);
-            // container?.appendChild(downloadedAudit);
         }
     }
 

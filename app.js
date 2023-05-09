@@ -125,6 +125,10 @@ ipcMain.on("copyFile", (event, fileToCopy) => {
   jetpack.copy(fileToCopy, "./src/transcriptInput/input.pdf");
 });
 
+ipcMain.on("copyStudentObject", (event, fileToCopy) => {
+  jetpack.copy(fileToCopy, './Test.csv');
+})
+
 ipcMain.on('parseTranscript', (event) => {
   const process = spawn("java", ['-jar', './Degree2.jar', "./src/transcriptInput/input.pdf"]);
 

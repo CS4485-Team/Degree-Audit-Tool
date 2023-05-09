@@ -37,8 +37,10 @@ export class DegreePlanEditorComponent {
     @Input() addElectives: any[] = [];
     @Input() importedClassData: any[];
     importedClassDataMap: Map<string, string[]>
+    @Input() selectedPrereqs: any[];
     @Input() isFT: string = 'F';
     @Input() isTH: string = 'F';
+    @Input() isLoadingFromTranscript: boolean = true;
 
     preloadDataWithSettings: any[];
     preloadData: any[];
@@ -52,7 +54,6 @@ export class DegreePlanEditorComponent {
     coreCourses: any;
     additionalCourses: any;
     prereqCourses: any;
-
 
     cells: any[] = [];
     borders: any[] = [];
@@ -92,8 +93,14 @@ export class DegreePlanEditorComponent {
         for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numCoreCourses"]; ++i) {
             if (i < this.coreCourses.length) {
                 let importedData: any = this.importedClassDataMap.get(this.coreCourses[i].number);
-                data.push({'type': 'input', 'data': [this.coreCourses[i].name, this.coreCourses[i].number, 
-                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                if (this.isLoadingFromTranscript) {
+                    data.push({'type': 'input', 'data': [this.coreCourses[i].name, this.coreCourses[i].number, 
+                        importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                }
+                else {
+                    data.push({'type': 'input', 'data': [this.coreCourses[i].name, this.coreCourses[i].number, 
+                        importedData ? importedData[2] : '', importedData ? importedData[3] : '', importedData ? importedData[4] : '']});
+                }
             }
             else
                 data.push({'type': 'input', 'data': ['','','','','']});
@@ -104,8 +111,14 @@ export class DegreePlanEditorComponent {
         for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalCoreCourses"]; ++i) {
             if (i < this.additionalCourses.length) {
                 let importedData: any = this.importedClassDataMap.get(this.additionalCourses[i].number);
-                data.push({'type': 'input', 'data': [this.additionalCourses[i].name, this.additionalCourses[i].number, 
-                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                if (this.isLoadingFromTranscript) {
+                    data.push({'type': 'input', 'data': [this.additionalCourses[i].name, this.additionalCourses[i].number, 
+                        importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                }
+                else {
+                    data.push({'type': 'input', 'data': [this.additionalCourses[i].name, this.additionalCourses[i].number, 
+                        importedData ? importedData[2] : '', importedData ? importedData[3] : '', importedData ? importedData[4] : '']});
+                }
             }
             else
                 data.push({'type': 'input', 'data': ['','','','','']});
@@ -117,8 +130,14 @@ export class DegreePlanEditorComponent {
         for (let i = 0; i < electivesCount; ++i) {
             if (i < this.electives.length) {
                 let importedData: any = this.importedClassDataMap.get(this.electives[i].number);
-                data.push({'type': 'input', 'data': [this.electives[i].name, this.electives[i].number, 
-                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                if (this.isLoadingFromTranscript) {
+                    data.push({'type': 'input', 'data': [this.electives[i].name, this.electives[i].number, 
+                        importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                }
+                else {
+                    data.push({'type': 'input', 'data': [this.electives[i].name, this.electives[i].number, 
+                        importedData ? importedData[2] : '', importedData ? importedData[3] : '', importedData ? importedData[4] : '']});
+                }
             }
             else
                 data.push({'type': 'input', 'data': ['', '', '', '', '']});
@@ -129,8 +148,14 @@ export class DegreePlanEditorComponent {
         for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdditionalElectiveCourses"]; ++i) {
             if (i < this.addElectives.length) {
                 let importedData: any = this.importedClassDataMap.get(this.addElectives[i].number);
-                data.push({'type': 'input', 'data': [this.addElectives[i].name, this.addElectives[i].number, 
-                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                if (this.isLoadingFromTranscript) {
+                    data.push({'type': 'input', 'data': [this.addElectives[i].name, this.addElectives[i].number, 
+                        importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                }
+                else {
+                    data.push({'type': 'input', 'data': [this.addElectives[i].name, this.addElectives[i].number, 
+                        importedData ? importedData[2] : '', importedData ? importedData[3] : '', importedData ? importedData[4] : '']});
+                }
             }
             else
                 data.push({'type': 'input', 'data': ['', '', '', '', '']});
@@ -145,10 +170,16 @@ export class DegreePlanEditorComponent {
         // push admission prereqs
         data.push({'type': 'header', 'data': ['Admission Prerequisites']})
         for (let i = 0; i < this.configs.get("outputCourseInfo")[this.selectedDegreePlan]["numAdmissionPrereqs"]; ++i) {
-            if (i < this.prereqCourses.length) {
-                let importedData: any = this.importedClassDataMap.get(this.prereqCourses[i].number);
-                data.push({'type': 'input', 'data': [this.prereqCourses[i].name, this.prereqCourses[i].number,
-                    importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+            if (i < this.selectedPrereqs.length) {
+                let importedData: any = this.importedClassDataMap.get(this.selectedPrereqs[i].number);
+                if (this.isLoadingFromTranscript) {
+                    data.push({'type': 'input', 'data': [this.selectedPrereqs[i].name, this.selectedPrereqs[i].number,
+                        importedData ? importedData[11] : '', importedData ? importedData[7] : '', importedData ? importedData[9] : '']});
+                }
+                else {
+                    data.push({'type': 'input', 'data': [this.selectedPrereqs[i].name, this.selectedPrereqs[i].number,
+                        importedData ? importedData[2] : '', importedData ? importedData[3] : '', importedData ? importedData[4] : '']});
+                }
             }
             else
                 data.push({'type': 'input', 'data': ['', '', '', '', '']});
@@ -172,17 +203,28 @@ export class DegreePlanEditorComponent {
         if (this.firstLoad) {
             // take the class data in list format and convert it into a hash map. This will help with overall table generation efficiency
             this.importedClassDataMap = new Map<string, string[]>();
-            for (let i = 0; i < this.importedClassData.length; ++i) {
-                this.importedClassDataMap.set(this.importedClassData[i][2], this.importedClassData[i]);
+            if (this.isLoadingFromTranscript) {
+                for (let i = 0; i < this.importedClassData.length; ++i) {
+                    this.importedClassDataMap.set(this.importedClassData[i][2], this.importedClassData[i]);
+                }
             }
-            this.firstLoad = false;
+            else {
+                for (let i = 0; i < this.importedClassData.length; ++i) {
+                    for (let j = 0; j < this.importedClassData[i].length; ++j) {
+                        if (this.importedClassData[i][j] == 'blank') {
+                            this.importedClassData[i][j] = '';
+                        }
+                    }
+                    this.importedClassDataMap.set(this.importedClassData[i][1], this.importedClassData[i]);
+                };
+            }
         }
+        this.firstLoad = false;
 
         // check to see if the degree plan is changed. Most of the updates to the data loaded into the table only change
         //  if the degree plan changes, so by only changing these settings on a degree plan change speeds up performance
         //  considerably
         if (changes["selectedDegreePlan"]) {
-            // this.courseList = JSON.stringify(auditReportConfigs);
             this.courseList = JSON.stringify(configFile);
             this.configs = new Map(Object.entries(JSON.parse(this.courseList)));
             this.coreCourses = this.configs.get("degreePlans")[this.selectedDegreePlan]["coreCourseList"];

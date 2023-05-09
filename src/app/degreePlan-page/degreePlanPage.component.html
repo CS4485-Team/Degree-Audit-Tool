@@ -14,7 +14,7 @@
             </select>
         </div>
 
-        <h3>Student Info</h3>
+        <h3 id="approved">Student Info</h3>
         <div id="name-box">
             <label id="studentName">Student Name </label>
             <input type="text" placeholder="studentName" [(ngModel)]="studentName"/>
@@ -23,6 +23,7 @@
         <div id="id-box">
             <label>Student ID Number </label>
             <input type="text" placeholder="studentId" [(ngModel)]="studentId"/>
+            <p style="letter-spacing: 1px;">(*** numbers only ***)</p>
         </div>
 
         <div id="name-box">
@@ -38,46 +39,71 @@
         <div class="radio_inputs">
             <p id="Fast-Track">Student is Fast Track </p>
             <ul id="list1">
-                <li><input type="radio" id="yes_ft" name="is_ft" value="y" (click)="setIsFT(true)"/></li>
-                <li><label for="yes_ft">Yes</label></li>
-                <li><input type="radio" id="no_ft" name="is_ft" value="n" (click)="setIsFT(false)"/></li>
-                <li><label for="no_ft">No</label></li>
+
+                <li >
+                    <input type="radio" id="yes_ft" name="is_ft" value="y" (click)="setIsFT(true)"/>
+                    <label for="yes_ft">Yes</label>
+                    <div class="check"></div>
+                </li>
+
+                <li>
+                    <input type="radio" id="no_ft" name="is_ft" value="n" (click)="setIsFT(false)"/>
+                    <label for="no_ft">No</label>
+                    <div class="check"></div>
+                </li>
+
             </ul>
         </div>
 
-            <br>
+        <br>
 
         <div class="radio_inputs2">
             <p id="Fast-Track">Student is Pursuing Thesis </p>
             <ul id="list2">
-                <li><input type="radio" id="yes_thesis" name="is_thesis" value="y" (click)="setIsTH(true)"/></li>
-                <li><label for="yes_thesis">Yes</label></li>
-                <li><input type="radio" id="no_thesis" name="is_thesis" value="n" (click)="setIsTH(false)"/></li>
-                <li><label for="no_thesis">No</label></li>
+                <li>
+                    <input type="radio" id="yes_thesis" name="is_thesis" value="y" (click)="setIsTH(true)"/>
+                    <label for="yes_thesis">Yes</label>
+                    <div class="check"></div>
+                </li>
+                <li>
+                    <input type="radio" id="no_thesis" name="is_thesis" value="n" (click)="setIsTH(false)"/>
+                    <label for="no_thesis">No</label>
+                    <div class="check"></div>
+                </li>
             </ul>
         </div>
 
-        <div id="fiveElectives">
-            <h3 id="approved">Five Approved Electives</h3>
-            <div id="elective_selector">
-                <select #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
-                    <option selected>Select Course</option>
+        <!-- <div id="fiveElectives"> -->
+            <h3 id="approved">Approved Electives</h3>
+            <!-- <div id="elective_selector"> -->
+                <select style="position: relative; display: flex; height: 3em; line-height: 3; background: #5c6664; border-radius: 0.25em; color: #fff; appearance: auto;" 
+                #electiveSelect (change)="onSelectedElective(electiveSelect.value)">
+                    <option selected>Select Elective</option>
                     <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
                 </select>
-            </div>
+            <!-- </div> -->
             <p id="pid1" *ngFor="let selectedElective of selectedElectives" (click)="removeElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
-        </div>
+        <!-- </div> -->
 
-        <div id="threeElectives">
-            <h3 id="additional">Three Additional Electives</h3>
-            <div id="additionalElective_selector">
-                <select #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
-                    <option selected>Select Course</option>
+        <!-- <div id="threeElectives"> -->
+            <h3 id="additional">Additional Electives</h3>
+            <!-- <div id="additionalElective_selector"> -->
+                <select style="position: relative; display: flex; height: 3em; line-height: 3; background: #5c6664; border-radius: 0.25em; color: #fff; appearance: auto;" 
+                #addElectiveSelect (change)="onSelectedAddElective(addElectiveSelect.value)">
+                    <option selected>Select Additional Elective</option>
                     <option *ngFor="let elective of electives" value={{elective.number}}>{{elective.name}} {{elective.number}}</option>
                 </select>
-            </div>
+            <!-- </div> -->
             <p id="pid2" *ngFor="let selectedElective of selectedAddElectives" (click)="removeAddElective(selectedElective)">{{selectedElective.name}} {{selectedElective.number}}</p>
-        </div>
+        <!-- </div> -->
+
+        <h3 id="additional">Prerequsites</h3>
+        <select style="position: relative; display: flex; height: 3em; line-height: 3; background: #5c6664; border-radius: 0.25em; color: #fff; appearance: auto;"
+        #addPrereq (change)="onSelectedPrereq(addPrereq.value)">
+            <option selected>Select Prerequisite</option>
+            <option *ngFor="let prereq of prereqs" value={{prereq.number}}>{{prereq.name}} {{prereq.number}}</option>
+        </select>
+        <p id="pid3" *ngFor="let selPrereq of selectedPrereqs" (click)="removePrereq(selPrereq)">{{selPrereq.name}} {{selPrereq.number}}</p>
 
         <!-- <div>
             <p>Select folder to save Degree Plan and Audit Report to</p>
@@ -96,7 +122,8 @@
         [selectedDegreePlan]="selectedDegreePlan" [selectedMajor]="selectedMajor"
         [studentName]="studentName" [studentId]="studentId" [electives]="selectedElectives" 
         [addElectives]="selectedAddElectives" [admitSem]="admitSem" [gradSem]="gradSem" 
-        [importedClassData]="importedClassData" [isFT]="isFT" [isTH]="isTH">
+        [importedClassData]="importedClassData" [selectedPrereqs]="selectedPrereqs" [isFT]="isFT" [isTH]="isTH"
+        [isLoadingFromTranscript]="isLoadingFromTranscript">
     </degreePlan-editor>
 
 </div>
