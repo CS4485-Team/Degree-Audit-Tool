@@ -68,7 +68,7 @@ public class PDFBuilder {
             
             System.out.println(usrData[3]);
         	pdf = new DataSciPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Data Science", 1, 4, 5, 10, 11, 20, 21, 27);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Data Science", 1, 4, 5, 10, 11, 20, 21, 30);
          } else if (opt == 2) {
     		
     		data = CSVParser.getArray(path);
@@ -80,7 +80,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new IntelSysPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Intelligent Systems", 1, 4, 5, 7, 8, 16, 18, 23);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Intelligent Systems", 1, 4, 5, 7, 8, 16, 18, 26);
         } else if (opt == 3) {
     		
     		data = CSVParser.getArray(path);
@@ -92,7 +92,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new SysTrackPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Systems Track", 1,4, 5, 10, 11, 20, 21, 27);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Systems Track", 1,4, 5, 10, 11, 20, 21, 30);
         } else if (opt == 4) {
     		
     		data = CSVParser.getArray(path);
@@ -104,7 +104,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new SoftEngPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 1, "Software Engineering", 1, 5, 0, 0, 6, 14, 16, 24);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 1, "Software Engineering", 1, 5, 0, 0, 6, 14, 16, 27);
         } else if (opt == 5) {
     		
     		data = CSVParser.getArray(path);
@@ -116,7 +116,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new CyberSecPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Cyber Security", 1, 3, 5, 9, 10, 16, 19, 25);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Cyber Security", 1, 3, 5, 9, 10, 16, 19, 28);
         } else if (opt == 6) {
     		
     		data = CSVParser.getArray(path);
@@ -128,7 +128,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
         	pdf = new NetTelePDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Networking/Telecomms", 1, 5, 0, 0, 6, 14, 16, 24);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Networking/Telecomms", 1, 5, 0, 0, 6, 14, 16, 27);
         } else if (opt == 7) {
     		
     		data = CSVParser.getArray(path);
@@ -140,7 +140,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
             pdf = new TradCSPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Traditional CS", 1, 3, 4, 7, 8, 15, 16, 23);
+            AuditPDFBuilder.createAudRep("./src/AudRep.pdf", data, usrData, 0, "Traditional CS", 1, 3, 4, 7, 8, 15, 16, 26);
         } else if (opt == 8) {
     		
     		data = CSVParser.getArray(path);
@@ -152,7 +152,7 @@ public class PDFBuilder {
             tsfOrWaivers = data[3];
             grades = data[4];
             pdf = new InterCompPDF(usrData, titles, courseNums, semesters, tsfOrWaivers, grades);
-            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Interactive Computing", 1, 2, 3, 8, 9, 16, 19, 24);
+            AuditPDFBuilder.createAudRep("./src/output/AudRep.pdf", data, usrData, 0, "Interactive Computing", 1, 2, 3, 8, 9, 16, 19, 27);
         }
         
         pdf.createPdf(DEST);

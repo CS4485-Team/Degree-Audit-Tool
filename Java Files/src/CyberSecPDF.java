@@ -12,7 +12,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  
 public class CyberSecPDF extends DefaultPDF {
  
-	public static final int ROWS = 27;
+	public static final int ROWS = 30;
 	Font[] titleSizes;
 	Font[] otherSizes;
 	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
@@ -31,7 +31,7 @@ public class CyberSecPDF extends DefaultPDF {
 	public CyberSecPDF(String[] usrData, String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
-			throw new IndexOutOfBoundsException("Illegal Array Length for CyberSecPDF (Must be 27)");
+			throw new IndexOutOfBoundsException("Illegal Array Length for CyberSecPDF (Must be 30)");
 		}
 		
 		
@@ -147,7 +147,7 @@ public class CyberSecPDF extends DefaultPDF {
         PdfPTable prereqHeaders = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_NINE, PDFBuilder.VIOLET,       "Admission Prerequisites               Course Num    UTD Sem      Waiver       Grade   ");
         document.add(prereqHeaders);
         
-        for (int i = 20; i < 27; i++) {
+        for (int i = 20; i < 30; i++) {
             PdfPTable temp = PDFBuilder.makeDefaultTable(titleSizes[i], otherSizes[i], titles[i], courseNums[i], semesters[i],
             tsfOrWaivers[i], grades[i]);
             document.add(temp);

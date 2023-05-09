@@ -12,7 +12,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  
 public class SysTrackPDF extends DefaultPDF {
  
-	public static final int ROWS = 28;
+	public static final int ROWS = 31;
 	Font[] titleSizes;
 	Font[] otherSizes;
 	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
@@ -31,7 +31,7 @@ public class SysTrackPDF extends DefaultPDF {
 	public SysTrackPDF(String[] usrData, String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
-			throw new IndexOutOfBoundsException("Illegal Array Length for SysTrackPDF (Must be 28)");
+			throw new IndexOutOfBoundsException("Illegal Array Length for SysTrackPDF (Must be 31)");
 		}
 		
 		
@@ -152,7 +152,7 @@ public class SysTrackPDF extends DefaultPDF {
         document.add(prereqHeaders);
          
  
-        for (int i = 21; i < 28; i++) {
+        for (int i = 21; i < 31; i++) {
             PdfPTable temp = PDFBuilder.makeDefaultTable(titleSizes[i], otherSizes[i], titles[i], courseNums[i], semesters[i],
                     tsfOrWaivers[i], grades[i]);
             document.add(temp);

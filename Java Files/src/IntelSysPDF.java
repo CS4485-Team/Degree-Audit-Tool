@@ -13,7 +13,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class IntelSysPDF extends DefaultPDF {
  
 	
-	public static final int ROWS = 24;
+	public static final int ROWS = 27;
 	Font[] titleSizes;
 	Font[] otherSizes;
 	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
@@ -30,7 +30,7 @@ public class IntelSysPDF extends DefaultPDF {
 	public IntelSysPDF(String[] usrData, String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
-			throw new IndexOutOfBoundsException("Illegal Array Length for IntelSysPDF (Must be 24)");
+			throw new IndexOutOfBoundsException("Illegal Array Length for IntelSysPDF (Must be 27)");
 		}
 		
 		
@@ -143,7 +143,7 @@ public class IntelSysPDF extends DefaultPDF {
         PdfPTable prereqHeaders = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_NINE, PDFBuilder.HOTPINK, "Admission Prerequisites               Course Num    UTD Sem      Waiver       Grade   ");
         document.add(prereqHeaders);
          
-        for (int i = 18; i < 24; i++) {
+        for (int i = 18; i < 27; i++) {
             PdfPTable temp = PDFBuilder.makeDefaultTable(titleSizes[i], otherSizes[i], titles[i], courseNums[i], semesters[i],
                     tsfOrWaivers[i], grades[i]);
             document.add(temp);

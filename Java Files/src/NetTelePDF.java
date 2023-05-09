@@ -12,7 +12,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  
 public class NetTelePDF extends DefaultPDF {
  
-	public static final int ROWS = 26;
+	public static final int ROWS = 29;
 	Font[] titleSizes;
 	Font[] otherSizes;
 	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
@@ -31,7 +31,7 @@ public class NetTelePDF extends DefaultPDF {
 	public NetTelePDF(String[] usrData,String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
-			throw new IndexOutOfBoundsException("Illegal Array Length for NetTelePDF (Must be 26)");
+			throw new IndexOutOfBoundsException("Illegal Array Length for NetTelePDF (Must be 29)");
 		}
 		
 		
@@ -139,7 +139,7 @@ public class NetTelePDF extends DefaultPDF {
         PdfPTable prereqHeaders = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_NINE, PDFBuilder.GREEN, "Admission Prerequisites               Course Num    UTD Sem      Waiver       Grade   ");
         document.add(prereqHeaders);
 
-        for (int i = 16; i < 26; i++) {
+        for (int i = 16; i < 29; i++) {
             PdfPTable temp = PDFBuilder.makeDefaultTable(titleSizes[i], otherSizes[i], titles[i], courseNums[i], semesters[i],
             tsfOrWaivers[i], grades[i]);
             document.add(temp);

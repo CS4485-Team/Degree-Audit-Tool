@@ -12,7 +12,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  
 public class InterCompPDF extends DefaultPDF {
  
-	public static final int ROWS = 25;
+	public static final int ROWS = 28;
 	Font[] titleSizes;
 	Font[] otherSizes;
 	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
@@ -31,7 +31,7 @@ public class InterCompPDF extends DefaultPDF {
 	public InterCompPDF(String[] usrData, String[] titles, String[] courseNums,
 	/*=========*/String[] semesters, String[] tsfOrWaivers, String[] grades) throws IndexOutOfBoundsException {
 		if (titles.length != ROWS || courseNums.length != ROWS || semesters.length != ROWS || tsfOrWaivers.length != ROWS || grades.length != ROWS) {
-			throw new IndexOutOfBoundsException("Illegal Array Length for InterCompPDF (Must be 26)");
+			throw new IndexOutOfBoundsException("Illegal Array Length for InterCompPDF (Must be 28)");
 		}
 		
 		
@@ -146,7 +146,7 @@ public class InterCompPDF extends DefaultPDF {
         PdfPTable prereqHeaders = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_NINE, PDFBuilder.ORANGE, "Admission Prerequisites               Course Num    UTD Sem      Waiver       Grade   ");
         document.add(prereqHeaders);
  
-        for (int i = 19; i < 25; i++) {
+        for (int i = 19; i < 28; i++) {
             PdfPTable temp = PDFBuilder.makeDefaultTable(titleSizes[i], otherSizes[i], titles[i], courseNums[i], semesters[i],
             tsfOrWaivers[i], grades[i]);
             document.add(temp);

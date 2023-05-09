@@ -12,7 +12,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  
 public class SoftEngPDF extends DefaultPDF {
  
-	public static final int ROWS = 26;
+	public static final int ROWS = 29;
 	Font[] titleSizes;
 	Font[] otherSizes;
 	String[] usrData, titles, courseNums, semesters, tsfOrWaivers, grades;
@@ -138,7 +138,7 @@ public class SoftEngPDF extends DefaultPDF {
         PdfPTable prereqHeaders = PDFBuilder.makeDefaultHeader(PDFBuilder.FONT_NINE, PDFBuilder.BLUE, "Admission Prerequisites               Course Num    UTD Sem      Waiver       Grade   ");
         document.add(prereqHeaders);
         
-        for (int i = 16; i < 26; i++) {
+        for (int i = 16; i < 29; i++) {
                 PdfPTable temp = PDFBuilder.makeDefaultTable(titleSizes[i], otherSizes[i], titles[i], courseNums[i], semesters[i],
                 tsfOrWaivers[i], grades[i]);
                 document.add(temp);
