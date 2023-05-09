@@ -1,28 +1,15 @@
-Alex Keaton,2021543010,20S,FF,22F
-Information Security,CS 6324,blank,blank,blank
-Design and Analysis of Computer Algorithms,CS 6363,20S,blank,A
-Advanced Operating Systems,CS 6378,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-System Security & Malicious Code Analysis,CS 6332,blank,blank,blank
-Data and Applications Security,CS 6348,blank,blank,blank
-Network Security,CS 6349,blank,blank,blank
-Introduction to Cryptogaphy,CS 6377,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-blank,blank,blank,blank,blank
-Computer Science I,CS 5303,19F,blank,A
-Computer Science II,CS 5330,blank,blank,blank
-Discrete Structures,CS 5333,19F,blank,A-
-Algorithm Analysis and Data Structures,CS 5343,19F,blank,A
-Operating System Concepts,CS 5348,20S,blank,P
-Computer Networks,CS 5390,blank,blank,blank
-blank,blank,blank,blank,blank
+"attempted","courseName","courseNumber","description","earned","fromTranscript","hours","isTransfer","isWaived","letterGrade","points","semester","transfer","type"
+"3.0","DISCRETE STRUCTURES","CS 5333","","3.0","true","3","","","B-","8.01","21F","",""
+"3.0","ALGORITHM ANLS&DATA STRUCTURES","CS 5343","","3.0","true","3","","","B","9.0","21F","",""
+"3.0","STATISTICAL MTHDS DATA SCIENCE","CS 6313","","3.0","true","3","","","A-","11.01","21F","",""
+"3.0","OBJECT-ORIENTED ANALYS & DSGN","CS 6359","","3.0","true","3","","","B-","8.01","22S","",""
+"3.0","DATABASE DESIGN","CS 6360","","3.0","true","3","","","A","12.0","22S","",""
+"3.0","MACHINE LEARNING","CS 6375","","3.0","true","3","","","A","12.0","22S","",""
+"3.0","WEB PROGRAMMING LANGUAGES","CS 6314","","3.0","true","3","","","A-","11.01","22F","",""
+"3.0","BIG DATA MGMT AND ANALYTICS","CS 6350","","3.0","true","3","","","A","12.0","22F","",""
+"3.0","DESIGN & ANALYS-COMP ALGORITHM","CS 6363","","3.0","true","3","","","B","9.0","22F","",""
+"3.0","SPECIAL TPCS: COMPUTER SCIENCE","CS 6301","","0.0","true","3","","","","0.0","23S","",""
+"3.0","COMPUTER VISION","CS 6384","","0.0","true","3","","","","0.0","23S","",""
+"3.0","ALGORITHMIC ASPECTS/TELECOM NT","CS 6385","","0.0","true","3","","","","0.0","23S","",""
+"Name","ID","startDate","major"
+"Elaine Benes","2021511587","22S","Computer Science"

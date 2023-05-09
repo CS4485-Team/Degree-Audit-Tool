@@ -15,6 +15,7 @@ import { HomePageComponent } from './home-page/homePage.component';
 import { DegreePlanEditorComponent } from './degreePlan-editor/degreePlanEditor.component';
 import { PDFViewerComponent } from './pdf-viewer/pdfViewer.component';
 import { StartSelectComponent } from './startSelect-page/startSelect.component';
+import { EditConfigurationsComponent } from './editConfigurations-page/editConfigurations.component';
 
 registerAllModules();
 
@@ -25,7 +26,8 @@ registerAllModules();
     HomePageComponent,
     DegreePlanEditorComponent,
     PDFViewerComponent,
-    StartSelectComponent
+    StartSelectComponent,
+    EditConfigurationsComponent
   ],
   imports: [
     BrowserModule,

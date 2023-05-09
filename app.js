@@ -5,6 +5,9 @@ const https = require('https');
 const { spawn } = require('node:child_process');
 const jetpack = require("fs-jetpack");
 const fs = require('fs');
+const Alert = require("electron-alert");
+
+alert = new Alert();
 
 let mainWindow
 
@@ -92,15 +95,20 @@ app.on('activate', function () {
 // call the degree audit jar file to compile the submitted data into a
 //  viewable pdf file
 ipcMain.on('generateDegreePlanPDF', (event, degreePlanType) => {
-  const process = spawn("java", ['-jar', './Degree-Audit-Tool.jar', degreePlanType]);
+  try {
+    const process = spawn("java", ['-jar', './Degree-Audit-Tool.jar', degreePlanType]);
 
-  process.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
+    process.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
 
-  process.stderr.on('data', (err) => {
-    console.log(`stderr: ${err}`);
-  });
+    process.stderr.on('data', (err) => {
+      console.log(`stderr: ${err}`);
+    });
+  }
+  catch (err) {
+    alert("Error in generating Degree Plan PDF. Please try again.")
+  }
 });
 
 ipcMain.on('saveCSVFile', (event, csvData) => {
@@ -118,27 +126,47 @@ ipcMain.on('saveCSVFile', (event, csvData) => {
     }
   }
 
-  jetpack.write('./src/input/input.csv', outputData);
+  try {
+    jetpack.write('./src/input/input.csv', outputData);
+  }
+  catch (err) {
+    console.log(err);
+  }
 });
 
 ipcMain.on("copyFile", (event, fileToCopy) => {
-  jetpack.copy(fileToCopy, "./src/transcriptInput/input.pdf");
+  try {
+    jetpack.copy(fileToCopy, "./src/transcriptInput/input.pdf");
+  }
+  catch (err) {
+    console.log(err);
+  }
 });
 
 ipcMain.on("copyStudentObject", (event, fileToCopy) => {
-  jetpack.copy(fileToCopy, './Test.csv');
+  try {
+    jetpack.copy(fileToCopy, './Test.csv');
+  }
+  catch (err) {
+    console.log(err);
+  }
 })
 
 ipcMain.on('parseTranscript', (event) => {
-  const process = spawn("java", ['-jar', './Degree2.jar', "./src/transcriptInput/input.pdf"]);
+  try {
+    const process = spawn("java", ['-jar', './Degree2.jar', "./src/transcriptInput/input.pdf"]);
 
-  process.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
+    process.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
 
-  process.stderr.on('data', (err) => {
-    console.log(`stderr: ${err}`);
-  });
+    process.stderr.on('data', (err) => {
+      console.log(`stderr: ${err}`);
+    });
+  }
+  catch (err) {
+    console.log(err);
+  }
 });
 
 ipcMain.on('clearDirs', (event) => {
@@ -150,9 +178,38 @@ ipcMain.on('saveDegreePlanAndAudit', (event, destination) => {
     jetpack.copy('./src/output/DegreePlan.pdf', destination + `/DegreePlan.pdf`);
     jetpack.copy('./src/output/AudRep.pdf', destination + `/AuditReport.pdf`);
     console.log("Files saved to destination " + destination);
+
+    let swalOptions = {
+      title: "Files Successfully Saved",
+      text: "You may now continue",
+      icon: "check",
+      showCancelButton: true
+    };
+
+    let promise = alert.fireWithFrame(swalOptions, "Success Confirmation", null, false);
+    promise.then((result) => {
+      if (result.value) {
+        // confirmed
+      } else if (result.dismiss === Alert.DismissReason.cancel) {
+        // canceled
+      }
+    })
   }
   catch (err) {
-    console.log(err);
-  }
+    let swalOptions = {
+      title: "Files unable to Save",
+      text: "Please check your directory and try again.",
+      icon: "error",
+      showCancelButton: true
+    };
 
+    let promise = alert.fireWithFrame(swalOptions, "Failure Confirmation", null, false);
+    promise.then((result) => {
+      if (result.value) {
+        // confirmed
+      } else if (result.dismiss === Alert.DismissReason.cancel) {
+        // canceled
+      }
+    })
+  }
 });

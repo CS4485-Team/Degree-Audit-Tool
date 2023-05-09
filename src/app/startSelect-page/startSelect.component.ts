@@ -146,8 +146,6 @@ export class StartSelectComponent {
         inputNode.accept = ".csv";
         inputNode.click();
       }
-
-
     }
 
     /*  continue

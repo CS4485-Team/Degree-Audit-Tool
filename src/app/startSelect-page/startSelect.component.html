@@ -1,51 +1,27 @@
-<!-- <div class="container">
-
-    <div class="selectButtonsContainer">
-        <button (click)="uploadTranscriptFile()">Transcript</button>
-
-        <button (click)="continueScratch()">Scratch</button>
-
-        <button (click)="uploadStudentObjectFile()">Student Object</button>
-
-        <button (click)="continue()">Submit</button>
-    </div>
-
-    <div class="inputFileDescript">
-        <p>{{inputFileName}}</p>
-    </div>
-
-</div> -->
-
-<div class="container" id="container">
+<div class="mainContainer" id="mainContainer">
 
     <p>{{inputFileName}}</p>
 
-    <div id="buttonContainer">
-        <button (click)="uploadTranscriptFile()">Transcript</button>
-        <!-- <div id="file-box"> -->
-        <img src="assets/img/folder.png">
-        <!-- </div> -->
-    </div>
+    <div class="container">
+        <div id="buttonContainer">
+            <button (click)="uploadTranscriptFile()">Transcript</button>
+            <img src="assets/img/folder.png">
+        </div>
 
-    <div id="buttonContainer">
-        <button (click)="continueScratch()">New</button>
-        <!-- <div id="new"> -->
-        <img src="assets/img/paper-pen-icon.png">
-        <!-- </div> -->
-    </div>
+        <div id="buttonContainer">
+            <button (click)="continueScratch()">New</button>
+            <img src="assets/img/paper-pen-icon.png">
+        </div>
 
-    <div id="buttonContainer">
-        <button (click)="uploadStudentObjectFile()">Student Object</button>
-        <!-- <div id="studentObj"> -->
-        <img src="assets/img/apple.png">
-        <!-- </div> -->
-    </div>
-    
-    <div id="buttonContainer">
-        <button (click)="continue()">Submit</button>
-        <!-- <div id="submit"> -->
-        <img src="assets/img/download.png">
-        <!-- </div> -->
+        <div id="buttonContainer">
+            <button (click)="uploadStudentObjectFile()">Student Object</button>
+            <img src="assets/img/apple.png">
+        </div>
+        
+        <div id="buttonContainer">
+            <button (click)="continue()">Submit</button>
+            <img src="assets/img/download.png">
+        </div>
     </div>
 
 </div>

@@ -32,6 +32,7 @@ export class DegreePlanPageComponent {
     degreePlanData: any[] = []; // same data as in degree plan component
     errorMessage: string = "";
     isLoadingFromTranscript: boolean = true;
+    saveDir: string = 'test';
 
     constructor(private router: Router, private httpClient: HttpClient) {
         const state: any = router.getCurrentNavigation()?.extras.state
@@ -343,8 +344,19 @@ export class DegreePlanPageComponent {
         }
     }
 
+    updateSaveDir(e: any) {
+        this.saveDir = e.target.value;
+        console.log(this.saveDir);
+    }
+
     saveDegreePlanFile() {
-        electron.ipcRenderer.send('saveDegreePlanAndAudit', configFile.outputFolder);
+        console.log(this.saveDir);
+        if (this.saveDir == '' || this.saveDir == undefined) {
+            electron.ipcRenderer.send('saveDegreePlanAndAudit', configFile.outputFolder);
+        }
+        else {
+            electron.ipcRenderer.send('saveDegreePlanAndAudit', this.saveDir);
+        }
     }
 
     confirmSaveStudentObject() {

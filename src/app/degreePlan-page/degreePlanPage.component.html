@@ -105,10 +105,10 @@
         </select>
         <p id="pid3" *ngFor="let selPrereq of selectedPrereqs" (click)="removePrereq(selPrereq)">{{selPrereq.name}} {{selPrereq.number}}</p>
 
-        <!-- <div>
-            <p>Select folder to save Degree Plan and Audit Report to</p>
-            <input type="file" id="selectDir" webkitdirectory directory #dirSelect (change)="selectSaveLocation($event)"/>
-        </div> -->
+        <div id="name-box">
+            <h3 id="approved">Save Directory</h3>
+            <input type="text" (change)="updateSaveDir($event)"/>
+        </div>
 
         <div id="buttonContainer">
             <p style="color: red; font-weight: bold;">{{errorMessage}}</p>

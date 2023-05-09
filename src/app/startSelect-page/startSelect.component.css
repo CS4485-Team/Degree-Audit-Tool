@@ -5,202 +5,20 @@
     align-items: center;
     justify-content: center;
     column-gap: 2em;
-    height: 100vh;
+}
+
+.mainContainer {
     background: linear-gradient(140deg,limegreen,#66a366);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .transcriptUpload {
     display: flex;
     flex-direction: column;
-}
-
-/* #new {
-    height: 25em;
-    width: 25%;
-    text-align: center;
-    background-color:white;
-    border: solid 2px black;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-around;
-    align-items: flex-end;
-} */
-
-/* #studentObj {
-    height: 25em;
-    width: 25%;
-    text-align: center;
-    background-color:white;
-    border: solid 2px black;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-around;
-    align-items: flex-end;
-} */
-
-/* #submit {
-    height: 25em;
-    width: 25%;
-    text-align: center;
-    background-color:white;
-    border: solid 2px black;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-around;
-    align-items: flex-end;
-    margin-right: 5px;;
-} */
-
-/* #btn1 {
-    background-color: transparent;
-    width: 10em;
-    height: 4em;
-    border-style: none;
-    font-weight: 400;
-    font-size: 2.5rem;
-    color: #999;
-    letter-spacing: 3px;
-    font-family: sans-serif;
-    font-style: italic;
-    position: absolute;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row-reverse;
-    border: 2px solid black;
-    height: 75px;
-    border-radius: 100px;
-    width: 150px;
-    margin-top: 280px;
-    margin-right: 300px;
-} */
-
-/* #btn1:hover{
-    background-color: black;
-    color: white;
-    cursor: pointer;
-} */
-
-#btn1:hover ~#new {
-    border: 2px solid black;
-    border: 5px solid rgb(255, 191, 0);
-}
-
-#btn2 {
-    background-color: transparent;
-    width: 10em;
-    height: 4em;
-    border-style: none;
-    font-weight: 400;
-    font-size: 1.5rem;
-    color: #999;
-    letter-spacing: 3px;
-    font-family: sans-serif;
-    font-style: italic;
-    position: absolute;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row-reverse;
-    border: 2px solid black;
-    height: 75px;
-    border-radius: 100px;
-    width: 150px;
-    margin-top: 280px;
-    margin-left: 340px;
-}
-
-#btn2:hover{
-    background-color: black;
-    color: white;
-    cursor: pointer;
-}
-
-#btn2:hover ~ #studentObj {
-    border: 2px solid black;
-    border: 5px solid rgb(255, 191, 0);
-}
-
-#btn3 {
-    background-color: transparent;
-    width: 10em;
-    height: 4em;
-    border-style: none;
-    font-weight: 400;
-    font-size: 2rem;
-    color: #999;
-    letter-spacing: 3px;
-    font-family: sans-serif;
-    font-style: italic;
-    position: absolute;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row-reverse;
-    border: 2px solid black;
-    height: 75px;
-    border-radius: 100px;
-    width: 150px;
-    margin-top: 280px;
-    margin-left: 970px;
-}
-
-#btn3:hover{
-    background-color: black;
-    color: white;
-    cursor: pointer;
-}
-
-#btn3:hover ~#submit {
-    border: 2px solid black;
-    border: 5px solid rgb(255, 191, 0);
-}
-
-
-#img1{
-    height: 200px;
-    background-color: white;
-    display: flex;
-    align-content: space-between;
-    flex-direction: column-reverse;
-    flex-wrap: wrap;
-    vertical-align: middle;
-    align-content: center;
-    width: 35%;
-    margin-bottom: 150px;
-}
-
-#img2{
-    height: 200px;
-    background-color: white;
-    display: flex;
-    align-content: space-between;
-    flex-direction: column-reverse;
-    flex-wrap: wrap;
-    vertical-align: middle;
-    align-content: center;
-    width: 35%;
-    margin-bottom: 150px;
-}
-
-#img3{
-    height: 200px;
-    background-color: white;
-    display: flex;
-    align-content: space-between;
-    flex-direction: column-reverse;
-    flex-wrap: wrap;
-    vertical-align: middle;
-    align-content: center;
-    width: 35%;
-    margin-bottom: 150px;
-}
-
-img {
-    background-color: transparent;
 }
 
 #file-box {
@@ -209,36 +27,6 @@ img {
     border: 2px dotted black;
     background: white;
     margin-left: 5px;
-}
-
-#transcriptInput{
-    padding-left: 20px;
-    letter-spacing: 1px;
-    font-style: italic;
-}
-
-#transcriptInput::-webkit-file-upload-button {
-   padding-top: 25px;
-   background-color: peru;
-   border: none;
-   border-radius: 4px;
-   padding: 10px 20px;
-   box-shadow: 0 2px 8px 1px #454545;
-   cursor: pointer;
-   padding-left: 20px;
-}
-
-#img0 {
-    height: 50px;
-    background-color: #fff;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: stretch;
-    width: 50px;
-    margin-bottom: 40px;
-    margin-left: 120px;
-    display: flex;
-    justify-content: flex-end;
 }
 
 #buttonContainer {
@@ -257,6 +45,7 @@ img {
 img {
     width: 7em;
     height: 7em;
+    background-color: transparent;
 }
 
 button {
