@@ -39,12 +39,11 @@
                 {"name": "Database Design", "number": "CS 6360"}
             ],
             "prereqCourseList": [
-                {"name": "Computer Science I", "number": "CS 5303"},
-                {"name": "Computer Science II", "number": "CS 5330"},
                 {"name": "Discrete Structures", "number": "CS 5333"},
                 {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
-                {"name": "Operating System Concepts", "number": "CS 5348"},
-                {"name": "Probability and Statistics", "number": "CS 3341"}
+                {"name": "Automata Theory", "number": "CS 5349"},
+                {"name": "Software Engineering", "number": "CS 5354"},
+                {"name": "Computer Networks", "number": "CS 5390"}
             ]
         },
 
@@ -60,10 +59,7 @@
                 {"name": "Advanced Operating Systems", "number": "CS 6378"}
             ],
             "prereqCourseList": [
-                {"name": "Computer Science I", "number": "CS 5303"},
-                {"name": "Computer Science II", "number": "CS 5330"},
-                {"name": "Discrete Structures", "number": "CS 5333"},
-                {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
+                {"name": "Probability and Statistics", "number": "CS 3341"},
                 {"name": "Operating System Concepts", "number": "CS 5348"}
             ]
         },
@@ -136,19 +132,16 @@
         "Software Engineering": {
             "coreCourseList": [
                 {"name": "Object Oriented Software Engineering", "number": "SE 6329"},
-                {"name": "Advanced Requirements Enginrg", "number": "SE 6361"},
+                {"name": "Advanced Requirements Enginrg", "number": "CS 6361"},
                 {"name": "Advanced Software Architecture and Design", "number": "SE 6362"},
                 {"name": "Software Testing، Validation، Verificaiton", "number": "SE 6367"},
                 {"name": "Advanceed Software Engineering Project", "number": "SE 6387"}
             ],
             "additionalCoreCourseList": [],
             "prereqCourseList": [
-                {"name": "Computer Science I", "number": "CS 5303"},
-                {"name": "Computer Science II", "number": "CS 5330"},
                 {"name": "Discrete Structures", "number": "CS 5333"},
-                {"name": "Algorithm Analysis and Data Structures", "number": "CS 5343"},
-                {"name": "Operating System Concepts", "number": "CS 5348"},
-                {"name": "Software Engineering", "number": "CS 5354"}
+                {"name": "Automata Theory", "number": "CS 5349"},
+                {"name": "Software Engineering", "number": "SE 5354"}
             ]
         },
 
@@ -208,7 +201,17 @@
         {"name": "Synthesis and Opt. of High-Perf. Systems", "number": "CS 6397"},
         {"name": "Parallel Architectures and Systems", "number": "CS 6399"},
         {"name": "Compiler Construction", "number": "CS 6353"},
-        {"name": "Advanced Programming Languages", "number": "CS 6371"}
+        {"name": "Advanced Programming Languages", "number": "CS 6371"},
+        {"name": "Advanced Requirements Enginrg", "number": "CS 6361"},
+        {"name": "Software Testing، Validation، Verificaiton", "number": "CS 6367"},
+        {"name": "Object Oriented Software Engineering", "number": "SE 6329"},
+        {"name": "Advanced Software Architecture and Design", "number": "SE 6329"},
+        {"name": "Web Programming Languages", "number": "CS 6314"},
+        {"name": "Computer Vision", "number": "CS 6384"},
+        {"name": "Information Retrieval", "number": "CS 6322"},
+        {"name": "Special Topics: Computer Science Big Data Security and Privacy", "number": "CS 6301"},
+        {"name": "Probability and Statistics", "number": "CS 3341"},
+        {"name": "Discrete Structures", "number": "CS 5333"}
     ],
 
     "majors": ["Computer Science", "Software Engineering"],

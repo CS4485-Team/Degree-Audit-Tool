@@ -88,6 +88,9 @@ export class DegreePlanPageComponent {
         this.selectedDegreePlan = value;
         const courseList: string = JSON.stringify(configFile);
         this.configs = new Map(Object.entries(JSON.parse(courseList)));
+
+        this.prereqs = this.configs.get('degreePlans')[this.selectedDegreePlan]['prereqCourseList'];
+        this.selectedPrereqs = this.prereqs;
     }
 
     onSelectedMajor(value: string) {
